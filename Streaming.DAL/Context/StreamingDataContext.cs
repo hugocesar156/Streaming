@@ -3,13 +3,9 @@ using Streaming.DAL.Models;
 
 namespace Streaming.DAL.Context;
 
-public partial class StreamingContext : DbContext
+public partial class StreamingDataContext : DbContext
 {
-    public StreamingContext()
-    {
-    }
-
-    public StreamingContext(DbContextOptions<StreamingContext> options)
+    public StreamingDataContext(DbContextOptions<StreamingDataContext> options)
         : base(options)
     {
     }

@@ -9,7 +9,10 @@ namespace Streaming.IoC
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<StreamingContext>(options => options.UseSqlServer(configuration.GetConnectionString("Streaming") ?? string.Empty), ServiceLifetime.Transient);
+            services.AddDbContext<StreamingDataContext>(options => options.UseSqlServer(configuration.GetConnectionString("Streaming") ?? string.Empty), ServiceLifetime.Transient);
+
+            services.AddUseCases(configuration);
+            services.AddRepositories(configuration);
 
             return services;
         }

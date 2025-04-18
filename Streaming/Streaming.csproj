@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Streaming.Application\Streaming.Application.csproj" />
     <ProjectReference Include="..\Streaming.IoC\Streaming.IoC.csproj" />
   </ItemGroup>
 
