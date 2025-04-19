@@ -10,6 +10,7 @@ namespace Streaming.IoC
         public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ICategoryRepositories, CategoryRepositories>();
+            services.AddScoped<IContentRepositories, ContentRepositories>();
 
             return services;
         }

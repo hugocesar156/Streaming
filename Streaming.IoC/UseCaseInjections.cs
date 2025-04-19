@@ -10,6 +10,7 @@ namespace Streaming.IoC
         public static IServiceCollection AddUseCases(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ICategoryUseCase, CategoryUseCase>();
+            services.AddScoped<IContentUseCase, ContentUseCase>();
 
             return services;
         }

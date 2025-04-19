@@ -9,5 +9,10 @@
         {
             public const string NotFound = "Category not found.";
         }
+
+        public static class Content
+        {
+            public const string NotFound = "Content not found.";
+        }
     }
 }
