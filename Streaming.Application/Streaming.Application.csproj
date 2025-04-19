@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Requests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Streaming.Domain\Streaming.Domain.csproj" />
     <ProjectReference Include="..\Streaming.Shared\Streaming.Shared.csproj" />
   </ItemGroup>

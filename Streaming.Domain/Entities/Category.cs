@@ -2,6 +2,11 @@
 {
     public class Category
     {
+        public Category(string name)
+        {
+            Name = name;
+        }
+
         public Category(int idCategory, string name)
         {
             IdCategory = idCategory;
