@@ -35,5 +35,24 @@ namespace Streaming.Application.UseCases
                 throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
             }
         }
+
+        public void Update(FilmUpdateRequest request)
+        {
+            try
+            {
+                var film = new Film(request.IdFilm, request.Name, request.Duration, request.Classification, request.Synopsis,
+                    request.Thumbnail, request.Media, request.Preview, request.Year);
+
+                _filmRepositories.Update(film);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
     }
 }

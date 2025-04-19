@@ -106,7 +106,24 @@ namespace Streaming.DAL.Repositories
 
         public void Update(Film request)
         {
-            throw new NotImplementedException();
+            var entity = _dataContext.FILMs.FirstOrDefault(x => x.ID_FILM == request.IdFilm);
+
+            if (entity is null)
+            {
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Film.NotFound);
+            }
+
+            entity.NAME = request.Name;
+            entity.DURATION = request.Duration;
+            entity.CLASSIFICATION = request.Classification;
+            entity.SYNOPSIS = request.Synopsis;
+            entity.THUMBNAIL = request.Thumbnail;
+            entity.MEDIA = request.Media;
+            entity.PREVIEW = request.Preview;
+            entity.YEAR = request.Year;
+
+            _dataContext.Update(entity);
+            _dataContext.SaveChanges();
         }
     }
 }

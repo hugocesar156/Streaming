@@ -14,5 +14,10 @@
         {
             public const string NotFound = "Content not found.";
         }
+
+        public static class Film
+        {
+            public const string NotFound = "Film not found.";
+        }
     }
 }

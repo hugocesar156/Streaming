@@ -2,6 +2,22 @@
 {
     public class Film
     {
+        public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, 
+            string media, string preview, short year)
+        {
+            IdFilm = idFilm;
+            Name = name;
+            Duration = duration;
+            Classification = classification;
+            Synopsis = synopsis;
+            Thumbnail = thumbnail;
+            Media = media;
+            Preview = preview;
+            Year = year;
+            Categories = [];
+            Contents = [];
+        }
+
         public Film(string name, short duration, string classification, string synopsis, string thumbnail, string media, 
             string preview, short year, int[] categories, int[] contents)
         {

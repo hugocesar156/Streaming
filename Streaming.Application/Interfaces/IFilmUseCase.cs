@@ -9,6 +9,6 @@ namespace Streaming.Application.Interfaces
         //FilmResponse Get(int id);
         //List<FilmResponse> GetAll();
         void Insert(FilmInsertRequest request);
-        //void Update(FilmUpdateRequest request);
+        void Update(FilmUpdateRequest request);
     }
 }
