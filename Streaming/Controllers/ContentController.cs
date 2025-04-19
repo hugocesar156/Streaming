@@ -2,7 +2,6 @@
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests;
 using Streaming.Application.Models.Responses;
-using Streaming.Application.UseCases;
 using Streaming.Shared;
 using System.Net;
 
