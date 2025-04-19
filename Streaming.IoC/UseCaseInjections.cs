@@ -11,6 +11,7 @@ namespace Streaming.IoC
         {
             services.AddScoped<ICategoryUseCase, CategoryUseCase>();
             services.AddScoped<IContentUseCase, ContentUseCase>();
+            services.AddScoped<IFilmUseCase, FilmUseCase>();
 
             return services;
         }

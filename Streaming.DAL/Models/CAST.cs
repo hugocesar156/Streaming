@@ -16,9 +16,21 @@ public partial class CAST
     [Unicode(false)]
     public string NAME { get; set; } = null!;
 
-    [InverseProperty("ID_CASTNavigation")]
-    public virtual ICollection<FILM> FILMs { get; set; } = new List<FILM>();
+    [StringLength(100)]
+    [Unicode(false)]
+    public string CHARACTER { get; set; } = null!;
 
-    [InverseProperty("ID_CASTNavigation")]
-    public virtual ICollection<SERIES> SERIES { get; set; } = new List<SERIES>();
+    public int? ID_FILM { get; set; }
+
+    public int? ID_SERIES { get; set; }
+
+    public int? SEASON { get; set; }
+
+    [ForeignKey("ID_FILM")]
+    [InverseProperty("CASTs")]
+    public virtual FILM? ID_FILMNavigation { get; set; }
+
+    [ForeignKey("ID_SERIES")]
+    [InverseProperty("CASTs")]
+    public virtual SERIES? ID_SERIESNavigation { get; set; }
 }

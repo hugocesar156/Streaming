@@ -1,10 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Streaming.DAL.Models;
 
 namespace Streaming.DAL.Context;
 
 public partial class StreamingDataContext : DbContext
 {
+    public StreamingDataContext()
+    {
+    }
+
     public StreamingDataContext(DbContextOptions<StreamingDataContext> options)
         : base(options)
     {
@@ -17,6 +23,10 @@ public partial class StreamingDataContext : DbContext
     public virtual DbSet<CONTENT> CONTENTs { get; set; }
 
     public virtual DbSet<FILM> FILMs { get; set; }
+
+    public virtual DbSet<FILM_CATEGORY> FILM_CATEGORies { get; set; }
+
+    public virtual DbSet<FILM_CONTENT> FILM_CONTENTs { get; set; }
 
     public virtual DbSet<KEEP_WHATCHING> KEEP_WHATCHINGs { get; set; }
 
@@ -34,7 +44,11 @@ public partial class StreamingDataContext : DbContext
     {
         modelBuilder.Entity<CAST>(entity =>
         {
-            entity.HasKey(e => e.ID_CAST).HasName("PK__CAST__7A168884B55BC563");
+            entity.HasKey(e => e.ID_CAST).HasName("PK__CAST__7A168884B2C6BE42");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.CASTs).HasConstraintName("FK__CAST__ID_FILM__68487DD7");
+
+            entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.CASTs).HasConstraintName("FK__CAST__ID_SERIES__693CA210");
         });
 
         modelBuilder.Entity<CATEGORY>(entity =>
@@ -49,19 +63,33 @@ public partial class StreamingDataContext : DbContext
 
         modelBuilder.Entity<FILM>(entity =>
         {
-            entity.HasKey(e => e.ID_FILM).HasName("PK__FILM__62C9DB1C65FD5803");
+            entity.HasKey(e => e.ID_FILM).HasName("PK__FILM__62C9DB1C2779642A");
+        });
 
-            entity.HasOne(d => d.ID_CASTNavigation).WithMany(p => p.FILMs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM__ID_CAST__3E52440B");
+        modelBuilder.Entity<FILM_CATEGORY>(entity =>
+        {
+            entity.HasKey(e => e.ID_FILM_CATEGORY).HasName("PK__FILM_CAT__F1103A3C2C71F391");
 
-            entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.FILMs)
+            entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.FILM_CATEGORies)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM__ID_CATEGOR__3F466844");
+                .HasConstraintName("FK__FILM_CATE__ID_CA__619B8048");
 
-            entity.HasOne(d => d.ID_CONTENTNavigation).WithMany(p => p.FILMs)
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.FILM_CATEGORies)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM__ID_CATEGOR__3D5E1FD2");
+                .HasConstraintName("FK__FILM_CATE__ID_FI__60A75C0F");
+        });
+
+        modelBuilder.Entity<FILM_CONTENT>(entity =>
+        {
+            entity.HasKey(e => e.ID_FILM_CONTENT).HasName("PK__FILM_CON__782E262EC7D33C19");
+
+            entity.HasOne(d => d.ID_CONTENTNavigation).WithMany(p => p.FILM_CONTENTs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__FILM_CONT__ID_CO__656C112C");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.FILM_CONTENTs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__FILM_CONT__ID_FI__6477ECF3");
         });
 
         modelBuilder.Entity<KEEP_WHATCHING>(entity =>
@@ -94,10 +122,6 @@ public partial class StreamingDataContext : DbContext
         modelBuilder.Entity<SERIES>(entity =>
         {
             entity.HasKey(e => e.ID_SERIES).HasName("PK__SERIES__3DCEE9629CDC0744");
-
-            entity.HasOne(d => d.ID_CASTNavigation).WithMany(p => p.SERIES)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES__ID_CAST__4316F928");
 
             entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.SERIES)
                 .OnDelete(DeleteBehavior.ClientSetNull)

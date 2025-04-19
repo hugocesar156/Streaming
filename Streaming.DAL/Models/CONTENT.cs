@@ -17,7 +17,7 @@ public partial class CONTENT
     public string DESCRIPTION { get; set; } = null!;
 
     [InverseProperty("ID_CONTENTNavigation")]
-    public virtual ICollection<FILM> FILMs { get; set; } = new List<FILM>();
+    public virtual ICollection<FILM_CONTENT> FILM_CONTENTs { get; set; } = new List<FILM_CONTENT>();
 
     [InverseProperty("ID_CONTENTNavigation")]
     public virtual ICollection<SERIES_EPISODE> SERIES_EPISODEs { get; set; } = new List<SERIES_EPISODE>();

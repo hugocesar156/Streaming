@@ -33,11 +33,8 @@ public partial class SERIES
 
     public int ID_CATEGORY { get; set; }
 
-    public int ID_CAST { get; set; }
-
-    [ForeignKey("ID_CAST")]
-    [InverseProperty("SERIES")]
-    public virtual CAST ID_CASTNavigation { get; set; } = null!;
+    [InverseProperty("ID_SERIESNavigation")]
+    public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
 
     [ForeignKey("ID_CATEGORY")]
     [InverseProperty("SERIES")]
