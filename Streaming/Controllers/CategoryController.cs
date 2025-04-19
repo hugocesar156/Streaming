@@ -11,12 +11,10 @@ namespace Streaming.Controllers
     [Route("[controller]")]
     public class CategoryController : ControllerBase
     {
-        private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryUseCase _categoryUseCase;
 
-        public CategoryController(ILogger<CategoryController> logger, ICategoryUseCase categoryUseCase)
+        public CategoryController(ICategoryUseCase categoryUseCase)
         {
-            _logger = logger;
             _categoryUseCase = categoryUseCase;
         }
 

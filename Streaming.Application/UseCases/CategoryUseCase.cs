@@ -38,9 +38,7 @@ namespace Streaming.Application.UseCases
             try
             {
                 var category = _categoryRepositories.Get(id);
-                var response = new CategoryResponse(category.IdCategory, category.Name);
-
-                return response;
+                return new CategoryResponse(category.IdCategory, category.Name);
             }
             catch (StreamingException)
             {
@@ -56,10 +54,8 @@ namespace Streaming.Application.UseCases
         {
             try
             {
-                var category = _categoryRepositories.GetAll();
-                var response = category.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
-
-                return response;
+                var categories = _categoryRepositories.GetAll();
+                return categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
             }
             catch (Exception ex)
             {
