@@ -22,7 +22,7 @@ namespace Streaming.DAL.Repositories
 
             if (entity is null)
             {
-                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Content.NotFound);
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, id));
             }
 
             _dataContext.Remove(entity);
@@ -33,12 +33,12 @@ namespace Streaming.DAL.Repositories
         {
             var entity = _dataContext.CONTENTs.FirstOrDefault(x => x.ID_CONTENT == id);
 
-            if (entity is null)
+            if (entity is not null)
             {
-                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Content.NotFound);
+                return new Content(entity.ID_CONTENT, entity.DESCRIPTION);
             }
 
-            return new Content(entity.ID_CONTENT, entity.DESCRIPTION);
+            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, id));
         }
 
         public List<Content> GetAll()
@@ -65,7 +65,7 @@ namespace Streaming.DAL.Repositories
 
             if (entity is null)
             {
-                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Content.NotFound);
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, request.IdContent));
             }
 
             entity.DESCRIPTION = request.Description;
