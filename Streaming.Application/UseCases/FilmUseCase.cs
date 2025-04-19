@@ -10,10 +10,14 @@ namespace Streaming.Application.UseCases
 {
     public class FilmUseCase : IFilmUseCase
     {
+        private readonly ICategoryRepositories _categoryRepositories;
+        private readonly IContentRepositories _contentRepositories;
         private readonly IFilmRepositories _filmRepositories;
 
-        public FilmUseCase(IFilmRepositories filmRepositories)
+        public FilmUseCase(ICategoryRepositories categoryRepositories, IContentRepositories contentRepositories, IFilmRepositories filmRepositories)
         {
+            _categoryRepositories = categoryRepositories;
+            _contentRepositories = contentRepositories;
             _filmRepositories = filmRepositories;
         }
 
@@ -42,14 +46,39 @@ namespace Streaming.Application.UseCases
         {
             try
             {
-                var film = new Film(request.Name, request.Duration, request.Classification, request.Synopsis, 
-                    request.Thumbnail, request.Media, request.Preview, request.Year, request.Categories, request.Contents);
+                if (request.Categories.Any())
+                {
+                    var categories = _categoryRepositories.GetAll();
 
-                _filmRepositories.Insert(film);
-            }
-            catch (StreamingException)
-            {
-                throw;
+                    foreach (var item in request.Categories)
+                    {
+                        if (!categories.Select(y => y.IdCategory).Contains(item))
+                        {
+                            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Category.NotFound, item));
+                        }
+                    }
+                }
+
+                if (request.Contents.Any())
+                {
+                    var contents = _contentRepositories.GetAll();
+
+                    foreach (var item in request.Contents)
+                    {
+                        if (!contents.Select(y => y.IdContent).Contains(item))
+                        {
+                            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, item));
+                        }
+                    }
+                }
+
+                var film = new Film(request.Name, request.Duration, request.Classification, request.Synopsis, 
+                    request.Thumbnail, request.Media, request.Preview, request.Year);
+
+                int idFilm = _filmRepositories.Insert(film);
+
+                _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), idFilm);
+                _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), idFilm);
             }
             catch (Exception ex) 
             {

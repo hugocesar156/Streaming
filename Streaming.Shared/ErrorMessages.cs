@@ -7,17 +7,17 @@
 
         public static class Category
         {
-            public const string NotFound = "Category not found.";
+            public const string NotFound = "Category '{0}' not found.";
         }
 
         public static class Content
         {
-            public const string NotFound = "Content not found.";
+            public const string NotFound = "Content '{0}' not found.";
         }
 
         public static class Film
         {
-            public const string NotFound = "Film not found.";
+            public const string NotFound = "Film '{0}' not found.";
         }
     }
 }

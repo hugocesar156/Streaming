@@ -17,6 +17,40 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
+        public void AddCategories(int[] request, int idFilm)
+        {
+            var entities = new List<FILM_CATEGORY>();
+
+            foreach (var item in request)
+            {
+                entities.Add(new FILM_CATEGORY
+                {
+                    ID_FILM = idFilm,
+                    ID_CATEGORY = item
+                });
+            }
+
+            _dataContext.AddRange(entities);
+            _dataContext.SaveChanges();
+        }
+
+        public void AddContents(int[] request, int idFilm)
+        {
+            var entities = new List<FILM_CONTENT>();
+
+            foreach (var item in request)
+            {
+                entities.Add(new FILM_CONTENT
+                {
+                    ID_FILM = idFilm,
+                    ID_CONTENT = item
+                });
+            }
+
+            _dataContext.AddRange(entities);
+            _dataContext.SaveChanges();
+        }
+
         public void Delete(int id)
         {
             throw new NotImplementedException();
@@ -37,7 +71,7 @@ namespace Streaming.DAL.Repositories
                     entity.FILM_CONTENTs.Select(x => new Content(x.ID_CONTENTNavigation.ID_CONTENT, x.ID_CONTENTNavigation.DESCRIPTION)).ToList());
             }
 
-            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Film.NotFound);
+            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, id));
         }
 
         public List<Film> GetAll()
@@ -45,9 +79,9 @@ namespace Streaming.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public void Insert(Film request)
+        public int Insert(Film request)
         {
-            var filmEntity = new FILM
+            var entity = new FILM
             {
                 NAME = request.Name,
                 DURATION = request.Duration,
@@ -59,63 +93,10 @@ namespace Streaming.DAL.Repositories
                 YEAR = request.Year
             };
 
-            var transaction = _dataContext.Database.BeginTransaction();
-            transaction.CreateSavepoint("InsertFilm");
-
-            _dataContext.Add(filmEntity);
+            _dataContext.Add(entity);
             _dataContext.SaveChanges();
 
-            if (request.Categories.Any())
-            {
-                var categoryEntities = new List<FILM_CATEGORY>();
-
-                foreach (var item in request.Categories)
-                {
-                    categoryEntities.Add(new FILM_CATEGORY
-                    {
-                        ID_FILM = filmEntity.ID_FILM,
-                        ID_CATEGORY = item.IdCategory
-                    });
-                }
-
-                try
-                {
-                    _dataContext.AddRange(categoryEntities);
-                    _dataContext.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    transaction.RollbackToSavepoint("InsertFilm");
-                    throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Category.NotFound);
-                }
-            }
-
-            if (request.Contents.Any())
-            {
-                var contentEntities = new List<FILM_CONTENT>();
-
-                foreach (var item in request.Contents)
-                {
-                    contentEntities.Add(new FILM_CONTENT
-                    {
-                        ID_FILM = filmEntity.ID_FILM,
-                        ID_CONTENT = item.IdContent
-                    });
-                }
-
-                try
-                {
-                    _dataContext.AddRange(contentEntities);
-                    _dataContext.SaveChanges();
-                }
-                catch (Exception)
-                {
-                    transaction.RollbackToSavepoint("InsertFilm");
-                    throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Content.NotFound);
-                }
-            }
-
-            transaction.Commit();
+            return entity.ID_FILM;
         }
 
         public void Update(Film request)
@@ -124,7 +105,7 @@ namespace Streaming.DAL.Repositories
 
             if (entity is null)
             {
-                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Film.NotFound);
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, request.IdFilm));
             }
 
             entity.NAME = request.Name;

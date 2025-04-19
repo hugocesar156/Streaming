@@ -19,7 +19,7 @@
         }
 
         public Film(string name, short duration, string classification, string synopsis, string thumbnail, string media, 
-            string preview, short year, int[] categories, int[] contents)
+            string preview, short year)
         {
             Name = name;
             Duration = duration;
@@ -29,8 +29,8 @@
             Media = media;
             Preview = preview;
             Year = year;
-            Categories = categories.Select(x => new Category(x, string.Empty)).ToList();
-            Contents = contents.Select(x => new Content(x, string.Empty)).ToList();
+            Categories = [];
+            Contents = [];
         }
 
         public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, 
