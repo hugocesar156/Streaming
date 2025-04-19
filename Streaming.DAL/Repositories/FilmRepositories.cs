@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -23,7 +24,20 @@ namespace Streaming.DAL.Repositories
 
         public Film Get(int id)
         {
-            throw new NotImplementedException();
+            var entity = _dataContext.FILMs
+                .Include(x => x.FILM_CATEGORies).ThenInclude(x => x.ID_CATEGORYNavigation)
+                .Include(x => x.FILM_CONTENTs).ThenInclude(x => x.ID_CONTENTNavigation)
+                .FirstOrDefault(x => x.ID_FILM == id);
+
+            if (entity is not null)
+            {
+                return new Film(entity.ID_FILM, entity.NAME, entity.DURATION, entity.CLASSIFICATION, entity.SYNOPSIS,
+                    entity.THUMBNAIL, entity.MEDIA, entity.PREVIEW, entity.YEAR,
+                    entity.FILM_CATEGORies.Select(x => new Category(x.ID_CATEGORYNavigation.ID_CATEGORY, x.ID_CATEGORYNavigation.NAME)).ToList(),
+                    entity.FILM_CONTENTs.Select(x => new Content(x.ID_CONTENTNavigation.ID_CONTENT, x.ID_CONTENTNavigation.DESCRIPTION)).ToList());
+            }
+
+            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Film.NotFound);
         }
 
         public List<Film> GetAll()

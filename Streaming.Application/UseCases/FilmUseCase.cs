@@ -17,6 +17,27 @@ namespace Streaming.Application.UseCases
             _filmRepositories = filmRepositories;
         }
 
+        public FilmResponse Get(int id)
+        {
+            try
+            {
+                var film = _filmRepositories.Get(id);
+
+                return new FilmResponse(film.IdFilm, film.Name, film.Duration, film.Classification, 
+                    film.Synopsis, film.Thumbnail, film.Media, film.Preview, film.Year,
+                    film.Categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList(),
+                    film.Contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList());
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
         public void Insert(FilmInsertRequest request)
         {
             try
