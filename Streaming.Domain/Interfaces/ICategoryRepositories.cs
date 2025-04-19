@@ -4,7 +4,10 @@ namespace Streaming.Domain.Interfaces
 {
     public interface ICategoryRepositories
     {
-        List<Category> Get();
-        void Post(Category request);
+        void Delete(int id);
+        Category Get(int id);
+        List<Category> GetAll();
+        void Insert(Category request);
+        void Update(Category request);
     }
 }

@@ -20,13 +20,28 @@ namespace Streaming.Controllers
             _categoryUseCase = categoryUseCase;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
-        public IActionResult Get()
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult Delete(int id)
         {
             try
             {
-                var response = _categoryUseCase.Get();
+                _categoryUseCase.Delete(id);
+                return StatusCode((int)HttpStatusCode.NoContent);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
+        public IActionResult Get(int id)
+        {
+            try
+            {
+                var response = _categoryUseCase.Get(id);
                 return StatusCode((int)HttpStatusCode.OK, response);
             }
             catch (StreamingException ex) 
@@ -35,13 +50,44 @@ namespace Streaming.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Post(CategoryRequest request)
+        [HttpGet]
+        [ProducesResponseType(typeof(List<CategoryResponse>), StatusCodes.Status200OK)]
+        public IActionResult GetAll()
         {
             try
             {
-                _categoryUseCase.Post(request);
-                return StatusCode((int)HttpStatusCode.OK);
+                var response = _categoryUseCase.GetAll();
+                return StatusCode((int)HttpStatusCode.OK, response);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult Post(CategoryInsertRequest request)
+        {
+            try
+            {
+                _categoryUseCase.Insert(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult Put(CategoryUpdateRequest request)
+        {
+            try
+            {
+                _categoryUseCase.Update(request);
+                return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)
             {

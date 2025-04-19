@@ -17,14 +17,34 @@ namespace Streaming.Application.UseCases
             _categoryRepositories = categoryRepositories;
         }
 
-        public List<CategoryResponse> Get()
+        public void Delete(int id)
         {
             try
             {
-                var category = _categoryRepositories.Get();
-                var response = category.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
+                _categoryRepositories.Delete(id);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public CategoryResponse Get(int id)
+        {
+            try
+            {
+                var category = _categoryRepositories.Get(id);
+                var response = new CategoryResponse(category.IdCategory, category.Name);
 
                 return response;
+            }
+            catch (StreamingException)
+            {
+                throw;
             }
             catch (Exception ex) 
             {
@@ -32,12 +52,44 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Post(CategoryRequest request)
+        public List<CategoryResponse> GetAll()
+        {
+            try
+            {
+                var category = _categoryRepositories.GetAll();
+                var response = category.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void Insert(CategoryInsertRequest request)
         {
             try
             {
                 var category = new Category(request.Name);
-                _categoryRepositories.Post(category);
+                _categoryRepositories.Insert(category);
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void Update(CategoryUpdateRequest request)
+        {
+            try
+            {
+                var category = new Category(request.Id, request.Name);
+                _categoryRepositories.Update(category);
+            }
+            catch (StreamingException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

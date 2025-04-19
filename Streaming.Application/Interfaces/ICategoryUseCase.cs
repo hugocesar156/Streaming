@@ -5,7 +5,10 @@ namespace Streaming.Application.Interfaces
 {
     public interface ICategoryUseCase
     {
-        List<CategoryResponse> Get();
-        void Post(CategoryRequest request);
+        void Delete(int id);
+        CategoryResponse Get(int id);
+        List<CategoryResponse> GetAll();
+        void Insert(CategoryInsertRequest request);
+        void Update(CategoryUpdateRequest request);
     }
 }
