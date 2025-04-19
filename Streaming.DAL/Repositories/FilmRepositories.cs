@@ -99,6 +99,22 @@ namespace Streaming.DAL.Repositories
             return entity.ID_FILM;
         }
 
+        public void RemoveCategories(int[] request, int idFilm)
+        {
+            var entities = _dataContext.FILM_CATEGORies.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CATEGORY)).ToList();
+
+            _dataContext.RemoveRange(entities);
+            _dataContext.SaveChanges();
+        }
+
+        public void RemoveContents(int[] request, int idFilm)
+        {
+            var entities = _dataContext.FILM_CONTENTs.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CONTENT)).ToList();
+
+            _dataContext.RemoveRange(entities);
+            _dataContext.SaveChanges();
+        }
+
         public void Update(Film request)
         {
             var entity = _dataContext.FILMs.FirstOrDefault(x => x.ID_FILM == request.IdFilm);

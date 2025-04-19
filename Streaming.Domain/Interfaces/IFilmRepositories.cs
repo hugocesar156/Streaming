@@ -10,6 +10,8 @@ namespace Streaming.Domain.Interfaces
         Film Get(int id);
         List<Film> GetAll();
         int Insert(Film request);
+        void RemoveCategories(int[] request, int idFilm);
+        void RemoveContents(int[] request, int idFilm);
         void Update(Film request);
     }
 }

@@ -21,6 +21,62 @@ namespace Streaming.Application.UseCases
             _filmRepositories = filmRepositories;
         }
 
+        public void AddCategories(FilmCategoryRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                var categories = _categoryRepositories.GetAll();
+
+                foreach (var item in request.Categories)
+                {
+                    if (!categories.Select(x => x.IdCategory).Contains(item))
+                    {
+                        throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Category.NotFound, item));
+                    }
+                }
+
+                _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), request.IdFilm);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void AddContents(FilmContentRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                var contents = _contentRepositories.GetAll();
+
+                foreach (var item in request.Contents)
+                {
+                    if (!contents.Select(x => x.IdContent).Contains(item))
+                    {
+                        throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, item));
+                    }
+                }
+
+                _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), request.IdFilm);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
         public FilmResponse Get(int id)
         {
             try
@@ -52,7 +108,7 @@ namespace Streaming.Application.UseCases
 
                     foreach (var item in request.Categories)
                     {
-                        if (!categories.Select(y => y.IdCategory).Contains(item))
+                        if (!categories.Select(x => x.IdCategory).Contains(item))
                         {
                             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Category.NotFound, item));
                         }
@@ -65,7 +121,7 @@ namespace Streaming.Application.UseCases
 
                     foreach (var item in request.Contents)
                     {
-                        if (!contents.Select(y => y.IdContent).Contains(item))
+                        if (!contents.Select(x => x.IdContent).Contains(item))
                         {
                             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, item));
                         }
@@ -84,6 +140,51 @@ namespace Streaming.Application.UseCases
             {
                 throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
             }
+        }
+
+        public void RemoveCategories(FilmCategoryRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                var categories = _contentRepositories.GetAll();
+
+                foreach (var item in request.Categories)
+                {
+                    if (!categories.Select(x => x.IdContent).Contains(item))
+                    {
+                        throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Category.NotFound, item));
+                    }
+                }
+
+                _filmRepositories.RemoveCategories(request.Categories.Distinct().ToArray(), request.IdFilm);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void RemoveContents(FilmContentRequest request)
+        {
+            _filmRepositories.Get(request.IdFilm);
+
+            var contents = _contentRepositories.GetAll();
+
+            foreach (var item in request.Contents)
+            {
+                if (!contents.Select(x => x.IdContent).Contains(item))
+                {
+                    throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, item));
+                }
+            }
+
+            _filmRepositories.RemoveContents(request.Contents.Distinct().ToArray(), request.IdFilm);
         }
 
         public void Update(FilmUpdateRequest request)
