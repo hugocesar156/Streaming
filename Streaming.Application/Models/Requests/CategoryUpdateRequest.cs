@@ -8,6 +8,7 @@ namespace Streaming.Application.Models.Requests
         public int Id { get; init; }
 
         [Required]
+        [StringLength(30)]
         public string Name { get; init; } = string.Empty;
     }
 }

@@ -8,12 +8,14 @@ namespace Streaming.Application.Models.Requests
         public int IdFilm { get; init; }
 
         [Required]
+        [StringLength(50)]
         public string Name { get; init; } = string.Empty;
 
         [Required]
         public short Duration { get; init; }
 
         [Required]
+        [StringLength(5)]
         public string Classification { get; init; } = string.Empty;
 
         [Required]

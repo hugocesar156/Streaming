@@ -4,6 +4,7 @@
     {
         public const string FieldRequired = "The field '{0}' is required.";
         public const string RegisterNotFound = "Register not found.";
+        public const string StringLength = "The field '{0}' requires a maximum {1} string length.";
 
         public static class Category
         {
