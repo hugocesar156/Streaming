@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Streaming.Application\Streaming.Application.csproj" />
     <ProjectReference Include="..\Streaming.IoC\Streaming.IoC.csproj" />
+    <ProjectReference Include="..\Streaming.Shared\Streaming.Shared.csproj" />
   </ItemGroup>
 
 </Project>

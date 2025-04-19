@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
+using Streaming.Shared;
+using System.Net;
 
 namespace Streaming.Controllers
 {
@@ -22,11 +24,11 @@ namespace Streaming.Controllers
             try
             {
                 var response = _categoryUseCase.Get();
-                return Ok(response);
+                return StatusCode((int)HttpStatusCode.OK, response);
             }
-            catch (Exception) 
+            catch (StreamingException ex) 
             {
-                return BadRequest();
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
     }

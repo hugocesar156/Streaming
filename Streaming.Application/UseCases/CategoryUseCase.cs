@@ -1,6 +1,8 @@
 ﻿using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Responses;
 using Streaming.Domain.Interfaces;
+using Streaming.Shared;
+using System.Net;
 
 namespace Streaming.Application.UseCases
 {
@@ -22,9 +24,9 @@ namespace Streaming.Application.UseCases
 
                 return response;
             }
-            catch (Exception) 
+            catch (Exception ex) 
             {
-                throw;
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
             }
         }
     }

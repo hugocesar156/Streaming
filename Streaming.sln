@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streaming.Domain", "Streami
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streaming.IoC", "Streaming.IoC\Streaming.IoC.csproj", "{86912F61-F4AA-427D-8BCE-24FBDAC24AE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streaming.Shared", "Streaming.Shared\Streaming.Shared.csproj", "{5CAB66F1-5D5A-47AE-8FCA-42539DA708BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{86912F61-F4AA-427D-8BCE-24FBDAC24AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86912F61-F4AA-427D-8BCE-24FBDAC24AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86912F61-F4AA-427D-8BCE-24FBDAC24AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CAB66F1-5D5A-47AE-8FCA-42539DA708BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CAB66F1-5D5A-47AE-8FCA-42539DA708BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CAB66F1-5D5A-47AE-8FCA-42539DA708BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CAB66F1-5D5A-47AE-8FCA-42539DA708BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
