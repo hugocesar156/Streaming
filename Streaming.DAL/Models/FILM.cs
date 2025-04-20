@@ -26,8 +26,6 @@ public partial class FILM
 
     public int ID_LANGUAGE { get; set; }
 
-    public short? OPENING_START { get; set; }
-
     public short? CREDITS_START { get; set; }
 
     public bool KIDS_CONTENT { get; set; }

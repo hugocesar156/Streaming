@@ -92,7 +92,6 @@ namespace Streaming.DAL.Repositories
                         entity.DURATION, 
                         entity.THUMBNAIL, 
                         entity.YEAR, 
-                        entity.OPENING_START,
                         entity.CREDITS_START,
                         entity.KIDS_CONTENT,
 
@@ -112,7 +111,8 @@ namespace Streaming.DAL.Repositories
                         entity.CASTs.Select(x => new Cast(
                             x.ID_CAST, 
                             x.NAME, 
-                            x.CHARACTER)).ToList(), 
+                            x.CHARACTER,
+                            null)).ToList(), 
 
                         entity.FILM_REGIONs.Select(x => new FilmRegion(
                             x.ID_FILM_REGION,
@@ -141,7 +141,6 @@ namespace Streaming.DAL.Repositories
                 DURATION = request.Duration,
                 THUMBNAIL = request.Thumbnail,
                 YEAR = request.Year,
-                OPENING_START = request.OpeningStart,
                 CREDITS_START = request.CreditsStart,
                 KIDS_CONTENT = request.KidsContent,
                 ID_LANGUAGE = request.Language.IdLanguage
@@ -182,7 +181,6 @@ namespace Streaming.DAL.Repositories
             entity.DURATION = request.Duration;
             entity.THUMBNAIL = request.Thumbnail;
             entity.YEAR = request.Year;
-            entity.OPENING_START = request.OpeningStart;
             entity.CREDITS_START = request.CreditsStart;
             entity.KIDS_CONTENT = request.KidsContent;
             entity.ID_LANGUAGE = request.Language.IdLanguage;

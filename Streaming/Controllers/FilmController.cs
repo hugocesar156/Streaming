@@ -137,5 +137,20 @@ namespace Streaming.Controllers
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
+
+        [HttpPut("updatecast")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult UpdateCast(FilmCastUpdateRequest request)
+        {
+            try
+            {
+                _filmUseCase.UpdateCast(request);
+                return StatusCode((int)HttpStatusCode.NoContent);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
     }
 }

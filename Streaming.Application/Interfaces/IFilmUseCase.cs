@@ -15,5 +15,6 @@ namespace Streaming.Application.Interfaces
         void RemoveCategories(FilmCategoryRequest request);
         void RemoveContents(FilmContentRequest request);
         void Update(FilmUpdateRequest request);
+        void UpdateCast(FilmCastUpdateRequest request);
     }
 }

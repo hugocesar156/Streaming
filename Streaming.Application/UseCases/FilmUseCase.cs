@@ -13,12 +13,15 @@ namespace Streaming.Application.UseCases
 {
     public class FilmUseCase : IFilmUseCase
     {
+        private readonly ICastRepositories _castRepositories;
         private readonly ICategoryRepositories _categoryRepositories;
         private readonly IContentRepositories _contentRepositories;
         private readonly IFilmRepositories _filmRepositories;
 
-        public FilmUseCase(ICategoryRepositories categoryRepositories, IContentRepositories contentRepositories, IFilmRepositories filmRepositories)
+        public FilmUseCase(ICastRepositories castRepositories, ICategoryRepositories categoryRepositories, 
+            IContentRepositories contentRepositories, IFilmRepositories filmRepositories)
         {
+            _castRepositories = castRepositories;
             _categoryRepositories = categoryRepositories;
             _contentRepositories = contentRepositories;
             _filmRepositories = filmRepositories;
@@ -30,7 +33,7 @@ namespace Streaming.Application.UseCases
             {
                 _filmRepositories.Get(request.IdFilm);
 
-                var casting = request.Casting.Select(x => new Cast(x.Name, x.Character)).ToList();
+                var casting = request.Casting.Select(x => new Cast(x.Name, x.Character, null)).ToList();
                 _filmRepositories.AddCasting(casting, request.IdFilm);
             }
             catch (StreamingException)
@@ -111,7 +114,6 @@ namespace Streaming.Application.UseCases
                     film.Duration, 
                     film.Thumbnail, 
                     film.Year,
-                    film.OpeningStart,
                     film.CreditsStart, 
                     film.KidsContent,
 
@@ -183,14 +185,14 @@ namespace Streaming.Application.UseCases
                 }
 
                 var film = new Film(request.Name, request.Duration, request.Thumbnail, request.Year,
-                    request.OpeningStart, request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
+                    request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
 
                 int idFilm = _filmRepositories.Insert(film);
 
                 _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), idFilm);
                 _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), idFilm);
 
-                _filmRepositories.AddCasting(request.Casting.Select(x => new Cast(x.Name, x.Character)).ToList(), idFilm);
+                _filmRepositories.AddCasting(request.Casting.Select(x => new Cast(x.Name, x.Character, null)).ToList(), idFilm);
             }
             catch (Exception ex) 
             {
@@ -248,9 +250,26 @@ namespace Streaming.Application.UseCases
             try
             {
                 var film = new Film(request.IdFilm, request.Name, request.Duration, request.Thumbnail, request.Year, 
-                    request.OpeningStart, request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
+                    request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
 
                 _filmRepositories.Update(film);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void UpdateCast(FilmCastUpdateRequest request)
+        {
+            try
+            {
+                var cast = new Cast(request.IdCast, request.Name, request.Character, null);
+                _castRepositories.Update(cast);
             }
             catch (StreamingException)
             {

@@ -6,7 +6,7 @@ namespace Streaming.Application.Models.Responses.Film
 {
     public class FilmResponse
     {
-        public FilmResponse(int idFilm, string name, short duration, string thumbnail, short year, short? openingStart, short? creditsStart, bool kidsContent, 
+        public FilmResponse(int idFilm, string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent, 
             LanguageResponse language, List<CategoryResponse> categories, List<ContentResponse> contents, List<FilmCastResponse> casting, List<FilmRegionResponse> regions)
         {
             IdFilm = idFilm;
@@ -15,7 +15,6 @@ namespace Streaming.Application.Models.Responses.Film
             Thumbnail = thumbnail;
             Year = year;
             CreditsStart = creditsStart;
-            OpeningStart = openingStart;
             KidsContent = kidsContent;
             Language = language;
             Categories = categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
@@ -29,7 +28,6 @@ namespace Streaming.Application.Models.Responses.Film
         public short Duration { get; private set; }
         public string Thumbnail { get; private set; }
         public short Year { get; private set; }
-        public short? OpeningStart { get; private set; }
         public short? CreditsStart { get; private set; }
         public bool KidsContent { get; private set; }
         public LanguageResponse Language { get; private set; }
