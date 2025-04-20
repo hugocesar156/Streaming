@@ -15,14 +15,16 @@ namespace Streaming.Application.UseCases
     public class FilmUseCase : IFilmUseCase
     {
         private readonly ICastRepositories _castRepositories;
+        private readonly ICatalogRegionRepositories _catalogRegionRepositories;
         private readonly ICategoryRepositories _categoryRepositories;
         private readonly IContentRepositories _contentRepositories;
         private readonly IFilmRepositories _filmRepositories;
 
-        public FilmUseCase(ICastRepositories castRepositories, ICategoryRepositories categoryRepositories, 
-            IContentRepositories contentRepositories, IFilmRepositories filmRepositories)
+        public FilmUseCase(ICastRepositories castRepositories, ICatalogRegionRepositories catalogRegionRepositories,
+            ICategoryRepositories categoryRepositories, IContentRepositories contentRepositories, IFilmRepositories filmRepositories)
         {
             _castRepositories = castRepositories;
+            _catalogRegionRepositories = catalogRegionRepositories;
             _categoryRepositories = categoryRepositories;
             _contentRepositories = contentRepositories;
             _filmRepositories = filmRepositories;
@@ -117,7 +119,7 @@ namespace Streaming.Application.UseCases
                 var filmCatalog = new CatalogRegion(request.FilmRegion.Name, request.FilmRegion.Classification, request.FilmRegion.Synospsis,
                     new Language(request.FilmRegion.IdLanguage), request.IdFilm, null);
 
-                _filmRepositories.AddInCatalog(filmCatalog);
+                _catalogRegionRepositories.Insert(filmCatalog);
             }
             catch (StreamingException)
             {

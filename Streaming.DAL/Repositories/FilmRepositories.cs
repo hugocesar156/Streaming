@@ -69,21 +69,6 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
-        public void AddInCatalog(CatalogRegion request)
-        {
-            var entity = new CATALOG_REGION
-            {
-                NAME = request.Name,
-                CLASSIFICATION = request.Classification,
-                SYNOPSIS = request.Synopsis,
-                ID_LANGUAGE = request.Language.IdLanguage,
-                ID_FILM = request.IdFilm
-            };
-
-            _dataContext.Add(entity);
-            _dataContext.SaveChanges();
-        }
-
         public CatalogRegion? FindFilmCatalog(int idFilm, int idLanguage)
         {
             var entity = _dataContext.CATALOG_REGIONs.Include(x => x.ID_LANGUAGENavigation)
