@@ -85,7 +85,7 @@ namespace Streaming.DAL.Repositories
 
             if (entity is not null)
             {
-                return new Film(entity.ID_FILM, entity.NAME, entity.DURATION, entity.CLASSIFICATION, entity.SYNOPSIS, entity.THUMBNAIL, entity.YEAR, 
+                return new Film(entity.ID_FILM, entity.NAME, entity.DURATION, entity.THUMBNAIL, entity.YEAR, 
                     new Language(entity.ID_LANGUAGENavigation.ID_LANGUAGE, entity.ID_LANGUAGENavigation.DESCRIPTION, entity.ID_LANGUAGENavigation.CODE),
                     entity.FILM_CATEGORies.Select(x => new Category(x.ID_CATEGORYNavigation.ID_CATEGORY, x.ID_CATEGORYNavigation.NAME)).ToList(),
                     entity.FILM_CONTENTs.Select(x => new Content(x.ID_CONTENTNavigation.ID_CONTENT, x.ID_CONTENTNavigation.DESCRIPTION)).ToList(),
@@ -106,8 +106,6 @@ namespace Streaming.DAL.Repositories
             {
                 NAME = request.Name,
                 DURATION = request.Duration,
-                CLASSIFICATION = request.Classification,
-                SYNOPSIS = request.Synopsis,
                 THUMBNAIL = request.Thumbnail,
                 YEAR = request.Year,
                 ID_LANGUAGE = request.Language.IdLanguage
@@ -146,8 +144,6 @@ namespace Streaming.DAL.Repositories
 
             entity.NAME = request.Name;
             entity.DURATION = request.Duration;
-            entity.CLASSIFICATION = request.Classification;
-            entity.SYNOPSIS = request.Synopsis;
             entity.THUMBNAIL = request.Thumbnail;
             entity.YEAR = request.Year;
             entity.ID_LANGUAGE = request.Language.IdLanguage;

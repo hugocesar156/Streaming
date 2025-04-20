@@ -12,13 +12,6 @@ namespace Streaming.Application.Models.Requests
         public short Duration { get; init; }
 
         [Required]
-        [StringLength(5)]
-        public string Classification { get; init; } = string.Empty;
-
-        [Required]
-        public string Synopsis { get; init; } = string.Empty;
-
-        [Required]
         public string Thumbnail { get; init; } = string.Empty;
 
         [Required]

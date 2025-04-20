@@ -103,8 +103,7 @@ namespace Streaming.Application.UseCases
             {
                 var film = _filmRepositories.Get(id);
 
-                return new FilmResponse(film.IdFilm, film.Name, film.Duration, film.Classification, 
-                    film.Synopsis, film.Thumbnail, film.Year, 
+                return new FilmResponse(film.IdFilm, film.Name, film.Duration, film.Thumbnail, film.Year, 
                     new LanguageResponse(film.Language.IdLanguage, film.Language.Description, film.Language.Code),
                     film.Categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList(),
                     film.Contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList(),
@@ -150,8 +149,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                var film = new Film(request.Name, request.Duration, request.Classification, request.Synopsis, 
-                    request.Thumbnail, request.Year, new Language(request.IdLanguage));
+                var film = new Film(request.Name, request.Duration, request.Thumbnail, request.Year, new Language(request.IdLanguage));
 
                 int idFilm = _filmRepositories.Insert(film);
 
@@ -215,8 +213,7 @@ namespace Streaming.Application.UseCases
         {
             try
             {
-                var film = new Film(request.IdFilm, request.Name, request.Duration, request.Classification, 
-                    request.Synopsis, request.Thumbnail, request.Year, new Language(request.IdLanguage));
+                var film = new Film(request.IdFilm, request.Name, request.Duration, request.Thumbnail, request.Year, new Language(request.IdLanguage));
 
                 _filmRepositories.Update(film);
             }

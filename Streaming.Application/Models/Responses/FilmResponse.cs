@@ -2,14 +2,12 @@
 {
     public class FilmResponse
     {
-        public FilmResponse(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail,
-            short year, LanguageResponse language, List<CategoryResponse> categories, List<ContentResponse> contents, List<FilmCastResponse> casting)
+        public FilmResponse(int idFilm, string name, short duration, string thumbnail, short year, 
+            LanguageResponse language, List<CategoryResponse> categories, List<ContentResponse> contents, List<FilmCastResponse> casting)
         {
             IdFilm = idFilm;
             Name = name;
             Duration = duration;
-            Classification = classification;
-            Synopsis = synopsis;
             Thumbnail = thumbnail;
             Year = year;
             Language = language;
@@ -21,8 +19,6 @@
         public int IdFilm { get; private set; }
         public string Name { get; private set; }
         public short Duration { get; private set; }
-        public string Classification { get; private set; }
-        public string Synopsis { get; private set; }
         public string Thumbnail { get; private set; }
         public short Year { get; private set; }
         public LanguageResponse Language { get; private set; }

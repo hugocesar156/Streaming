@@ -2,13 +2,11 @@
 {
     public class Film
     {
-        public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, short year, Language language)
+        public Film(int idFilm, string name, short duration, string thumbnail, short year, Language language)
         {
             IdFilm = idFilm;
             Name = name;
             Duration = duration;
-            Classification = classification;
-            Synopsis = synopsis;
             Thumbnail = thumbnail;
             Year = year;
             Language = language;
@@ -17,12 +15,10 @@
             Casting = [];
         }
 
-        public Film(string name, short duration, string classification, string synopsis, string thumbnail, short year, Language language)
+        public Film(string name, short duration, string thumbnail, short year, Language language)
         {
             Name = name;
             Duration = duration;
-            Classification = classification;
-            Synopsis = synopsis;
             Thumbnail = thumbnail;
             Year = year;
             Language = language;
@@ -31,14 +27,12 @@
             Casting = [];
         }
 
-        public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, 
-            short year, Language language, List<Category> categories, List<Content> contents, List<Cast> casting)
+        public Film(int idFilm, string name, short duration, string thumbnail, short year, 
+            Language language, List<Category> categories, List<Content> contents, List<Cast> casting)
         {
             IdFilm = idFilm;
             Name = name;    
             Duration = duration;
-            Classification = classification;
-            Synopsis = synopsis;
             Thumbnail = thumbnail;
             Year = year;
             Language = language;
@@ -50,8 +44,6 @@
         public int IdFilm { get; private set; }
         public string Name { get; private set; }
         public short Duration { get; private set; }
-        public string Classification { get; private set; }
-        public string Synopsis { get; private set; }
         public string Thumbnail { get; private set; }
         public short Year { get; private set; }
         public Language Language { get; private set; }
