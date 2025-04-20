@@ -153,7 +153,7 @@ namespace Streaming.DAL.Repositories
                             x.CLASSIFICATION, 
                             x.SYNOPSIS,
                             new Language(
-                                x.ID_FILMNavigation?.ID_LANGUAGE ?? 0, 
+                                x.ID_LANGUAGENavigation.ID_LANGUAGE, 
                                 x.ID_LANGUAGENavigation.DESCRIPTION, 
                                 x.ID_LANGUAGENavigation.CODE), 
                         entity.ID_FILM, null)).ToList());
