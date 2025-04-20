@@ -81,15 +81,48 @@ namespace Streaming.DAL.Repositories
                 .Include(x => x.FILM_CONTENTs).ThenInclude(x => x.ID_CONTENTNavigation)
                 .Include(x => x.CASTs)
                 .Include(x => x.ID_LANGUAGENavigation)
+                .Include(x => x.FILM_REGIONs).ThenInclude(x => x.ID_LANGUAGENavigation)
                 .FirstOrDefault(x => x.ID_FILM == id);
 
             if (entity is not null)
             {
-                return new Film(entity.ID_FILM, entity.NAME, entity.DURATION, entity.THUMBNAIL, entity.YEAR, 
-                    new Language(entity.ID_LANGUAGENavigation.ID_LANGUAGE, entity.ID_LANGUAGENavigation.DESCRIPTION, entity.ID_LANGUAGENavigation.CODE),
-                    entity.FILM_CATEGORies.Select(x => new Category(x.ID_CATEGORYNavigation.ID_CATEGORY, x.ID_CATEGORYNavigation.NAME)).ToList(),
-                    entity.FILM_CONTENTs.Select(x => new Content(x.ID_CONTENTNavigation.ID_CONTENT, x.ID_CONTENTNavigation.DESCRIPTION)).ToList(),
-                    entity.CASTs.Select(x => new Cast(x.ID_CAST, x.NAME, x.CHARACTER)).ToList());
+                return new Film(
+                        entity.ID_FILM, 
+                        entity.NAME, 
+                        entity.DURATION, 
+                        entity.THUMBNAIL, 
+                        entity.YEAR, 
+                        entity.OPENING_START,
+                        entity.CREDITS_START,
+                        entity.KIDS_CONTENT,
+
+                        new Language(
+                            entity.ID_LANGUAGENavigation.ID_LANGUAGE, 
+                            entity.ID_LANGUAGENavigation.DESCRIPTION, 
+                            entity.ID_LANGUAGENavigation.CODE),
+
+                        entity.FILM_CATEGORies.Select(x => new Category(
+                            x.ID_CATEGORYNavigation.ID_CATEGORY, 
+                            x.ID_CATEGORYNavigation.NAME)).ToList(),
+
+                        entity.FILM_CONTENTs.Select(x => new Content(
+                            x.ID_CONTENTNavigation.ID_CONTENT, 
+                            x.ID_CONTENTNavigation.DESCRIPTION)).ToList(),
+
+                        entity.CASTs.Select(x => new Cast(
+                            x.ID_CAST, 
+                            x.NAME, 
+                            x.CHARACTER)).ToList(), 
+
+                        entity.FILM_REGIONs.Select(x => new FilmRegion(
+                            x.ID_FILM_REGION,
+                            x.NAME, 
+                            x.CLASSIFICATION, 
+                            x.SYNOPSIS,
+                            new Language(
+                                x.ID_FILMNavigation.ID_LANGUAGE, 
+                                x.ID_LANGUAGENavigation.DESCRIPTION, 
+                                x.ID_LANGUAGENavigation.CODE))).ToList());
             }
 
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, id));
@@ -108,6 +141,9 @@ namespace Streaming.DAL.Repositories
                 DURATION = request.Duration,
                 THUMBNAIL = request.Thumbnail,
                 YEAR = request.Year,
+                OPENING_START = request.OpeningStart,
+                CREDITS_START = request.CreditsStart,
+                KIDS_CONTENT = request.KidsContent,
                 ID_LANGUAGE = request.Language.IdLanguage
             };
 
@@ -146,6 +182,9 @@ namespace Streaming.DAL.Repositories
             entity.DURATION = request.Duration;
             entity.THUMBNAIL = request.Thumbnail;
             entity.YEAR = request.Year;
+            entity.OPENING_START = request.OpeningStart;
+            entity.CREDITS_START = request.CreditsStart;
+            entity.KIDS_CONTENT = request.KidsContent;
             entity.ID_LANGUAGE = request.Language.IdLanguage;
 
             _dataContext.Update(entity);

@@ -1,6 +1,6 @@
 ﻿using Streaming.Application.Interfaces;
-using Streaming.Application.Models.Requests;
-using Streaming.Application.Models.Responses;
+using Streaming.Application.Models.Requests.Content;
+using Streaming.Application.Models.Responses.Contents;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;

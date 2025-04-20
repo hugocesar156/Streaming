@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
-using Streaming.Application.Models.Requests;
-using Streaming.Application.Models.Responses;
+using Streaming.Application.Models.Requests.Film;
+using Streaming.Application.Models.Responses.Film;
 using Streaming.Shared;
 using System.Net;
 
@@ -20,7 +20,7 @@ namespace Streaming.Controllers
 
         [HttpPost("addcasting")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Addcasting(FilmCastInsertRequest request)
+        public IActionResult AddCasting(FilmCastInsertRequest request)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Streaming.Controllers
 
         [HttpPost("removecategories")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Removecategories(FilmCategoryRequest request)
+        public IActionResult RemoveCategories(FilmCategoryRequest request)
         {
             try
             {

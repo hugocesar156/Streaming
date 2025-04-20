@@ -1,11 +1,10 @@
 ﻿using Streaming.Application.Validations;
 
-namespace Streaming.Application.Models.Requests
+namespace Streaming.Application.Models.Requests.Film
 {
     public class FilmCastInsertRequest
     {
         [Required]
-        [StringLength(100)]
         public int IdFilm { get; init; }
 
         public List<FilmCastRequest> Casting { get; set; } = [];

@@ -1,12 +1,9 @@
 ﻿using Streaming.Application.Validations;
 
-namespace Streaming.Application.Models.Requests
+namespace Streaming.Application.Models.Requests.Content
 {
-    public class ContentUpdateRequest
+    public class ContentInsertRequest
     {
-        [Required]
-        public int IdContent { get; init; }
-
         [Required]
         [StringLength(50)]
         public string Description { get; init; } = string.Empty;

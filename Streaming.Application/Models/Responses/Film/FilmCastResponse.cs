@@ -1,4 +1,4 @@
-﻿namespace Streaming.Application.Models.Responses
+﻿namespace Streaming.Application.Models.Responses.Film
 {
     public partial class FilmCastResponse
     {

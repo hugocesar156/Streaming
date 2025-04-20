@@ -1,4 +1,4 @@
-﻿namespace Streaming.Application.Models.Responses
+﻿namespace Streaming.Application.Models.Responses.Language
 {
     public class LanguageResponse
     {

@@ -1,6 +1,9 @@
 ﻿using Streaming.Application.Interfaces;
-using Streaming.Application.Models.Requests;
-using Streaming.Application.Models.Responses;
+using Streaming.Application.Models.Requests.Film;
+using Streaming.Application.Models.Responses.Category;
+using Streaming.Application.Models.Responses.Contents;
+using Streaming.Application.Models.Responses.Film;
+using Streaming.Application.Models.Responses.Language;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
@@ -25,7 +28,6 @@ namespace Streaming.Application.UseCases
         {
             try
             {
-                Path.Combine();
                 _filmRepositories.Get(request.IdFilm);
 
                 var casting = request.Casting.Select(x => new Cast(x.Name, x.Character)).ToList();
@@ -103,11 +105,42 @@ namespace Streaming.Application.UseCases
             {
                 var film = _filmRepositories.Get(id);
 
-                return new FilmResponse(film.IdFilm, film.Name, film.Duration, film.Thumbnail, film.Year, 
-                    new LanguageResponse(film.Language.IdLanguage, film.Language.Description, film.Language.Code),
-                    film.Categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList(),
-                    film.Contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList(),
-                    film.Casting.Select(x => new FilmCastResponse(x.IdCast, x.Name, x.Character)).ToList());
+                return new FilmResponse(
+                    film.IdFilm,
+                    film.Name,
+                    film.Duration, 
+                    film.Thumbnail, 
+                    film.Year,
+                    film.OpeningStart,
+                    film.CreditsStart, 
+                    film.KidsContent,
+
+                    new LanguageResponse(
+                        film.Language.IdLanguage, 
+                        film.Language.Description, 
+                        film.Language.Code),
+
+                    film.Categories.Select(x => new CategoryResponse(
+                        x.IdCategory, 
+                        x.Name)).ToList(),
+
+                    film.Contents.Select(x => new ContentResponse(
+                        x.IdContent,
+                        x.Description)).ToList(),
+
+                    film.Casting.Select(x => new FilmCastResponse(
+                        x.IdCast, 
+                        x.Name, 
+                        x.Character)).ToList(),
+                        
+                     film.Regions.Select(x => new FilmRegionResponse(
+                         x.Name,
+                         x.Classification,
+                         x.Synopsis,
+                         new LanguageResponse(
+                             x.Language.IdLanguage,
+                             x.Language.Description,
+                             x.Language.Code))).ToList());
             }
             catch (StreamingException)
             {
@@ -149,7 +182,8 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                var film = new Film(request.Name, request.Duration, request.Thumbnail, request.Year, new Language(request.IdLanguage));
+                var film = new Film(request.Name, request.Duration, request.Thumbnail, request.Year,
+                    request.OpeningStart, request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
 
                 int idFilm = _filmRepositories.Insert(film);
 
@@ -213,7 +247,8 @@ namespace Streaming.Application.UseCases
         {
             try
             {
-                var film = new Film(request.IdFilm, request.Name, request.Duration, request.Thumbnail, request.Year, new Language(request.IdLanguage));
+                var film = new Film(request.IdFilm, request.Name, request.Duration, request.Thumbnail, request.Year, 
+                    request.OpeningStart, request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
 
                 _filmRepositories.Update(film);
             }

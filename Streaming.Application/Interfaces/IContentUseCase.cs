@@ -1,5 +1,5 @@
-﻿using Streaming.Application.Models.Requests;
-using Streaming.Application.Models.Responses;
+﻿using Streaming.Application.Models.Requests.Content;
+using Streaming.Application.Models.Responses.Contents;
 
 namespace Streaming.Application.Interfaces
 {

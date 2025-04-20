@@ -1,6 +1,6 @@
 ﻿using Streaming.Application.Validations;
 
-namespace Streaming.Application.Models.Requests
+namespace Streaming.Application.Models.Requests.Film
 {
     public class FilmUpdateRequest
     {
@@ -18,13 +18,14 @@ namespace Streaming.Application.Models.Requests
         public string Thumbnail { get; init; } = string.Empty;
 
         [Required]
-        public string Media { get; init; } = string.Empty;
-
-        [Required]
-        public string Preview { get; init; } = string.Empty;
-
-        [Required]
         public short Year { get; init; }
+
+        public short? OpeningStart { get; init; }
+
+        public short? CreditsStart { get; init; }
+
+        [Required]
+        public bool KidsContent { get; init; }
 
         [Required]
         public int IdLanguage { get; init; }

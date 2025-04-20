@@ -18,6 +18,5 @@
         public int IdCast { get; private set; }
         public string Name { get; private set; }
         public string Character { get; private set; }
-        public Film? Film { get; private set; }
     }
 }

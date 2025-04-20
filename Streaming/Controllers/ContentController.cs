@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
-using Streaming.Application.Models.Requests;
-using Streaming.Application.Models.Responses;
+using Streaming.Application.Models.Requests.Content;
+using Streaming.Application.Models.Responses.Contents;
 using Streaming.Shared;
 using System.Net;
 
