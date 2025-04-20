@@ -69,7 +69,7 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
-        public void AddCatalog(CatalogRegion request)
+        public void AddInCatalog(CatalogRegion request)
         {
             var entity = new CATALOG_REGION
             {

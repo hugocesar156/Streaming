@@ -47,32 +47,6 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddCatalog(FilmCatalogInsertRequest request)
-        {
-            try
-            {
-                _filmRepositories.Get(request.IdFilm);
-
-                if (_filmRepositories.FindFilmCatalog(request.IdFilm, request.FilmRegion.IdLanguage) is not null)
-                {
-                    throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.RegionCatalog);
-                }
-
-                var filmCatalog = new CatalogRegion(request.FilmRegion.Name, request.FilmRegion.Classification, request.FilmRegion.Synospsis, 
-                    new Language(request.FilmRegion.IdLanguage), request.IdFilm, null);
-
-                _filmRepositories.AddCatalog(filmCatalog);
-            }
-            catch (StreamingException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
-            }
-        }
-
         public void AddCategories(FilmCategoryRequest request)
         {
             try
@@ -118,6 +92,32 @@ namespace Streaming.Application.UseCases
                 }
 
                 _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), request.IdFilm);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void AddInCatalog(FilmCatalogInsertRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                if (_filmRepositories.FindFilmCatalog(request.IdFilm, request.FilmRegion.IdLanguage) is not null)
+                {
+                    throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.RegionCatalog);
+                }
+
+                var filmCatalog = new CatalogRegion(request.FilmRegion.Name, request.FilmRegion.Classification, request.FilmRegion.Synospsis,
+                    new Language(request.FilmRegion.IdLanguage), request.IdFilm, null);
+
+                _filmRepositories.AddInCatalog(filmCatalog);
             }
             catch (StreamingException)
             {
