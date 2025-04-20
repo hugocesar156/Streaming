@@ -22,6 +22,7 @@ public partial class FILM
     [Unicode(false)]
     public string CLASSIFICATION { get; set; } = null!;
 
+    [StringLength(200)]
     [Unicode(false)]
     public string SYNOPSIS { get; set; } = null!;
 
@@ -29,15 +30,9 @@ public partial class FILM
     [Unicode(false)]
     public string THUMBNAIL { get; set; } = null!;
 
-    [StringLength(200)]
-    [Unicode(false)]
-    public string MEDIA { get; set; } = null!;
-
-    [StringLength(200)]
-    [Unicode(false)]
-    public string PREVIEW { get; set; } = null!;
-
     public short YEAR { get; set; }
+
+    public int ID_LANGUAGE { get; set; }
 
     [InverseProperty("ID_FILMNavigation")]
     public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
@@ -47,4 +42,11 @@ public partial class FILM
 
     [InverseProperty("ID_FILMNavigation")]
     public virtual ICollection<FILM_CONTENT> FILM_CONTENTs { get; set; } = new List<FILM_CONTENT>();
+
+    [ForeignKey("ID_LANGUAGE")]
+    [InverseProperty("FILMs")]
+    public virtual LANGUAGE ID_LANGUAGENavigation { get; set; } = null!;
+
+    [InverseProperty("ID_FILMNavigation")]
+    public virtual ICollection<MEDIum> MEDIa { get; set; } = new List<MEDIum>();
 }

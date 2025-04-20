@@ -10,19 +10,19 @@ namespace Streaming.DAL.Models;
 public partial class SERIES_EPISODE
 {
     [Key]
-    public int ID_SERIES_EDIPOSE { get; set; }
+    public int ID_SERIES_EPISODE { get; set; }
 
     [StringLength(50)]
     [Unicode(false)]
     public string NAME { get; set; } = null!;
 
-    public int SEASON { get; set; }
+    public short SEASON { get; set; }
 
-    public int EPISODE { get; set; }
+    public short EPISODE { get; set; }
 
-    public int DURATION { get; set; }
+    public short DURATION { get; set; }
 
-    [StringLength(150)]
+    [StringLength(200)]
     [Unicode(false)]
     public string SYNOPSIS { get; set; } = null!;
 
@@ -30,21 +30,17 @@ public partial class SERIES_EPISODE
     [Unicode(false)]
     public string THUMBNAIL { get; set; } = null!;
 
-    [StringLength(200)]
-    [Unicode(false)]
-    public string MEDIA { get; set; } = null!;
-
-    public int YEAR { get; set; }
+    public short YEAR { get; set; }
 
     public int ID_SERIES { get; set; }
-
-    public int ID_CONTENT { get; set; }
-
-    [ForeignKey("ID_CONTENT")]
-    [InverseProperty("SERIES_EPISODEs")]
-    public virtual CONTENT ID_CONTENTNavigation { get; set; } = null!;
 
     [ForeignKey("ID_SERIES")]
     [InverseProperty("SERIES_EPISODEs")]
     public virtual SERIES ID_SERIESNavigation { get; set; } = null!;
+
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<MEDIum> MEDIa { get; set; } = new List<MEDIum>();
+
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<SERIES_EPISODE_CONTENT> SERIES_EPISODE_CONTENTs { get; set; } = new List<SERIES_EPISODE_CONTENT>();
 }

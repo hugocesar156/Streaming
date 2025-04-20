@@ -20,5 +20,5 @@ public partial class CATEGORY
     public virtual ICollection<FILM_CATEGORY> FILM_CATEGORies { get; set; } = new List<FILM_CATEGORY>();
 
     [InverseProperty("ID_CATEGORYNavigation")]
-    public virtual ICollection<SERIES> SERIES { get; set; } = new List<SERIES>();
+    public virtual ICollection<SERIES_CATEGORY> SERIES_CATEGORies { get; set; } = new List<SERIES_CATEGORY>();
 }

@@ -24,7 +24,7 @@ public partial class CAST
 
     public int? ID_SERIES { get; set; }
 
-    public int? SEASON { get; set; }
+    public short? SEASON { get; set; }
 
     [ForeignKey("ID_FILM")]
     [InverseProperty("CASTs")]
