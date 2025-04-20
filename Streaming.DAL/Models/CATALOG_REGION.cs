@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Streaming.DAL.Models;
 
-[Table("FILM_REGION")]
-public partial class FILM_REGION
+[Table("CATALOG_REGION")]
+public partial class CATALOG_REGION
 {
     [Key]
-    public int ID_FILM_REGION { get; set; }
+    public int ID_CATALOG_REGION { get; set; }
 
     [StringLength(50)]
     [Unicode(false)]
@@ -24,15 +24,21 @@ public partial class FILM_REGION
     [Unicode(false)]
     public string SYNOPSIS { get; set; } = null!;
 
-    public int ID_FILM { get; set; }
+    public int? ID_FILM { get; set; }
+
+    public int? ID_SERIES_EPISODE { get; set; }
 
     public int ID_LANGUAGE { get; set; }
 
     [ForeignKey("ID_FILM")]
-    [InverseProperty("FILM_REGIONs")]
-    public virtual FILM ID_FILMNavigation { get; set; } = null!;
+    [InverseProperty("CATALOG_REGIONs")]
+    public virtual FILM? ID_FILMNavigation { get; set; }
 
     [ForeignKey("ID_LANGUAGE")]
-    [InverseProperty("FILM_REGIONs")]
+    [InverseProperty("CATALOG_REGIONs")]
     public virtual LANGUAGE ID_LANGUAGENavigation { get; set; } = null!;
+
+    [ForeignKey("ID_SERIES_EPISODE")]
+    [InverseProperty("CATALOG_REGIONs")]
+    public virtual SERIES_EPISODE? ID_SERIES_EPISODENavigation { get; set; }
 }

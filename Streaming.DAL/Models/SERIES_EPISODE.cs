@@ -38,16 +38,16 @@ public partial class SERIES_EPISODE
 
     public short? CREDITS_START { get; set; }
 
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<CATALOG_CONTENT> CATALOG_CONTENTs { get; set; } = new List<CATALOG_CONTENT>();
+
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<CATALOG_REGION> CATALOG_REGIONs { get; set; } = new List<CATALOG_REGION>();
+
     [ForeignKey("ID_SERIES")]
     [InverseProperty("SERIES_EPISODEs")]
     public virtual SERIES ID_SERIESNavigation { get; set; } = null!;
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
     public virtual ICollection<MEDIum> MEDIa { get; set; } = new List<MEDIum>();
-
-    [InverseProperty("ID_SERIES_EPISODENavigation")]
-    public virtual ICollection<SERIES_EPISODE_CONTENT> SERIES_EPISODE_CONTENTs { get; set; } = new List<SERIES_EPISODE_CONTENT>();
-
-    [InverseProperty("ID_SERIES_EPISODENavigation")]
-    public virtual ICollection<SERIES_EPISODE_REGION> SERIES_EPISODE_REGIONs { get; set; } = new List<SERIES_EPISODE_REGION>();
 }

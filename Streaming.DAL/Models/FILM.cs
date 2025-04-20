@@ -34,13 +34,13 @@ public partial class FILM
     public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
 
     [InverseProperty("ID_FILMNavigation")]
-    public virtual ICollection<FILM_CATEGORY> FILM_CATEGORies { get; set; } = new List<FILM_CATEGORY>();
+    public virtual ICollection<CATALOG_CATEGORY> CATALOG_CATEGORies { get; set; } = new List<CATALOG_CATEGORY>();
 
     [InverseProperty("ID_FILMNavigation")]
-    public virtual ICollection<FILM_CONTENT> FILM_CONTENTs { get; set; } = new List<FILM_CONTENT>();
+    public virtual ICollection<CATALOG_CONTENT> CATALOG_CONTENTs { get; set; } = new List<CATALOG_CONTENT>();
 
     [InverseProperty("ID_FILMNavigation")]
-    public virtual ICollection<FILM_REGION> FILM_REGIONs { get; set; } = new List<FILM_REGION>();
+    public virtual ICollection<CATALOG_REGION> CATALOG_REGIONs { get; set; } = new List<CATALOG_REGION>();
 
     [ForeignKey("ID_LANGUAGE")]
     [InverseProperty("FILMs")]

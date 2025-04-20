@@ -26,12 +26,12 @@ public partial class SERIES
     [InverseProperty("ID_SERIESNavigation")]
     public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
 
+    [InverseProperty("ID_SERIESNavigation")]
+    public virtual ICollection<CATALOG_CATEGORY> CATALOG_CATEGORies { get; set; } = new List<CATALOG_CATEGORY>();
+
     [ForeignKey("ID_LANGUAGE")]
     [InverseProperty("SERIES")]
     public virtual LANGUAGE ID_LANGUAGENavigation { get; set; } = null!;
-
-    [InverseProperty("ID_SERIESNavigation")]
-    public virtual ICollection<SERIES_CATEGORY> SERIES_CATEGORies { get; set; } = new List<SERIES_CATEGORY>();
 
     [InverseProperty("ID_SERIESNavigation")]
     public virtual ICollection<SERIES_EPISODE> SERIES_EPISODEs { get; set; } = new List<SERIES_EPISODE>();

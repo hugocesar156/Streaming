@@ -20,17 +20,17 @@ public partial class StreamingDataContext : DbContext
 
     public virtual DbSet<CAST> CASTs { get; set; }
 
+    public virtual DbSet<CATALOG_CATEGORY> CATALOG_CATEGORies { get; set; }
+
+    public virtual DbSet<CATALOG_CONTENT> CATALOG_CONTENTs { get; set; }
+
+    public virtual DbSet<CATALOG_REGION> CATALOG_REGIONs { get; set; }
+
     public virtual DbSet<CATEGORY> CATEGORies { get; set; }
 
     public virtual DbSet<CONTENT> CONTENTs { get; set; }
 
     public virtual DbSet<FILM> FILMs { get; set; }
-
-    public virtual DbSet<FILM_CATEGORY> FILM_CATEGORies { get; set; }
-
-    public virtual DbSet<FILM_CONTENT> FILM_CONTENTs { get; set; }
-
-    public virtual DbSet<FILM_REGION> FILM_REGIONs { get; set; }
 
     public virtual DbSet<KEEP_WHATCHING> KEEP_WHATCHINGs { get; set; }
 
@@ -46,13 +46,7 @@ public partial class StreamingDataContext : DbContext
 
     public virtual DbSet<SERIES> SERIES { get; set; }
 
-    public virtual DbSet<SERIES_CATEGORY> SERIES_CATEGORies { get; set; }
-
     public virtual DbSet<SERIES_EPISODE> SERIES_EPISODEs { get; set; }
-
-    public virtual DbSet<SERIES_EPISODE_CONTENT> SERIES_EPISODE_CONTENTs { get; set; }
-
-    public virtual DbSet<SERIES_EPISODE_REGION> SERIES_EPISODE_REGIONs { get; set; }
 
     public virtual DbSet<SUBTITLE> SUBTITLEs { get; set; }
 
@@ -82,6 +76,45 @@ public partial class StreamingDataContext : DbContext
             entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.CASTs).HasConstraintName("FK__CAST__ID_SERIES__693CA210");
         });
 
+        modelBuilder.Entity<CATALOG_CATEGORY>(entity =>
+        {
+            entity.HasKey(e => e.ID_CATELOG_CATEGORY).HasName("PK__CATALOG___D5E870C7FB7B88C5");
+
+            entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.CATALOG_CATEGORies)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CATALOG_C__ID_CA__208CD6FA");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.CATALOG_CATEGORies).HasConstraintName("FK__CATALOG_C__ID_FI__2180FB33");
+
+            entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.CATALOG_CATEGORies).HasConstraintName("FK__CATALOG_C__ID_SE__22751F6C");
+        });
+
+        modelBuilder.Entity<CATALOG_CONTENT>(entity =>
+        {
+            entity.HasKey(e => e.ID_CATALOG_CONTENT).HasName("PK__CATALOG___DE099820E0D8199D");
+
+            entity.HasOne(d => d.ID_CONTENTNavigation).WithMany(p => p.CATALOG_CONTENTs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CATALOG_C__ID_CO__25518C17");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.CATALOG_CONTENTs).HasConstraintName("FK__CATALOG_C__ID_FI__2645B050");
+
+            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.CATALOG_CONTENTs).HasConstraintName("FK__CATALOG_C__ID_SE__2739D489");
+        });
+
+        modelBuilder.Entity<CATALOG_REGION>(entity =>
+        {
+            entity.HasKey(e => e.ID_CATALOG_REGION).HasName("PK__CATALOG___8461C381C2816DFE");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.CATALOG_REGIONs).HasConstraintName("FK__CATALOG_R__ID_FI__1BC821DD");
+
+            entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.CATALOG_REGIONs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CATALOG_R__ID_LA__1DB06A4F");
+
+            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.CATALOG_REGIONs).HasConstraintName("FK__CATALOG_R__ID_SE__1CBC4616");
+        });
+
         modelBuilder.Entity<CATEGORY>(entity =>
         {
             entity.HasKey(e => e.ID_CATEGORY).HasName("PK__CATEGORY__EC9B18B785831442");
@@ -99,45 +132,6 @@ public partial class StreamingDataContext : DbContext
             entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.FILMs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__FILM__ID_LANGUAG__0C85DE4D");
-        });
-
-        modelBuilder.Entity<FILM_CATEGORY>(entity =>
-        {
-            entity.HasKey(e => e.ID_FILM_CATEGORY).HasName("PK__FILM_CAT__F1103A3C2C71F391");
-
-            entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.FILM_CATEGORies)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM_CATE__ID_CA__619B8048");
-
-            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.FILM_CATEGORies)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM_CATE__ID_FI__60A75C0F");
-        });
-
-        modelBuilder.Entity<FILM_CONTENT>(entity =>
-        {
-            entity.HasKey(e => e.ID_FILM_CONTENT).HasName("PK__FILM_CON__782E262EC7D33C19");
-
-            entity.HasOne(d => d.ID_CONTENTNavigation).WithMany(p => p.FILM_CONTENTs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM_CONT__ID_CO__656C112C");
-
-            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.FILM_CONTENTs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM_CONT__ID_FI__6477ECF3");
-        });
-
-        modelBuilder.Entity<FILM_REGION>(entity =>
-        {
-            entity.HasKey(e => e.ID_FILM_REGION).HasName("PK__FILM_REG__3BD90EB6013ADDB3");
-
-            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.FILM_REGIONs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM_REGI__ID_FI__114A936A");
-
-            entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.FILM_REGIONs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__FILM_REGI__ID_LA__123EB7A3");
         });
 
         modelBuilder.Entity<KEEP_WHATCHING>(entity =>
@@ -195,19 +189,6 @@ public partial class StreamingDataContext : DbContext
                 .HasConstraintName("FK__SERIES__ID_LANGU__0D7A0286");
         });
 
-        modelBuilder.Entity<SERIES_CATEGORY>(entity =>
-        {
-            entity.HasKey(e => e.ID_SERIES_CATEGORY).HasName("PK__SERIES_C__F13B85ABD6DDE2EB");
-
-            entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.SERIES_CATEGORies)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES_CA__ID_CA__04E4BC85");
-
-            entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.SERIES_CATEGORies)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES_CA__ID_SE__03F0984C");
-        });
-
         modelBuilder.Entity<SERIES_EPISODE>(entity =>
         {
             entity.HasKey(e => e.ID_SERIES_EPISODE).HasName("PK__SERIES_E__E7BD1614258B9CA2");
@@ -215,32 +196,6 @@ public partial class StreamingDataContext : DbContext
             entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.SERIES_EPISODEs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__SERIES_EP__ID_SE__45F365D3");
-        });
-
-        modelBuilder.Entity<SERIES_EPISODE_CONTENT>(entity =>
-        {
-            entity.HasKey(e => e.ID_SERIES_EPISODE_CONTENT).HasName("PK__SERIES_E__6FCFE4EB0BA4A90D");
-
-            entity.HasOne(d => d.ID_CONTENTNavigation).WithMany(p => p.SERIES_EPISODE_CONTENTs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES_EP__ID_CO__08B54D69");
-
-            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.SERIES_EPISODE_CONTENTs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES_EP__ID_SE__07C12930");
-        });
-
-        modelBuilder.Entity<SERIES_EPISODE_REGION>(entity =>
-        {
-            entity.HasKey(e => e.ID_SERIES_EPISODE_REGION).HasName("PK__SERIES_E__D757B590E6457407");
-
-            entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.SERIES_EPISODE_REGIONs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES_EP__ID_LA__160F4887");
-
-            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.SERIES_EPISODE_REGIONs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SERIES_EP__ID_SE__151B244E");
         });
 
         modelBuilder.Entity<SUBTITLE>(entity =>
