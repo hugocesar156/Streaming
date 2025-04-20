@@ -20,8 +20,6 @@ namespace Streaming.Application.Models.Requests.Film
         [Required]
         public short Year { get; init; }
 
-        public short? OpeningStart { get; init; }
-
         public short? CreditsStart { get; init; }
 
         [Required]
