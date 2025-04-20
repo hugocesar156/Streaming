@@ -24,10 +24,16 @@ public partial class LANGUAGE
     public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();
 
     [InverseProperty("ID_LANGUAGENavigation")]
+    public virtual ICollection<FILM_REGION> FILM_REGIONs { get; set; } = new List<FILM_REGION>();
+
+    [InverseProperty("ID_LANGUAGENavigation")]
     public virtual ICollection<FILM> FILMs { get; set; } = new List<FILM>();
 
     [InverseProperty("ID_LANGUAGENavigation")]
     public virtual ICollection<SERIES> SERIES { get; set; } = new List<SERIES>();
+
+    [InverseProperty("ID_LANGUAGENavigation")]
+    public virtual ICollection<SERIES_EPISODE_REGION> SERIES_EPISODE_REGIONs { get; set; } = new List<SERIES_EPISODE_REGION>();
 
     [InverseProperty("ID_LANGUAGENavigation")]
     public virtual ICollection<SUBTITLE> SUBTITLEs { get; set; } = new List<SUBTITLE>();

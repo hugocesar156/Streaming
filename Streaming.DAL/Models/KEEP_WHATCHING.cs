@@ -16,7 +16,7 @@ public partial class KEEP_WHATCHING
 
     public int? ID_SERIES_EPISODE { get; set; }
 
-    public int DURATION { get; set; }
+    public short TIME { get; set; }
 
     public int ID_PROFILE { get; set; }
 

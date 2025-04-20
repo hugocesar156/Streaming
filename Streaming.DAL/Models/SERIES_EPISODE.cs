@@ -34,6 +34,10 @@ public partial class SERIES_EPISODE
 
     public int ID_SERIES { get; set; }
 
+    public short? OPENING_START { get; set; }
+
+    public short? CREDITS_START { get; set; }
+
     [ForeignKey("ID_SERIES")]
     [InverseProperty("SERIES_EPISODEs")]
     public virtual SERIES ID_SERIESNavigation { get; set; } = null!;
@@ -43,4 +47,7 @@ public partial class SERIES_EPISODE
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
     public virtual ICollection<SERIES_EPISODE_CONTENT> SERIES_EPISODE_CONTENTs { get; set; } = new List<SERIES_EPISODE_CONTENT>();
+
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<SERIES_EPISODE_REGION> SERIES_EPISODE_REGIONs { get; set; } = new List<SERIES_EPISODE_REGION>();
 }

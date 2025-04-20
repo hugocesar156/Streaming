@@ -15,19 +15,13 @@ public partial class SERIES
     [Unicode(false)]
     public string NAME { get; set; } = null!;
 
-    [StringLength(5)]
-    [Unicode(false)]
-    public string CLASSIFICATION { get; set; } = null!;
-
-    [StringLength(200)]
-    [Unicode(false)]
-    public string SYNOPSIS { get; set; } = null!;
-
     [StringLength(200)]
     [Unicode(false)]
     public string THUMBNAIL { get; set; } = null!;
 
     public int ID_LANGUAGE { get; set; }
+
+    public bool KIDS_CONTENT { get; set; }
 
     [InverseProperty("ID_SERIESNavigation")]
     public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
