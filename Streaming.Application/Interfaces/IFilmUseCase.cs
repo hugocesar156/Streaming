@@ -10,6 +10,7 @@ namespace Streaming.Application.Interfaces
         void AddCategories(FilmCategoryRequest request);
         void AddContents(FilmContentRequest request);
         void AddInCatalog(FilmCatalogInsertRequest request);
+        void AddMedia(FilmMediaInsertRequest request);
         FilmResponse Get(int id);
         void Insert(FilmInsertRequest request);
         void RemoveCategories(FilmCategoryRequest request);

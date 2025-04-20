@@ -154,6 +154,10 @@ public partial class StreamingDataContext : DbContext
 
             entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.MEDIa).HasConstraintName("FK__MEDIA__ID_FILM__787EE5A0");
 
+            entity.HasOne(d => d.ID_RESOLUTIONNavigation).WithMany(p => p.MEDIa)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__MEDIA__ID_RESOLU__282DF8C2");
+
             entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.MEDIa).HasConstraintName("FK__MEDIA__ID_SERIES__797309D9");
         });
 

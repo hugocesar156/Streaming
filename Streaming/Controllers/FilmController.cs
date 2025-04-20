@@ -79,6 +79,21 @@ namespace Streaming.Controllers
             }
         }
 
+        [HttpPost("addmedia")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AddMedia(FilmMediaInsertRequest request)
+        {
+            try
+            {
+                _filmUseCase.AddMedia(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(FilmResponse), StatusCodes.Status200OK)]
         public IActionResult Get(int id)

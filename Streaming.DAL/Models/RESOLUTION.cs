@@ -19,4 +19,7 @@ public partial class RESOLUTION
     [StringLength(20)]
     [Unicode(false)]
     public string PIXELS { get; set; } = null!;
+
+    [InverseProperty("ID_RESOLUTIONNavigation")]
+    public virtual ICollection<MEDIum> MEDIa { get; set; } = new List<MEDIum>();
 }

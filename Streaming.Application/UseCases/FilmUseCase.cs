@@ -19,15 +19,18 @@ namespace Streaming.Application.UseCases
         private readonly ICategoryRepositories _categoryRepositories;
         private readonly IContentRepositories _contentRepositories;
         private readonly IFilmRepositories _filmRepositories;
+        private readonly IMediaRepositories _mediaRepositories;
 
         public FilmUseCase(ICastRepositories castRepositories, ICatalogRegionRepositories catalogRegionRepositories,
-            ICategoryRepositories categoryRepositories, IContentRepositories contentRepositories, IFilmRepositories filmRepositories)
+            ICategoryRepositories categoryRepositories, IContentRepositories contentRepositories, 
+            IFilmRepositories filmRepositories, IMediaRepositories mediaRepositories)
         {
             _castRepositories = castRepositories;
             _catalogRegionRepositories = catalogRegionRepositories;
             _categoryRepositories = categoryRepositories;
             _contentRepositories = contentRepositories;
             _filmRepositories = filmRepositories;
+            _mediaRepositories = mediaRepositories;
         }
 
         public void AddCasting(FilmCastInsertRequest request)
@@ -120,6 +123,30 @@ namespace Streaming.Application.UseCases
                     new Language(request.FilmRegion.IdLanguage), request.IdFilm, null);
 
                 _catalogRegionRepositories.Insert(filmCatalog);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public void AddMedia(FilmMediaInsertRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                if (_filmRepositories.FindMedia(request.IdFilm, request.Media.IdResolution) is not null)
+                {
+                    throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.Media);
+                }
+
+                var media = new Media(request.Media.Path, new Resolution(request.Media.IdResolution), request.IdFilm, null);
+                _mediaRepositories.Insert(media);
             }
             catch (StreamingException)
             {

@@ -92,6 +92,27 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
+        public Media? FindMedia(int idFilm, int idMedia)
+        {
+            var entity = _dataContext.MEDIAs.Include(x => x.ID_RESOLUTIONNavigation)
+                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_MEDIA == idMedia);
+
+            if (entity is not null)
+            {
+                return new Media(
+                    entity.ID_MEDIA, 
+                    entity.PATH, 
+                    new Resolution(
+                        entity.ID_RESOLUTIONNavigation.ID_RESOLUTION,
+                        entity.ID_RESOLUTIONNavigation.DESCRIPTION,
+                        entity.ID_RESOLUTIONNavigation.PIXELS),
+                    entity.ID_FILM,
+                    entity.ID_SERIES_EPISODE);
+            }
+
+            return null;
+        }
+
         public Film Get(int id)
         {
             var entity = _dataContext.FILMs

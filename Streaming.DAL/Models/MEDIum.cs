@@ -29,6 +29,10 @@ public partial class MEDIum
     [InverseProperty("MEDIa")]
     public virtual FILM? ID_FILMNavigation { get; set; }
 
+    [ForeignKey("ID_RESOLUTION")]
+    [InverseProperty("MEDIa")]
+    public virtual RESOLUTION ID_RESOLUTIONNavigation { get; set; } = null!;
+
     [ForeignKey("ID_SERIES_EPISODE")]
     [InverseProperty("MEDIa")]
     public virtual SERIES_EPISODE? ID_SERIES_EPISODENavigation { get; set; }

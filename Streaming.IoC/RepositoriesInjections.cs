@@ -14,6 +14,7 @@ namespace Streaming.IoC
             services.AddScoped<ICategoryRepositories, CategoryRepositories>();
             services.AddScoped<IContentRepositories, ContentRepositories>();
             services.AddScoped<IFilmRepositories, FilmRepositories>();
+            services.AddScoped<IMediaRepositories, MediaRepositories>();
 
             return services;
         }
