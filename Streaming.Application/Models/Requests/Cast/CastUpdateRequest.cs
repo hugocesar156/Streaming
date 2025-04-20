@@ -1,8 +1,8 @@
 ﻿using Streaming.Application.Validations;
 
-namespace Streaming.Application.Models.Requests.Film
+namespace Streaming.Application.Models.Requests.Cast
 {
-    public class FilmCastUpdateRequest
+    public class CastUpdateRequest
     {
         [Required]
         public int IdCast { get; init; }

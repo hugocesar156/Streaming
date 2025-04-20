@@ -1,8 +1,8 @@
 ﻿using Streaming.Application.Validations;
 
-namespace Streaming.Application.Models.Requests.Film
+namespace Streaming.Application.Models.Requests.CatalogRegion
 {
-    public partial class FilmRegionRequest
+    public partial class CatalogRegion
     {
         [Required]
         public string Name { get; init; } = string.Empty;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
+using Streaming.Application.Models.Requests.Cast;
 using Streaming.Application.Models.Requests.Film;
 using Streaming.Application.Models.Responses.Film;
 using Streaming.Shared;
@@ -140,7 +141,7 @@ namespace Streaming.Controllers
 
         [HttpPut("updatecast")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult UpdateCast(FilmCastUpdateRequest request)
+        public IActionResult UpdateCast(CastUpdateRequest request)
         {
             try
             {

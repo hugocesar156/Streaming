@@ -37,11 +37,11 @@ namespace Streaming.DAL.Repositories
 
         public void AddCategories(int[] request, int idFilm)
         {
-            var entities = new List<FILM_CATEGORY>();
+            var entities = new List<CATALOG_CATEGORY>();
 
             foreach (var item in request)
             {
-                entities.Add(new FILM_CATEGORY
+                entities.Add(new CATALOG_CATEGORY
                 {
                     ID_FILM = idFilm,
                     ID_CATEGORY = item
@@ -54,11 +54,11 @@ namespace Streaming.DAL.Repositories
 
         public void AddContents(int[] request, int idFilm)
         {
-            var entities = new List<FILM_CONTENT>();
+            var entities = new List<CATALOG_CONTENT>();
 
             foreach (var item in request)
             {
-                entities.Add(new FILM_CONTENT
+                entities.Add(new CATALOG_CONTENT
                 {
                     ID_FILM = idFilm,
                     ID_CONTENT = item
@@ -69,14 +69,19 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
+        public void AddFilmRegion(CatalogRegion request)
+        {
+            throw new NotImplementedException();
+        }
+
         public Film Get(int id)
         {
             var entity = _dataContext.FILMs
-                .Include(x => x.FILM_CATEGORies).ThenInclude(x => x.ID_CATEGORYNavigation)
-                .Include(x => x.FILM_CONTENTs).ThenInclude(x => x.ID_CONTENTNavigation)
+                .Include(x => x.CATALOG_CATEGORies).ThenInclude(x => x.ID_CATEGORYNavigation)
+                .Include(x => x.CATALOG_CONTENTs).ThenInclude(x => x.ID_CONTENTNavigation)
                 .Include(x => x.CASTs)
                 .Include(x => x.ID_LANGUAGENavigation)
-                .Include(x => x.FILM_REGIONs).ThenInclude(x => x.ID_LANGUAGENavigation)
+                .Include(x => x.CATALOG_REGIONs).ThenInclude(x => x.ID_LANGUAGENavigation)
                 .FirstOrDefault(x => x.ID_FILM == id);
 
             if (entity is not null)
@@ -95,11 +100,11 @@ namespace Streaming.DAL.Repositories
                             entity.ID_LANGUAGENavigation.DESCRIPTION, 
                             entity.ID_LANGUAGENavigation.CODE),
 
-                        entity.FILM_CATEGORies.Select(x => new Category(
+                        entity.CATALOG_CATEGORies.Select(x => new Category(
                             x.ID_CATEGORYNavigation.ID_CATEGORY, 
                             x.ID_CATEGORYNavigation.NAME)).ToList(),
 
-                        entity.FILM_CONTENTs.Select(x => new Content(
+                        entity.CATALOG_CONTENTs.Select(x => new Content(
                             x.ID_CONTENTNavigation.ID_CONTENT, 
                             x.ID_CONTENTNavigation.DESCRIPTION)).ToList(),
 
@@ -109,13 +114,13 @@ namespace Streaming.DAL.Repositories
                             x.CHARACTER,
                             null)).ToList(), 
 
-                        entity.FILM_REGIONs.Select(x => new FilmRegion(
-                            x.ID_FILM_REGION,
+                        entity.CATALOG_REGIONs.Select(x => new CatalogRegion(
+                            x.ID_CATALOG_REGION,
                             x.NAME, 
                             x.CLASSIFICATION, 
                             x.SYNOPSIS,
                             new Language(
-                                x.ID_FILMNavigation.ID_LANGUAGE, 
+                                x.ID_FILMNavigation?.ID_LANGUAGE ?? 0, 
                                 x.ID_LANGUAGENavigation.DESCRIPTION, 
                                 x.ID_LANGUAGENavigation.CODE))).ToList());
             }
@@ -144,7 +149,7 @@ namespace Streaming.DAL.Repositories
 
         public void RemoveCategories(int[] request, int idFilm)
         {
-            var entities = _dataContext.FILM_CATEGORies.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CATEGORY)).ToList();
+            var entities = _dataContext.CATALOG_CATEGORies.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CATEGORY)).ToList();
 
             _dataContext.RemoveRange(entities);
             _dataContext.SaveChanges();
@@ -152,7 +157,7 @@ namespace Streaming.DAL.Repositories
 
         public void RemoveContents(int[] request, int idFilm)
         {
-            var entities = _dataContext.FILM_CONTENTs.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CONTENT)).ToList();
+            var entities = _dataContext.CATALOG_CONTENTs.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CONTENT)).ToList();
 
             _dataContext.RemoveRange(entities);
             _dataContext.SaveChanges();

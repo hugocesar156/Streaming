@@ -1,8 +1,8 @@
 ﻿using Streaming.Application.Validations;
 
-namespace Streaming.Application.Models.Requests.Film
+namespace Streaming.Application.Models.Requests.Cast
 {
-    public partial class FilmCastRequest
+    public partial class CastRequest
     {
         [Required]
         [StringLength(100)]

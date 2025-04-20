@@ -1,4 +1,5 @@
-﻿using Streaming.Application.Validations;
+﻿using Streaming.Application.Models.Requests.Cast;
+using Streaming.Application.Validations;
 
 namespace Streaming.Application.Models.Requests.Film
 {
@@ -29,6 +30,6 @@ namespace Streaming.Application.Models.Requests.Film
 
         public int[] Contents { get; init; } = [];
 
-        public List<FilmCastRequest> Casting { get; set; } = [];
+        public List<CastRequest> Casting { get; set; } = [];
     }
 }

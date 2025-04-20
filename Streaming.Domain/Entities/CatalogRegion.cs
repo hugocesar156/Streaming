@@ -1,8 +1,8 @@
 ﻿namespace Streaming.Domain.Entities
 {
-    public class FilmRegion
+    public class CatalogRegion
     {
-        public FilmRegion(string name, string classification, string synospsis, Language language)
+        public CatalogRegion(string name, string classification, string synospsis, Language language)
         {
             Name = name;
             Classification = classification;
@@ -10,16 +10,16 @@
             Language = language;
         }
 
-        public FilmRegion(int idFilmRegion, string name, string classification, string synospsis, Language language)
+        public CatalogRegion(int idCatalogRegion, string name, string classification, string synospsis, Language language)
         {
-            IdFilmRegion = idFilmRegion;
+            IdCatalogRegion = idCatalogRegion;
             Name = name;
             Classification = classification;
             Synopsis = synospsis;
             Language = language;
         }
 
-        public int IdFilmRegion { get; private set; }
+        public int IdCatalogRegion { get; private set; }
         public string Name { get; private set; }
         public string Classification { get; private set; }
         public string Synopsis { get; private set; }

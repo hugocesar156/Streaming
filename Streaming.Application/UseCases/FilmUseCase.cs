@@ -1,4 +1,5 @@
 ﻿using Streaming.Application.Interfaces;
+using Streaming.Application.Models.Requests.Cast;
 using Streaming.Application.Models.Requests.Film;
 using Streaming.Application.Models.Responses.Category;
 using Streaming.Application.Models.Responses.Contents;
@@ -264,7 +265,7 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void UpdateCast(FilmCastUpdateRequest request)
+        public void UpdateCast(CastUpdateRequest request)
         {
             try
             {
