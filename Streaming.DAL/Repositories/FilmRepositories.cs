@@ -69,11 +69,6 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Film Get(int id)
         {
             var entity = _dataContext.FILMs
@@ -126,11 +121,6 @@ namespace Streaming.DAL.Repositories
             }
 
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, id));
-        }
-
-        public List<Film> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public int Insert(Film request)
