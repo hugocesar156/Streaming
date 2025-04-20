@@ -2,6 +2,7 @@
 {
     public static class ErrorMessages
     {
+        public const string ActionNotAllowed = "Action not allowed.";
         public const string FieldRequired = "The field '{0}' is required.";
         public const string RegisterNotFound = "Register not found.";
         public const string StringLength = "The field '{0}' requires a maximum {1} string length.";
@@ -24,6 +25,7 @@
         public static class Film
         {
             public const string NotFound = "Film '{0}' not found.";
+            public const string RegionCatalog = "This film already existis in the catalog for this region.";
         }
     }
 }

@@ -7,7 +7,8 @@ namespace Streaming.Domain.Interfaces
         void AddCasting(List<Cast> request, int idFilm);
         void AddCategories(int[] request, int idFilm);
         void AddContents(int[] request, int idFilm);
-        void AddFilmRegion(CatalogRegion request);
+        void AddCatalog(CatalogRegion request);
+        CatalogRegion? FindFilmCatalog(int idFilm, int idLanguage);
         Film Get(int id);
         int Insert(Film request);
         void RemoveCategories(int[] request, int idFilm);

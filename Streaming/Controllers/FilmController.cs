@@ -34,6 +34,21 @@ namespace Streaming.Controllers
             }
         }
 
+        [HttpPost("addcatalog")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AddCatalog(FilmCatalogInsertRequest request)
+        {
+            try
+            {
+                _filmUseCase.AddCatalog(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
         [HttpPost("addcategories")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AddCategories(FilmCategoryRequest request)

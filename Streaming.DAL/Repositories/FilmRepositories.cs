@@ -69,9 +69,42 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
-        public void AddFilmRegion(CatalogRegion request)
+        public void AddCatalog(CatalogRegion request)
         {
-            throw new NotImplementedException();
+            var entity = new CATALOG_REGION
+            {
+                NAME = request.Name,
+                CLASSIFICATION = request.Classification,
+                SYNOPSIS = request.Synopsis,
+                ID_LANGUAGE = request.Language.IdLanguage,
+                ID_FILM = request.IdFilm
+            };
+
+            _dataContext.Add(entity);
+            _dataContext.SaveChanges();
+        }
+
+        public CatalogRegion? FindFilmCatalog(int idFilm, int idLanguage)
+        {
+            var entity = _dataContext.CATALOG_REGIONs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
+
+            if (entity is not null)
+            {
+                return new CatalogRegion(
+                    entity.ID_CATALOG_REGION,
+                    entity.NAME,
+                    entity.CLASSIFICATION,
+                    entity.SYNOPSIS,
+                    new Language(
+                        entity.ID_LANGUAGENavigation.ID_LANGUAGE,
+                        entity.ID_LANGUAGENavigation.DESCRIPTION,
+                        entity.ID_LANGUAGENavigation.CODE),
+                    entity.ID_FILM,
+                    entity.ID_SERIES_EPISODE);
+            }
+
+            return null;
         }
 
         public Film Get(int id)
@@ -122,7 +155,8 @@ namespace Streaming.DAL.Repositories
                             new Language(
                                 x.ID_FILMNavigation?.ID_LANGUAGE ?? 0, 
                                 x.ID_LANGUAGENavigation.DESCRIPTION, 
-                                x.ID_LANGUAGENavigation.CODE))).ToList());
+                                x.ID_LANGUAGENavigation.CODE), 
+                        entity.ID_FILM, null)).ToList());
             }
 
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, id));
