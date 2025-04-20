@@ -21,6 +21,26 @@ namespace Streaming.Application.UseCases
             _filmRepositories = filmRepositories;
         }
 
+        public void AddCasting(FilmCastInsertRequest request)
+        {
+            try
+            {
+                Path.Combine();
+                _filmRepositories.Get(request.IdFilm);
+
+                var casting = request.Casting.Select(x => new Cast(x.Name, x.Character)).ToList();
+                _filmRepositories.AddCasting(casting, request.IdFilm);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
         public void AddCategories(FilmCategoryRequest request)
         {
             try
@@ -86,7 +106,8 @@ namespace Streaming.Application.UseCases
                 return new FilmResponse(film.IdFilm, film.Name, film.Duration, film.Classification, 
                     film.Synopsis, film.Thumbnail, film.Media, film.Preview, film.Year,
                     film.Categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList(),
-                    film.Contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList());
+                    film.Contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList(),
+                    film.Casting.Select(x => new FilmCastResponse(x.IdCast, x.Name, x.Character)).ToList());
             }
             catch (StreamingException)
             {
@@ -135,6 +156,8 @@ namespace Streaming.Application.UseCases
 
                 _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), idFilm);
                 _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), idFilm);
+
+                _filmRepositories.AddCasting(request.Casting.Select(x => new Cast(x.Name, x.Character)).ToList(), idFilm);
             }
             catch (Exception ex) 
             {

@@ -33,5 +33,7 @@ namespace Streaming.Application.Models.Requests
         public int[] Categories { get; init; } = [];
 
         public int[] Contents { get; init; } = [];
+
+        public List<FilmCastRequest> Casting { get; set; } = [];
     }
 }

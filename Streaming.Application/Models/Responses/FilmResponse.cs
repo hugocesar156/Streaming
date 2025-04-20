@@ -3,7 +3,7 @@
     public class FilmResponse
     {
         public FilmResponse(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail,
-            string media, string preview, short year, List<CategoryResponse> categories, List<ContentResponse> contents)
+            string media, string preview, short year, List<CategoryResponse> categories, List<ContentResponse> contents, List<FilmCastResponse> casting)
         {
             IdFilm = idFilm;
             Name = name;
@@ -16,6 +16,7 @@
             Year = year;
             Categories = categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
             Contents = contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList();
+            Casting = casting.Select(x => new FilmCastResponse(x.IdCast, x.Name, x.Character)).ToList();
         }
 
         public int IdFilm { get; private set; }
@@ -29,5 +30,6 @@
         public short Year { get; private set; }
         public List<CategoryResponse> Categories { get; private set; }
         public List<ContentResponse> Contents { get; private set; }
+        public List<FilmCastResponse> Casting { get; private set; }
     }
 }

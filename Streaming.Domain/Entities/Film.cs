@@ -16,6 +16,7 @@
             Year = year;
             Categories = [];
             Contents = [];
+            Casting = [];
         }
 
         public Film(string name, short duration, string classification, string synopsis, string thumbnail, string media, 
@@ -31,10 +32,11 @@
             Year = year;
             Categories = [];
             Contents = [];
+            Casting = [];
         }
 
         public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, 
-            string media, string preview, short year, List<Category> categories, List<Content> contents)
+            string media, string preview, short year, List<Category> categories, List<Content> contents, List<Cast> casting)
         {
             IdFilm = idFilm;
             Name = name;    
@@ -47,6 +49,7 @@
             Year = year;
             Categories = categories.Select(x => new Category(x.IdCategory, x.Name)).ToList();
             Contents = contents.Select(x => new Content(x.IdContent, x.Description)).ToList();
+            Casting = casting.Select(x => new Cast(x.IdCast, x.Name, x.Character)).ToList();
         }
 
         public int IdFilm { get; private set; }
@@ -60,5 +63,6 @@
         public short Year { get; private set; }
         public List<Category> Categories { get; private set; }
         public List<Content> Contents { get; private set; }
+        public List<Cast> Casting { get; private set; }
     }
 }

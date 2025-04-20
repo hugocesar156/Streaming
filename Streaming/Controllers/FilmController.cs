@@ -18,6 +18,21 @@ namespace Streaming.Controllers
             _filmUseCase = filmUseCase;
         }
 
+        [HttpPost("addcasting")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult Addcasting(FilmCastInsertRequest request)
+        {
+            try
+            {
+                _filmUseCase.AddCasting(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
         [HttpPost("addcategories")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AddCategories(FilmCategoryRequest request)

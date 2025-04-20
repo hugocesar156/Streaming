@@ -4,6 +4,7 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IFilmRepositories
     {
+        void AddCasting(List<Cast> request, int idFilm);
         void AddCategories(int[] request, int idFilm);
         void AddContents(int[] request, int idFilm);
         void Delete(int id);
