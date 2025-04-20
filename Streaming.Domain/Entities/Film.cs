@@ -2,8 +2,7 @@
 {
     public class Film
     {
-        public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, 
-            string media, string preview, short year)
+        public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, short year, Language language)
         {
             IdFilm = idFilm;
             Name = name;
@@ -11,32 +10,29 @@
             Classification = classification;
             Synopsis = synopsis;
             Thumbnail = thumbnail;
-            Media = media;
-            Preview = preview;
             Year = year;
+            Language = language;
             Categories = [];
             Contents = [];
             Casting = [];
         }
 
-        public Film(string name, short duration, string classification, string synopsis, string thumbnail, string media, 
-            string preview, short year)
+        public Film(string name, short duration, string classification, string synopsis, string thumbnail, short year, Language language)
         {
             Name = name;
             Duration = duration;
             Classification = classification;
             Synopsis = synopsis;
             Thumbnail = thumbnail;
-            Media = media;
-            Preview = preview;
             Year = year;
+            Language = language;
             Categories = [];
             Contents = [];
             Casting = [];
         }
 
         public Film(int idFilm, string name, short duration, string classification, string synopsis, string thumbnail, 
-            string media, string preview, short year, List<Category> categories, List<Content> contents, List<Cast> casting)
+            short year, Language language, List<Category> categories, List<Content> contents, List<Cast> casting)
         {
             IdFilm = idFilm;
             Name = name;    
@@ -44,9 +40,8 @@
             Classification = classification;
             Synopsis = synopsis;
             Thumbnail = thumbnail;
-            Media = media;
-            Preview = preview;
             Year = year;
+            Language = language;
             Categories = categories.Select(x => new Category(x.IdCategory, x.Name)).ToList();
             Contents = contents.Select(x => new Content(x.IdContent, x.Description)).ToList();
             Casting = casting.Select(x => new Cast(x.IdCast, x.Name, x.Character)).ToList();
@@ -58,9 +53,8 @@
         public string Classification { get; private set; }
         public string Synopsis { get; private set; }
         public string Thumbnail { get; private set; }
-        public string Media { get; private set; }
-        public string Preview { get; private set; }
         public short Year { get; private set; }
+        public Language Language { get; private set; }
         public List<Category> Categories { get; private set; }
         public List<Content> Contents { get; private set; }
         public List<Cast> Casting { get; private set; }

@@ -32,5 +32,8 @@ namespace Streaming.Application.Models.Requests
 
         [Required]
         public short Year { get; init; }
+
+        [Required]
+        public int IdLanguage { get; init; }
     }
 }

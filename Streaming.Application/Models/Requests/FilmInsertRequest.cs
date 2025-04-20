@@ -30,6 +30,9 @@ namespace Streaming.Application.Models.Requests
         [Required]
         public short Year { get; init; }
 
+        [Required]
+        public int IdLanguage { get; init; } 
+
         public int[] Categories { get; init; } = [];
 
         public int[] Contents { get; init; } = [];
