@@ -133,7 +133,9 @@ namespace Streaming.DAL.Repositories
                             x.ID_CAST, 
                             x.NAME, 
                             x.CHARACTER,
-                            null)).ToList(), 
+                            x.ID_FILM,
+                            x.ID_SERIES,
+                            x.SEASON)).ToList(), 
 
                         entity.CATALOG_REGIONs.Select(x => new CatalogRegion(
                             x.ID_CATALOG_REGION,

@@ -33,14 +33,14 @@ namespace Streaming.Application.UseCases
             _mediaRepositories = mediaRepositories;
         }
 
-        public void AddCasting(FilmCastInsertRequest request)
+        public void AddCast(FilmCastInsertRequest request)
         {
             try
             {
                 _filmRepositories.Get(request.IdFilm);
 
-                var casting = request.Casting.Select(x => new Cast(x.Name, x.Character, request.IdFilm, null, null)).ToList();
-                _castRepositories.InsertRange(casting);
+                var cast = new Cast(request.Cast.Name, request.Cast.Character, request.IdFilm, null, null);
+                _castRepositories.Insert(cast);
             }
             catch (StreamingException)
             {
@@ -248,7 +248,7 @@ namespace Streaming.Application.UseCases
                 _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), idFilm);
                 _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), idFilm);
 
-                _filmRepositories.AddCasting(request.Casting.Select(x => new Cast(x.Name, x.Character, null)).ToList(), idFilm);
+                _castRepositories.InsertRange(request.Casting.Select(x => new Cast(x.Name, x.Character, idFilm, null, null)).ToList());
             }
             catch (Exception ex) 
             {
@@ -320,11 +320,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void UpdateCast(CastUpdateRequest request)
+        public void UpdateCast(FilmCastUpdateRequest request)
         {
             try
             {
-                var cast = new Cast(request.IdCast, request.Name, request.Character, null);
+                var cast = new Cast(request.IdCast, request.Cast.Name, request.Cast.Character, null, null, null);
                 _castRepositories.Update(cast);
             }
             catch (StreamingException)

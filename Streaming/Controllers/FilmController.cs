@@ -19,13 +19,13 @@ namespace Streaming.Controllers
             _filmUseCase = filmUseCase;
         }
 
-        [HttpPost("addcasting")]
+        [HttpPost("addcast")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddCasting(FilmCastInsertRequest request)
+        public IActionResult AddCast(FilmCastInsertRequest request)
         {
             try
             {
-                _filmUseCase.AddCasting(request);
+                _filmUseCase.AddCast(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -171,7 +171,7 @@ namespace Streaming.Controllers
 
         [HttpPut("updatecast")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult UpdateCast(CastUpdateRequest request)
+        public IActionResult UpdateCast(FilmCastUpdateRequest request)
         {
             try
             {

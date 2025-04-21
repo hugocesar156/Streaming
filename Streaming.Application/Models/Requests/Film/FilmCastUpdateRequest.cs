@@ -3,11 +3,11 @@ using Streaming.Application.Validations;
 
 namespace Streaming.Application.Models.Requests.Film
 {
-    public class FilmCastInsertRequest
+    public class FilmCastUpdateRequest
     {
         [Required]
-        public int IdFilm { get; init; }
+        public int IdCast { get; init; }
 
-        public required CastRequest Cast { get; set; }
+        public required CastRequest Cast { get; init; }
     }
 }

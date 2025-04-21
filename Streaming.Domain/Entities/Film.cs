@@ -46,7 +46,7 @@
             Language = language;
             Categories = categories.Select(x => new Category(x.IdCategory, x.Name)).ToList();
             Contents = contents.Select(x => new Content(x.IdContent, x.Description)).ToList();
-            Casting = casting.Select(x => new Cast(x.IdCast, x.Name, x.Character, null)).ToList();
+            Casting = casting.Select(x => new Cast(x.IdCast, x.Name, x.Character, x.IdFilm, x.IdSeries, x.Season)).ToList();
             Regions = regions.Select(x => new CatalogRegion(x.IdCatalogRegion, x.Name, x.Classification, x.Synopsis, 
                 new Language(x.Language.IdLanguage, x.Language.Description, x.Language.Code), x.IdFilm, null)).ToList();
         }

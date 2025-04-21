@@ -6,7 +6,7 @@ namespace Streaming.Application.Interfaces
 {
     public interface IFilmUseCase
     {
-        void AddCasting(FilmCastInsertRequest request);
+        void AddCast(FilmCastInsertRequest request);
         void AddCategories(FilmCategoryRequest request);
         void AddContents(FilmContentRequest request);
         void AddInCatalog(FilmCatalogInsertRequest request);
@@ -16,6 +16,6 @@ namespace Streaming.Application.Interfaces
         void RemoveCategories(FilmCategoryRequest request);
         void RemoveContents(FilmContentRequest request);
         void Update(FilmUpdateRequest request);
-        void UpdateCast(CastUpdateRequest request);
+        void UpdateCast(FilmCastUpdateRequest request);
     }
 }
