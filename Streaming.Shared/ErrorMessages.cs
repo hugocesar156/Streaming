@@ -3,7 +3,11 @@
     public static class ErrorMessages
     {
         public const string ActionNotAllowed = "Action not allowed.";
+        public const string AddressIPClient = "Failed to get IP address data.";
+        public const string ClientIPNotFound = "Client IP not found.";
+        public const string CountryCodeNotFound = "Country code not found.";
         public const string FieldRequired = "The field '{0}' is required.";
+        public const string InternalServerError = "Internal server error.";
         public const string RegisterNotFound = "Register not found.";
         public const string StringLength = "The field '{0}' requires a maximum {1} string length.";
 

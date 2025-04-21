@@ -233,7 +233,8 @@ namespace Streaming.Application.UseCases
                     new LanguageResponse(
                         film.Language.IdLanguage, 
                         film.Language.Description, 
-                        film.Language.Code),
+                        film.Language.Code,
+                        film.Language.CountryCode),
 
                     film.Categories.Select(x => new CategoryResponse(
                         x.IdCategory, 
@@ -256,7 +257,8 @@ namespace Streaming.Application.UseCases
                          new LanguageResponse(
                              x.Language.IdLanguage,
                              x.Language.Description,
-                             x.Language.Code))).ToList(),
+                             x.Language.Code,
+                             x.Language.CountryCode))).ToList(),
                      
                      film.Medias.Select(x => new MediaResponse(
                          x.IdMedia,
@@ -272,7 +274,8 @@ namespace Streaming.Application.UseCases
                          new LanguageResponse(
                              x.Language.IdLanguage,
                              x.Language.Description,
-                             x.Language.Code))).ToList(),
+                             x.Language.Code,
+                             x.Language.CountryCode))).ToList(),
 
                       film.Subtitles.Select(x => new SubtitlesResponse(
                          x.IdSubtitles,
@@ -280,7 +283,8 @@ namespace Streaming.Application.UseCases
                          new LanguageResponse(
                              x.Language.IdLanguage,
                              x.Language.Description,
-                             x.Language.Code))).ToList());
+                             x.Language.Code, 
+                             x.Language.CountryCode))).ToList());
             }
             catch (StreamingException)
             {

@@ -20,6 +20,10 @@ public partial class LANGUAGE
     [Unicode(false)]
     public string CODE { get; set; } = null!;
 
+    [StringLength(5)]
+    [Unicode(false)]
+    public string COUNTRY_CODE { get; set; } = null!;
+
     [InverseProperty("ID_LANGUAGENavigation")]
     public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();
 

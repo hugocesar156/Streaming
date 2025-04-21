@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Streaming.DAL.Models;
+using Streaming.DAL.StoredProcedures.Models;
 
 namespace Streaming.DAL.Context;
 
@@ -54,8 +55,12 @@ public partial class StreamingDataContext : DbContext
 
     public virtual DbSet<USER> USERs { get; set; }
 
+    public virtual DbSet<CATALOG_BY_REGION_PROCEDURE> SP_CATALOG_BY_REGION { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CATALOG_BY_REGION_PROCEDURE>().HasNoKey();
+
         modelBuilder.Entity<AUDIO>(entity =>
         {
             entity.HasKey(e => e.ID_AUDIO).HasName("PK__AUDIO__F6AA3BDF4AC69657");
@@ -161,6 +166,8 @@ public partial class StreamingDataContext : DbContext
         modelBuilder.Entity<LANGUAGE>(entity =>
         {
             entity.HasKey(e => e.ID_LANGUAGE).HasName("PK__LANGUAGE__2CED4A2D7B11DC7E");
+
+            entity.Property(e => e.COUNTRY_CODE).HasDefaultValue("");
         });
 
         modelBuilder.Entity<MEDIum>(entity =>

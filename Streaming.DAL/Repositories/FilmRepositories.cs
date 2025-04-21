@@ -64,7 +64,8 @@ namespace Streaming.DAL.Repositories
                     new Language(
                         entity.ID_LANGUAGENavigation.ID_LANGUAGE,
                         entity.ID_LANGUAGENavigation.DESCRIPTION,
-                        entity.ID_LANGUAGENavigation.CODE),
+                        entity.ID_LANGUAGENavigation.CODE,
+                        entity.ID_LANGUAGENavigation.COUNTRY_CODE),
                     entity.ID_FILM,
                     entity.ID_SERIES_EPISODE);
             }
@@ -87,7 +88,8 @@ namespace Streaming.DAL.Repositories
                     new Language(
                         entity.ID_LANGUAGENavigation.ID_LANGUAGE,
                         entity.ID_LANGUAGENavigation.DESCRIPTION,
-                        entity.ID_LANGUAGENavigation.CODE),
+                        entity.ID_LANGUAGENavigation.CODE,
+                        entity.ID_LANGUAGENavigation.COUNTRY_CODE),
                     entity.ID_FILM,
                     entity.ID_SERIES);
             }
@@ -129,7 +131,8 @@ namespace Streaming.DAL.Repositories
                      new Language(
                         entity.ID_LANGUAGENavigation.ID_LANGUAGE,
                         entity.ID_LANGUAGENavigation.DESCRIPTION,
-                        entity.ID_LANGUAGENavigation.CODE),
+                        entity.ID_LANGUAGENavigation.CODE,
+                        entity.ID_LANGUAGENavigation.COUNTRY_CODE),
                     entity.ID_FILM,
                     entity.ID_SERIES_EPISODE);
             }
@@ -164,7 +167,8 @@ namespace Streaming.DAL.Repositories
                         new Language(
                             entity.ID_LANGUAGENavigation.ID_LANGUAGE, 
                             entity.ID_LANGUAGENavigation.DESCRIPTION, 
-                            entity.ID_LANGUAGENavigation.CODE),
+                            entity.ID_LANGUAGENavigation.CODE,
+                            entity.ID_LANGUAGENavigation.COUNTRY_CODE),
 
                         entity.CATALOG_CATEGORies.Select(x => new Category(
                             x.ID_CATEGORYNavigation.ID_CATEGORY, 
@@ -190,7 +194,8 @@ namespace Streaming.DAL.Repositories
                             new Language(
                                 x.ID_LANGUAGENavigation.ID_LANGUAGE, 
                                 x.ID_LANGUAGENavigation.DESCRIPTION, 
-                                x.ID_LANGUAGENavigation.CODE), 
+                                x.ID_LANGUAGENavigation.CODE, 
+                                x.ID_LANGUAGENavigation.COUNTRY_CODE), 
                         entity.ID_FILM, null)).ToList(),
                         
                         entity.MEDIa.Select(x => new Media(
@@ -208,7 +213,8 @@ namespace Streaming.DAL.Repositories
                             new Language(
                                 x.ID_LANGUAGENavigation.ID_LANGUAGE,
                                 x.ID_LANGUAGENavigation.DESCRIPTION,
-                                x.ID_LANGUAGENavigation.CODE),
+                                x.ID_LANGUAGENavigation.CODE,
+                                x.ID_LANGUAGENavigation.COUNTRY_CODE),
                             x.ID_FILM, null)).ToList(),
 
                         entity.SUBTITLEs.Select(x => new Subtitles(
@@ -217,7 +223,8 @@ namespace Streaming.DAL.Repositories
                             new Language(
                                 x.ID_LANGUAGENavigation.ID_LANGUAGE,
                                 x.ID_LANGUAGENavigation.DESCRIPTION,
-                                x.ID_LANGUAGENavigation.CODE),
+                                x.ID_LANGUAGENavigation.CODE,
+                                x.ID_LANGUAGENavigation.COUNTRY_CODE),
                             x.ID_FILM, null)).ToList());
             }
 

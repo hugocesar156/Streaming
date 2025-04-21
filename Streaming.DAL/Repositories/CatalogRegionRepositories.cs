@@ -1,6 +1,8 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
+using Streaming.Domain.Entities.SoredProcedures;
 using Streaming.Domain.Interfaces;
 
 namespace Streaming.DAL.Repositories
@@ -12,6 +14,28 @@ namespace Streaming.DAL.Repositories
         public CatalogRegionRepositories(StreamingDataContext dataContext)
         {
             _dataContext = dataContext;
+        }
+
+        public CatalogByRegionProcedure? Get(int pageNumber, int pageSize, int idLanguage)
+        {
+            var entities = _dataContext.SP_CATALOG_BY_REGION.FromSql($"EXEC sp_GetCatalogByRegion {pageNumber},{pageSize},{idLanguage}").ToList();
+
+            if (entities.Any())
+            {
+                var catalog = entities.Select(x => new CatalogByRegion(x.NAME, x.SYNOPSIS, x.ID_FILM, x.ID_SERIES, x.THUMBNAIL, x.CATEGORIES)).ToList();
+                int total = entities.First().TOTAL;
+
+                var response = new CatalogByRegionProcedure(
+                    catalog,
+                    pageNumber,
+                    pageSize,
+                    int.Parse(Math.Ceiling(double.Parse(total.ToString()) / double.Parse(pageSize.ToString())).ToString()),
+                    total);
+
+                return response;
+            }
+
+            return null;
         }
 
         public void Insert(CatalogRegion request)
