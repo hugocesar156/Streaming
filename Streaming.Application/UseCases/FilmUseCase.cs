@@ -1,10 +1,14 @@
 ﻿using Streaming.Application.Interfaces;
-using Streaming.Application.Models.Requests.Cast;
 using Streaming.Application.Models.Requests.Film;
+using Streaming.Application.Models.Responses.Audio;
+using Streaming.Application.Models.Responses.Cast;
+using Streaming.Application.Models.Responses.CatalogRegion;
 using Streaming.Application.Models.Responses.Category;
 using Streaming.Application.Models.Responses.Contents;
 using Streaming.Application.Models.Responses.Film;
 using Streaming.Application.Models.Responses.Language;
+using Streaming.Application.Models.Responses.Media;
+using Streaming.Application.Models.Responses.Subtitles;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
@@ -14,23 +18,52 @@ namespace Streaming.Application.UseCases
 {
     public class FilmUseCase : IFilmUseCase
     {
+        private readonly IAudioRepositories _audioRepositories;
         private readonly ICastRepositories _castRepositories;
         private readonly ICatalogRegionRepositories _catalogRegionRepositories;
         private readonly ICategoryRepositories _categoryRepositories;
         private readonly IContentRepositories _contentRepositories;
         private readonly IFilmRepositories _filmRepositories;
         private readonly IMediaRepositories _mediaRepositories;
+        private readonly ISubtitlesRepositories _subtitlesRepositories;
 
-        public FilmUseCase(ICastRepositories castRepositories, ICatalogRegionRepositories catalogRegionRepositories,
-            ICategoryRepositories categoryRepositories, IContentRepositories contentRepositories, 
-            IFilmRepositories filmRepositories, IMediaRepositories mediaRepositories)
+        public FilmUseCase(IAudioRepositories audioRepositories, ICastRepositories castRepositories, 
+            ICatalogRegionRepositories catalogRegionRepositories, ICategoryRepositories categoryRepositories, 
+            IContentRepositories contentRepositories, IFilmRepositories filmRepositories, 
+            ISubtitlesRepositories subtitlesRepositories, IMediaRepositories mediaRepositories)
         {
+            _audioRepositories = audioRepositories;
             _castRepositories = castRepositories;
             _catalogRegionRepositories = catalogRegionRepositories;
             _categoryRepositories = categoryRepositories;
             _contentRepositories = contentRepositories;
             _filmRepositories = filmRepositories;
             _mediaRepositories = mediaRepositories;
+            _subtitlesRepositories = subtitlesRepositories;
+        }
+
+        public void AddAudio(FilmAudioInsertRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                if (_filmRepositories.FindAudio(request.IdFilm, request.Audio.IdLanguage) is not null)
+                {
+                    throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.Audio);
+                }
+
+                var audio = new Audio(request.Audio.Path, new Language(request.Audio.IdLanguage), request.IdFilm, null);
+                _audioRepositories.Insert(audio);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
         }
 
         public void AddCast(FilmCastInsertRequest request)
@@ -158,6 +191,30 @@ namespace Streaming.Application.UseCases
             }
         }
 
+        public void AddSubtitles(FilmSubtitlesInsertRequest request)
+        {
+            try
+            {
+                _filmRepositories.Get(request.IdFilm);
+
+                if (_filmRepositories.FindSubtitles(request.IdFilm, request.Subtitles.IdLanguage) is not null)
+                {
+                    throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.Subtitles);
+                }
+
+                var subtitles = new Subtitles(request.Subtitles.Path, new Language(request.Subtitles.IdLanguage), request.IdFilm, null);
+                _subtitlesRepositories.Insert(subtitles);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
         public FilmResponse Get(int id)
         {
             try
@@ -186,15 +243,40 @@ namespace Streaming.Application.UseCases
                         x.IdContent,
                         x.Description)).ToList(),
 
-                    film.Casting.Select(x => new FilmCastResponse(
+                    film.Casting.Select(x => new CastResponse(
                         x.IdCast, 
                         x.Name, 
                         x.Character)).ToList(),
                         
-                     film.Regions.Select(x => new FilmRegionResponse(
+                     film.Regions.Select(x => new CatalogRegionResponse(
+                         x.IdCatalogRegion,
                          x.Name,
                          x.Classification,
                          x.Synopsis,
+                         new LanguageResponse(
+                             x.Language.IdLanguage,
+                             x.Language.Description,
+                             x.Language.Code))).ToList(),
+                     
+                     film.Medias.Select(x => new MediaResponse(
+                         x.IdMedia,
+                         x.Path,
+                         new Models.Responses.Resolution.ResolutionResponse(
+                             x.Resolution.IdResolution,
+                             x.Resolution.Description,
+                             x.Resolution.Pixels))).ToList(),
+                     
+                     film.Audios.Select(x => new AudioResponse(
+                         x.IdAudio,
+                         x.Path,
+                         new LanguageResponse(
+                             x.Language.IdLanguage,
+                             x.Language.Description,
+                             x.Language.Code))).ToList(),
+
+                      film.Subtitles.Select(x => new SubtitlesResponse(
+                         x.IdSubtitles,
+                         x.Path,
                          new LanguageResponse(
                              x.Language.IdLanguage,
                              x.Language.Description,

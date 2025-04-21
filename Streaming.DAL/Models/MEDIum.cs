@@ -22,9 +22,6 @@ public partial class MEDIum
 
     public int? ID_SERIES_EPISODE { get; set; }
 
-    [InverseProperty("ID_MEDIANavigation")]
-    public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();
-
     [ForeignKey("ID_FILM")]
     [InverseProperty("MEDIa")]
     public virtual FILM? ID_FILMNavigation { get; set; }
@@ -36,7 +33,4 @@ public partial class MEDIum
     [ForeignKey("ID_SERIES_EPISODE")]
     [InverseProperty("MEDIa")]
     public virtual SERIES_EPISODE? ID_SERIES_EPISODENavigation { get; set; }
-
-    [InverseProperty("ID_MEDIANavigation")]
-    public virtual ICollection<SUBTITLE> SUBTITLEs { get; set; } = new List<SUBTITLE>();
 }

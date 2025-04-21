@@ -39,6 +39,9 @@ public partial class SERIES_EPISODE
     public short? CREDITS_START { get; set; }
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();
+
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
     public virtual ICollection<CATALOG_CONTENT> CATALOG_CONTENTs { get; set; } = new List<CATALOG_CONTENT>();
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
@@ -50,4 +53,7 @@ public partial class SERIES_EPISODE
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
     public virtual ICollection<MEDIum> MEDIa { get; set; } = new List<MEDIum>();
+
+    [InverseProperty("ID_SERIES_EPISODENavigation")]
+    public virtual ICollection<SUBTITLE> SUBTITLEs { get; set; } = new List<SUBTITLE>();
 }

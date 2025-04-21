@@ -18,13 +18,19 @@ public partial class AUDIO
 
     public int ID_LANGUAGE { get; set; }
 
-    public int ID_MEDIA { get; set; }
+    public int? ID_FILM { get; set; }
+
+    public int? ID_SERIES_EPISODE { get; set; }
+
+    [ForeignKey("ID_FILM")]
+    [InverseProperty("AUDIOs")]
+    public virtual FILM? ID_FILMNavigation { get; set; }
 
     [ForeignKey("ID_LANGUAGE")]
     [InverseProperty("AUDIOs")]
     public virtual LANGUAGE ID_LANGUAGENavigation { get; set; } = null!;
 
-    [ForeignKey("ID_MEDIA")]
+    [ForeignKey("ID_SERIES_EPISODE")]
     [InverseProperty("AUDIOs")]
-    public virtual MEDIum ID_MEDIANavigation { get; set; } = null!;
+    public virtual SERIES_EPISODE? ID_SERIES_EPISODENavigation { get; set; }
 }

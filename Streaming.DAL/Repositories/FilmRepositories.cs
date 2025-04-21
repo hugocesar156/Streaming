@@ -51,6 +51,27 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
+        public Audio? FindAudio(int idFilm, int idLanguage)
+        {
+            var entity = _dataContext.AUDIOs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
+
+            if (entity is not null)
+            {
+                return new Audio(
+                    entity.ID_AUDIO,
+                    entity.PATH,
+                    new Language(
+                        entity.ID_LANGUAGENavigation.ID_LANGUAGE,
+                        entity.ID_LANGUAGENavigation.DESCRIPTION,
+                        entity.ID_LANGUAGENavigation.CODE),
+                    entity.ID_FILM,
+                    entity.ID_SERIES_EPISODE);
+            }
+
+            return null;
+        }
+
         public CatalogRegion? FindFilmCatalog(int idFilm, int idLanguage)
         {
             var entity = _dataContext.CATALOG_REGIONs.Include(x => x.ID_LANGUAGENavigation)
@@ -74,10 +95,10 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public Media? FindMedia(int idFilm, int idMedia)
+        public Media? FindMedia(int idFilm, int idResolution)
         {
             var entity = _dataContext.MEDIAs.Include(x => x.ID_RESOLUTIONNavigation)
-                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_MEDIA == idMedia);
+                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_RESOLUTION == idResolution);
 
             if (entity is not null)
             {
@@ -95,6 +116,27 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
+        public Subtitles? FindSubtitles(int idFilm, int idLanguage)
+        {
+            var entity = _dataContext.SUBTITLEs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
+
+            if (entity is not null) 
+            {
+                return new Subtitles(
+                    entity.ID_SUBTITLES,
+                    entity.PATH,
+                     new Language(
+                        entity.ID_LANGUAGENavigation.ID_LANGUAGE,
+                        entity.ID_LANGUAGENavigation.DESCRIPTION,
+                        entity.ID_LANGUAGENavigation.CODE),
+                    entity.ID_FILM,
+                    entity.ID_SERIES_EPISODE);
+            }
+
+            return null;
+        }
+
         public Film Get(int id)
         {
             var entity = _dataContext.FILMs
@@ -103,6 +145,9 @@ namespace Streaming.DAL.Repositories
                 .Include(x => x.CASTs)
                 .Include(x => x.ID_LANGUAGENavigation)
                 .Include(x => x.CATALOG_REGIONs).ThenInclude(x => x.ID_LANGUAGENavigation)
+                .Include(x => x.MEDIa).ThenInclude(x => x.ID_RESOLUTIONNavigation)
+                .Include(x => x.AUDIOs).ThenInclude(x => x.ID_LANGUAGENavigation)
+                .Include(x => x.SUBTITLEs).ThenInclude(x => x.ID_LANGUAGENavigation)
                 .FirstOrDefault(x => x.ID_FILM == id);
 
             if (entity is not null)
@@ -146,7 +191,34 @@ namespace Streaming.DAL.Repositories
                                 x.ID_LANGUAGENavigation.ID_LANGUAGE, 
                                 x.ID_LANGUAGENavigation.DESCRIPTION, 
                                 x.ID_LANGUAGENavigation.CODE), 
-                        entity.ID_FILM, null)).ToList());
+                        entity.ID_FILM, null)).ToList(),
+                        
+                        entity.MEDIa.Select(x => new Media(
+                            x.ID_MEDIA,
+                            x.PATH,
+                            new Resolution(
+                                x.ID_RESOLUTIONNavigation.ID_RESOLUTION,
+                                x.ID_RESOLUTIONNavigation.DESCRIPTION,
+                                x.ID_RESOLUTIONNavigation.PIXELS),
+                            x.ID_FILM, null)).ToList(),
+                        
+                        entity.AUDIOs.Select(x => new Audio(
+                            x.ID_AUDIO,
+                            x.PATH,
+                            new Language(
+                                x.ID_LANGUAGENavigation.ID_LANGUAGE,
+                                x.ID_LANGUAGENavigation.DESCRIPTION,
+                                x.ID_LANGUAGENavigation.CODE),
+                            x.ID_FILM, null)).ToList(),
+
+                        entity.SUBTITLEs.Select(x => new Subtitles(
+                            x.ID_SUBTITLES,
+                            x.PATH,
+                            new Language(
+                                x.ID_LANGUAGENavigation.ID_LANGUAGE,
+                                x.ID_LANGUAGENavigation.DESCRIPTION,
+                                x.ID_LANGUAGENavigation.CODE),
+                            x.ID_FILM, null)).ToList());
             }
 
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, id));

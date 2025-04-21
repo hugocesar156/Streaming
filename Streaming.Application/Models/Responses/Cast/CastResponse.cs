@@ -1,8 +1,8 @@
-﻿namespace Streaming.Application.Models.Responses.Film
+﻿namespace Streaming.Application.Models.Responses.Cast
 {
-    public partial class FilmCastResponse
+    public partial class CastResponse
     {
-        public FilmCastResponse(int idCast, string name, string character)
+        public CastResponse(int idCast, string name, string character)
         {
             IdCast = idCast;
             Name = name;

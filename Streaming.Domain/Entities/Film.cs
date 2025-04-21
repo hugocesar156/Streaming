@@ -16,6 +16,9 @@
             Contents = [];
             Casting = [];
             Regions = [];
+            Medias = [];
+            Audios = [];
+            Subtitles = [];
         }
 
         public Film(string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent, Language language)
@@ -31,10 +34,14 @@
             Contents = [];
             Casting = [];
             Regions = [];
+            Medias = [];
+            Audios = [];
+            Subtitles = [];
         }
 
         public Film(int idFilm, string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent,
-            Language language, List<Category> categories, List<Content> contents, List<Cast> casting, List<CatalogRegion> regions)
+            Language language, List<Category> categories, List<Content> contents, List<Cast> casting, List<CatalogRegion> regions,
+            List<Media> medias, List<Audio> audios, List<Subtitles> subtitles)
         {
             IdFilm = idFilm;
             Name = name;    
@@ -44,11 +51,13 @@
             CreditsStart = creditsStart;
             KidsContent = kidsContent;
             Language = language;
-            Categories = categories.Select(x => new Category(x.IdCategory, x.Name)).ToList();
-            Contents = contents.Select(x => new Content(x.IdContent, x.Description)).ToList();
-            Casting = casting.Select(x => new Cast(x.IdCast, x.Name, x.Character, x.IdFilm, x.IdSeries, x.Season)).ToList();
-            Regions = regions.Select(x => new CatalogRegion(x.IdCatalogRegion, x.Name, x.Classification, x.Synopsis, 
-                new Language(x.Language.IdLanguage, x.Language.Description, x.Language.Code), x.IdFilm, null)).ToList();
+            Categories = categories;
+            Contents = contents;
+            Casting = casting;
+            Regions = regions;
+            Medias = medias;
+            Audios = audios;
+            Subtitles = subtitles;
         }
 
         public int IdFilm { get; private set; }
@@ -63,5 +72,8 @@
         public List<Content> Contents { get; private set; }
         public List<Cast> Casting { get; private set; }
         public List<CatalogRegion> Regions { get; set; }
+        public List<Media> Medias { get; set; }
+        public List<Audio> Audios { get; set; }
+        public List<Subtitles> Subtitles { get; set; }
     }
 }

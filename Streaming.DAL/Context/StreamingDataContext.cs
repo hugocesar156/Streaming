@@ -56,15 +56,15 @@ public partial class StreamingDataContext : DbContext
     {
         modelBuilder.Entity<AUDIO>(entity =>
         {
-            entity.HasKey(e => e.ID_AUDIO).HasName("PK__AUDIO__F6AA3BDF77C7844F");
+            entity.HasKey(e => e.ID_AUDIO).HasName("PK__AUDIO__F6AA3BDF4AC69657");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.AUDIOs).HasConstraintName("FK__AUDIO__ID_FILM__37703C52");
 
             entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.AUDIOs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AUDIO__ID_MEDIA__7C4F7684");
+                .HasConstraintName("FK__AUDIO__ID_LANGUA__367C1819");
 
-            entity.HasOne(d => d.ID_MEDIANavigation).WithMany(p => p.AUDIOs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__AUDIO__ID_MEDIA__7D439ABD");
+            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.AUDIOs).HasConstraintName("FK__AUDIO__ID_SERIES__3864608B");
         });
 
         modelBuilder.Entity<CAST>(entity =>
@@ -204,15 +204,15 @@ public partial class StreamingDataContext : DbContext
 
         modelBuilder.Entity<SUBTITLE>(entity =>
         {
-            entity.HasKey(e => e.ID_SUBTITLES).HasName("PK__SUBTITLE__6FD21C7CEFF0552B");
+            entity.HasKey(e => e.ID_SUBTITLES).HasName("PK__SUBTITLE__6FD21C7C49D4BD24");
+
+            entity.HasOne(d => d.ID_FILMNavigation).WithMany(p => p.SUBTITLEs).HasConstraintName("FK__SUBTITLES__ID_FI__3C34F16F");
 
             entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.SUBTITLEs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SUBTITLES__ID_LA__00200768");
+                .HasConstraintName("FK__SUBTITLES__ID_LA__3B40CD36");
 
-            entity.HasOne(d => d.ID_MEDIANavigation).WithMany(p => p.SUBTITLEs)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__SUBTITLES__ID_ME__01142BA1");
+            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.SUBTITLEs).HasConstraintName("FK__SUBTITLES__ID_SE__3D2915A8");
         });
 
         modelBuilder.Entity<USER>(entity =>

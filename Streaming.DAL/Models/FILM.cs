@@ -31,6 +31,9 @@ public partial class FILM
     public bool KIDS_CONTENT { get; set; }
 
     [InverseProperty("ID_FILMNavigation")]
+    public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();
+
+    [InverseProperty("ID_FILMNavigation")]
     public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
 
     [InverseProperty("ID_FILMNavigation")]
@@ -48,4 +51,7 @@ public partial class FILM
 
     [InverseProperty("ID_FILMNavigation")]
     public virtual ICollection<MEDIum> MEDIa { get; set; } = new List<MEDIum>();
+
+    [InverseProperty("ID_FILMNavigation")]
+    public virtual ICollection<SUBTITLE> SUBTITLEs { get; set; } = new List<SUBTITLE>();
 }

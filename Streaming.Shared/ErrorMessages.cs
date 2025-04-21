@@ -24,9 +24,11 @@
 
         public static class Film
         {
+            public const string Audio = "Audio in this language already existis for this film.";
             public const string Media = "Already has a media in this resolution for this film.";
             public const string NotFound = "Film '{0}' not found.";
             public const string RegionCatalog = "This film already existis in the catalog for this region.";
+            public const string Subtitles = "Subtitles in this language already existis for this film.";
         }
     }
 }

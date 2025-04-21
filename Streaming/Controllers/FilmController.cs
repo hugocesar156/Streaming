@@ -19,6 +19,21 @@ namespace Streaming.Controllers
             _filmUseCase = filmUseCase;
         }
 
+        [HttpPost("addaudio")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AddAudio(FilmAudioInsertRequest request)
+        {
+            try
+            {
+                _filmUseCase.AddAudio(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
         [HttpPost("addcast")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult AddCast(FilmCastInsertRequest request)
@@ -86,6 +101,21 @@ namespace Streaming.Controllers
             try
             {
                 _filmUseCase.AddMedia(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
+        [HttpPost("addsubtitles")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AddSubtitles(FilmSubtitlesInsertRequest request)
+        {
+            try
+            {
+                _filmUseCase.AddSubtitles(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
