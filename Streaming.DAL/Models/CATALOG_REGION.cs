@@ -18,7 +18,7 @@ public partial class CATALOG_REGION
 
     [StringLength(5)]
     [Unicode(false)]
-    public string CLASSIFICATION { get; set; } = null!;
+    public string? CLASSIFICATION { get; set; }
 
     [StringLength(200)]
     [Unicode(false)]
@@ -26,9 +26,12 @@ public partial class CATALOG_REGION
 
     public int? ID_FILM { get; set; }
 
-    public int? ID_SERIES_EPISODE { get; set; }
-
     public int ID_LANGUAGE { get; set; }
+
+    public int? ID_SERIES { get; set; }
+
+    [InverseProperty("ID_CATALOG_REGIONNavigation")]
+    public virtual ICollection<CATALOG_REGION_ITEM> CATALOG_REGION_ITEMs { get; set; } = new List<CATALOG_REGION_ITEM>();
 
     [ForeignKey("ID_FILM")]
     [InverseProperty("CATALOG_REGIONs")]
@@ -38,7 +41,7 @@ public partial class CATALOG_REGION
     [InverseProperty("CATALOG_REGIONs")]
     public virtual LANGUAGE ID_LANGUAGENavigation { get; set; } = null!;
 
-    [ForeignKey("ID_SERIES_EPISODE")]
+    [ForeignKey("ID_SERIES")]
     [InverseProperty("CATALOG_REGIONs")]
-    public virtual SERIES_EPISODE? ID_SERIES_EPISODENavigation { get; set; }
+    public virtual SERIES? ID_SERIESNavigation { get; set; }
 }

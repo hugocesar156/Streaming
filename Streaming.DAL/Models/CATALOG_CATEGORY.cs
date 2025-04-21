@@ -10,7 +10,7 @@ namespace Streaming.DAL.Models;
 public partial class CATALOG_CATEGORY
 {
     [Key]
-    public int ID_CATELOG_CATEGORY { get; set; }
+    public int ID_CATALOG_CATEGORY { get; set; }
 
     public int ID_CATEGORY { get; set; }
 

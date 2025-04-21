@@ -26,6 +26,8 @@ public partial class StreamingDataContext : DbContext
 
     public virtual DbSet<CATALOG_REGION> CATALOG_REGIONs { get; set; }
 
+    public virtual DbSet<CATALOG_REGION_ITEM> CATALOG_REGION_ITEMs { get; set; }
+
     public virtual DbSet<CATEGORY> CATEGORies { get; set; }
 
     public virtual DbSet<CONTENT> CONTENTs { get; set; }
@@ -78,7 +80,7 @@ public partial class StreamingDataContext : DbContext
 
         modelBuilder.Entity<CATALOG_CATEGORY>(entity =>
         {
-            entity.HasKey(e => e.ID_CATELOG_CATEGORY).HasName("PK__CATALOG___D5E870C7FB7B88C5");
+            entity.HasKey(e => e.ID_CATALOG_CATEGORY).HasName("PK__CATALOG___D5E870C7FB7B88C5");
 
             entity.HasOne(d => d.ID_CATEGORYNavigation).WithMany(p => p.CATALOG_CATEGORies)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -112,7 +114,20 @@ public partial class StreamingDataContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__CATALOG_R__ID_LA__1DB06A4F");
 
-            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.CATALOG_REGIONs).HasConstraintName("FK__CATALOG_R__ID_SE__1CBC4616");
+            entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.CATALOG_REGIONs).HasConstraintName("FK__CATALOG_R__ID_SE__3E1D39E1");
+        });
+
+        modelBuilder.Entity<CATALOG_REGION_ITEM>(entity =>
+        {
+            entity.HasKey(e => e.ID_CATALOG_REGION_ITEM).HasName("PK__CATALOG___77E0F673F41376AE");
+
+            entity.HasOne(d => d.ID_CATALOG_REGIONNavigation).WithMany(p => p.CATALOG_REGION_ITEMs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CATALOG_R__ID_CA__40F9A68C");
+
+            entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.CATALOG_REGION_ITEMs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__CATALOG_R__ID_SE__41EDCAC5");
         });
 
         modelBuilder.Entity<CATEGORY>(entity =>

@@ -45,7 +45,7 @@ public partial class SERIES_EPISODE
     public virtual ICollection<CATALOG_CONTENT> CATALOG_CONTENTs { get; set; } = new List<CATALOG_CONTENT>();
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
-    public virtual ICollection<CATALOG_REGION> CATALOG_REGIONs { get; set; } = new List<CATALOG_REGION>();
+    public virtual ICollection<CATALOG_REGION_ITEM> CATALOG_REGION_ITEMs { get; set; } = new List<CATALOG_REGION_ITEM>();
 
     [ForeignKey("ID_SERIES")]
     [InverseProperty("SERIES_EPISODEs")]

@@ -29,6 +29,9 @@ public partial class SERIES
     [InverseProperty("ID_SERIESNavigation")]
     public virtual ICollection<CATALOG_CATEGORY> CATALOG_CATEGORies { get; set; } = new List<CATALOG_CATEGORY>();
 
+    [InverseProperty("ID_SERIESNavigation")]
+    public virtual ICollection<CATALOG_REGION> CATALOG_REGIONs { get; set; } = new List<CATALOG_REGION>();
+
     [ForeignKey("ID_LANGUAGE")]
     [InverseProperty("SERIES")]
     public virtual LANGUAGE ID_LANGUAGENavigation { get; set; } = null!;
