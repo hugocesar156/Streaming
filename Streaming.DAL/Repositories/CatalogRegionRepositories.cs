@@ -23,7 +23,7 @@ namespace Streaming.DAL.Repositories
                 SYNOPSIS = request.Synopsis,
                 ID_LANGUAGE = request.Language.IdLanguage,
                 ID_FILM = request.IdFilm,
-                ID_SERIES_EPISODE = request.IdSeriesEpisode
+                ID_SERIES = request.IdSeries
             };
 
             _dataContext.Add(entity);

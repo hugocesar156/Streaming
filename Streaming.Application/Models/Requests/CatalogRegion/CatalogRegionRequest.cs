@@ -8,9 +8,8 @@ namespace Streaming.Application.Models.Requests.CatalogRegion
         [StringLength(50)]
         public string Name { get; init; } = string.Empty;
 
-        [Required]
         [StringLength(5)]
-        public string Classification { get; init; } = string.Empty;
+        public string? Classification { get; init; }
 
         [Required]
         [StringLength(200)]

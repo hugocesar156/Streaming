@@ -89,7 +89,7 @@ namespace Streaming.DAL.Repositories
                         entity.ID_LANGUAGENavigation.DESCRIPTION,
                         entity.ID_LANGUAGENavigation.CODE),
                     entity.ID_FILM,
-                    entity.ID_SERIES_EPISODE);
+                    entity.ID_SERIES);
             }
 
             return null;
