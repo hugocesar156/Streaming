@@ -36,7 +36,8 @@ namespace Streaming.DAL.Repositories
                 NAME = request.Name,
                 CHARACTER = request.Character,
                 ID_FILM = request.IdFilm,
-                ID_SERIES = request.IdSeries
+                ID_SERIES = request.IdSeries,
+                SEASON = request.Season
             };
 
             _dataContext.AddRange(entities);
@@ -54,7 +55,8 @@ namespace Streaming.DAL.Repositories
                     NAME = item.Name,
                     CHARACTER = item.Character,
                     ID_FILM = item.IdFilm,
-                    ID_SERIES = item.IdSeries
+                    ID_SERIES = item.IdSeries,
+                    SEASON = item.Season
                 });
             }
 
