@@ -39,8 +39,8 @@ namespace Streaming.Application.UseCases
             {
                 _filmRepositories.Get(request.IdFilm);
 
-                var casting = request.Casting.Select(x => new Cast(x.Name, x.Character, null)).ToList();
-                _filmRepositories.AddCasting(casting, request.IdFilm);
+                var casting = request.Casting.Select(x => new Cast(x.Name, x.Character, request.IdFilm, null, null)).ToList();
+                _castRepositories.InsertRange(casting);
             }
             catch (StreamingException)
             {

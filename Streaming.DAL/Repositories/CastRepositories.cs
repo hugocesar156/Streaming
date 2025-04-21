@@ -1,4 +1,5 @@
 ﻿using Streaming.DAL.Context;
+using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
@@ -25,6 +26,39 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.Remove(entity);
+            _dataContext.SaveChanges();
+        }
+
+        public void Insert(Cast request)
+        {
+            var entities = new CAST
+            {
+                NAME = request.Name,
+                CHARACTER = request.Character,
+                ID_FILM = request.IdFilm,
+                ID_SERIES = request.IdSeries
+            };
+
+            _dataContext.AddRange(entities);
+            _dataContext.SaveChanges();
+        }
+
+        public void InsertRange(List<Cast> request)
+        {
+            var entities = new List<CAST>();
+
+            foreach (var item in request)
+            {
+                entities.Add(new CAST
+                {
+                    NAME = item.Name,
+                    CHARACTER = item.Character,
+                    ID_FILM = item.IdFilm,
+                    ID_SERIES = item.IdSeries
+                });
+            }
+
+            _dataContext.AddRange(entities);
             _dataContext.SaveChanges();
         }
 

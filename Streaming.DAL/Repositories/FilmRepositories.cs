@@ -17,24 +17,6 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void AddCasting(List<Cast> request, int idFilm)
-        {
-            var entities = new List<CAST>();
-
-            foreach (var item in request) 
-            {
-                entities.Add(new CAST
-                {
-                    NAME = item.Name,
-                    CHARACTER = item.Character,
-                    ID_FILM = idFilm
-                });
-            }
-
-            _dataContext.AddRange(entities);
-            _dataContext.SaveChanges();
-        }
-
         public void AddCategories(int[] request, int idFilm)
         {
             var entities = new List<CATALOG_CATEGORY>();
