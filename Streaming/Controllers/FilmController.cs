@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
-using Streaming.Application.Models.Requests.Cast;
 using Streaming.Application.Models.Requests.Film;
 using Streaming.Application.Models.Responses.Film;
 using Streaming.Shared;
