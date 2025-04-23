@@ -101,7 +101,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), request.IdFilm);
+                _filmRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, request.IdFilm, null)).ToList());
             }
             catch (StreamingException)
             {
@@ -129,7 +129,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), request.IdFilm);
+                _filmRepositories.AddContents(request.Contents.Distinct().Select(x => new CatalogContent(x, request.IdFilm, null)).ToList());
             }
             catch (StreamingException)
             {
@@ -331,8 +331,8 @@ namespace Streaming.Application.UseCases
 
                 int idFilm = _filmRepositories.Insert(film);
 
-                _filmRepositories.AddCategories(request.Categories.Distinct().ToArray(), idFilm);
-                _filmRepositories.AddContents(request.Contents.Distinct().ToArray(), idFilm);
+                _filmRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, idFilm, null)).ToList());
+                _filmRepositories.AddContents(request.Contents.Distinct().Select(x => new CatalogContent(x, idFilm, null)).ToList());
 
                 _castRepositories.InsertRange(request.Casting.Select(x => new Cast(x.Name, x.Character, idFilm, null, null)).ToList());
             }
@@ -358,7 +358,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                _filmRepositories.RemoveCategories(request.Categories.Distinct().ToArray(), request.IdFilm);
+                _filmRepositories.RemoveCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, request.IdFilm, null)).ToList());
             }
             catch (StreamingException)
             {
@@ -384,7 +384,7 @@ namespace Streaming.Application.UseCases
                 }
             }
 
-            _filmRepositories.RemoveContents(request.Contents.Distinct().ToArray(), request.IdFilm);
+            _filmRepositories.RemoveContents(request.Contents.Distinct().Select(x => new CatalogContent(x, request.IdFilm, null)).ToList());
         }
 
         public void Update(FilmUpdateRequest request)

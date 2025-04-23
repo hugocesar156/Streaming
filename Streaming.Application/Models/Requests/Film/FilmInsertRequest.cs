@@ -13,6 +13,7 @@ namespace Streaming.Application.Models.Requests.Film
         public short Duration { get; init; }
 
         [Required]
+        [StringLength(200)]
         public string Thumbnail { get; init; } = string.Empty;
 
         [Required]

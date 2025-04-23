@@ -17,7 +17,7 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void AddCategories(int[] request, int idFilm)
+        public void AddCategories(List<CatalogCategory> request)
         {
             var entities = new List<CATALOG_CATEGORY>();
 
@@ -25,8 +25,8 @@ namespace Streaming.DAL.Repositories
             {
                 entities.Add(new CATALOG_CATEGORY
                 {
-                    ID_FILM = idFilm,
-                    ID_CATEGORY = item
+                    ID_FILM = item.IdFilm,
+                    ID_CATEGORY = item.IdCategory
                 });
             }
 
@@ -34,7 +34,7 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
-        public void AddContents(int[] request, int idFilm)
+        public void AddContents(List<CatalogContent> request)
         {
             var entities = new List<CATALOG_CONTENT>();
 
@@ -42,8 +42,8 @@ namespace Streaming.DAL.Repositories
             {
                 entities.Add(new CATALOG_CONTENT
                 {
-                    ID_FILM = idFilm,
-                    ID_CONTENT = item
+                    ID_FILM = item.IdFilm,
+                    ID_CONTENT = item.IdContent
                 });
             }
 
@@ -250,17 +250,19 @@ namespace Streaming.DAL.Repositories
             return entity.ID_FILM;
         }
 
-        public void RemoveCategories(int[] request, int idFilm)
+        public void RemoveCategories(List<CatalogCategory> request)
         {
-            var entities = _dataContext.CATALOG_CATEGORies.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CATEGORY)).ToList();
+            var entities = _dataContext.CATALOG_CATEGORies
+                .Where(x => x.ID_FILM == request.First().IdFilm && request.Select(x => x.IdCategory).Contains(x.ID_CATEGORY)).ToList();
 
             _dataContext.RemoveRange(entities);
             _dataContext.SaveChanges();
         }
 
-        public void RemoveContents(int[] request, int idFilm)
+        public void RemoveContents(List<CatalogContent> request)
         {
-            var entities = _dataContext.CATALOG_CONTENTs.Where(x => x.ID_FILM == idFilm && request.Contains(x.ID_CONTENT)).ToList();
+            var entities = _dataContext.CATALOG_CONTENTs
+                .Where(x => x.ID_FILM == request.First().IdFilm && request.Select(x => x.IdContent).Contains(x.ID_CONTENT)).ToList();
 
             _dataContext.RemoveRange(entities);
             _dataContext.SaveChanges();
