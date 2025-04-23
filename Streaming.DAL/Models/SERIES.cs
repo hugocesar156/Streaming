@@ -23,6 +23,8 @@ public partial class SERIES
 
     public bool KIDS_CONTENT { get; set; }
 
+    public short YEAR { get; set; }
+
     [InverseProperty("ID_SERIESNavigation")]
     public virtual ICollection<CAST> CASTs { get; set; } = new List<CAST>();
 
