@@ -17,6 +17,21 @@ namespace Streaming.Controllers
             _seriesUseCase = seriesUseCase;
         }
 
+        [HttpPost("addincatalog")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult AddInCatalog(SeriesCatalogInsertRequest request)
+        {
+            try
+            {
+                _seriesUseCase.AddInCatalog(request);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Post(SeriesInsertRequest request)

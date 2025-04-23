@@ -38,6 +38,7 @@
         public static class Series
         {
             public const string NotFound = "Series '{0}' not found.";
+            public const string RegionCatalog = "This series already existis in the catalog for this region.";
         }
     }
 }

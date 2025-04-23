@@ -9,16 +9,44 @@ namespace Streaming.Application.UseCases
 {
     public class SeriesUseCase : ISeriesUseCase
     {
+        private readonly ICatalogRegionRepositories _catalogRegionRepositories;
         private readonly ICategoryRepositories _categoryRepositories;
         private readonly ICastRepositories _castRepositories;
         private readonly ISeriesRepositories _seriesRepositories;
 
-        public SeriesUseCase(ICategoryRepositories categoryRepositories, ICastRepositories castRepositories,
-            ISeriesRepositories seriesRepositories)
+        public SeriesUseCase(ICatalogRegionRepositories catalogRegionRepositories, ICategoryRepositories categoryRepositories, 
+            ICastRepositories castRepositories, ISeriesRepositories seriesRepositories)
         {
+            _catalogRegionRepositories = catalogRegionRepositories;
             _categoryRepositories = categoryRepositories;
             _castRepositories = castRepositories;
             _seriesRepositories = seriesRepositories;
+        }
+
+        public void AddInCatalog(SeriesCatalogInsertRequest request)
+        {
+            try
+            {
+                _seriesRepositories.Get(request.IdSeries);
+
+                if (_seriesRepositories.FindSeriesCatalog(request.IdSeries, request.SeriesRegion.IdLanguage) is not null)
+                {
+                    throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Series.RegionCatalog);
+                }
+
+                var seriesCatalog = new CatalogRegion(request.SeriesRegion.Name, request.SeriesRegion.Classification, request.SeriesRegion.Synospsis,
+                    new Language(request.SeriesRegion.IdLanguage), null, request.IdSeries);
+
+                _catalogRegionRepositories.Insert(seriesCatalog);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
         }
 
         public void Insert(SeriesInsertRequest request)

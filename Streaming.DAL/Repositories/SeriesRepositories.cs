@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -31,6 +32,55 @@ namespace Streaming.DAL.Repositories
 
             _dataContext.AddRange(entities);
             _dataContext.SaveChanges();
+        }
+
+        public CatalogRegion? FindSeriesCatalog(int idSeries, int idLanguage)
+        {
+            var entity = _dataContext.CATALOG_REGIONs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefault(x => x.ID_SERIES == idSeries && x.ID_LANGUAGE == idLanguage);
+
+            if (entity is not null)
+            {
+                return new CatalogRegion(
+                    entity.ID_CATALOG_REGION,
+                    entity.NAME,
+                    entity.CLASSIFICATION,
+                    entity.SYNOPSIS,
+                    new Language(
+                        entity.ID_LANGUAGENavigation.ID_LANGUAGE,
+                        entity.ID_LANGUAGENavigation.DESCRIPTION,
+                        entity.ID_LANGUAGENavigation.CODE,
+                        entity.ID_LANGUAGENavigation.COUNTRY_CODE),
+                    entity.ID_FILM,
+                    entity.ID_SERIES);
+            }
+
+            return null;
+        }
+
+        public Series Get(int id)
+        {
+            var entity = _dataContext.SERIES
+                .Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefault(x => x.ID_SERIES == id);
+
+            if (entity is not null)
+            {
+                return new Series(
+                    entity.ID_SERIES, 
+                    entity.NAME, 
+                    entity.THUMBNAIL, 
+                    entity.YEAR, 
+                    entity.KIDS_CONTENT,
+                    
+                    new Language(
+                        entity.ID_LANGUAGENavigation.ID_LANGUAGE,
+                        entity.ID_LANGUAGENavigation.DESCRIPTION,
+                        entity.ID_LANGUAGENavigation.CODE,
+                        entity.ID_LANGUAGENavigation.COUNTRY_CODE));
+            }
+
+            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Series.NotFound, id));
         }
 
         public int Insert(Series request)
