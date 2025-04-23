@@ -34,7 +34,7 @@ namespace Streaming.Controllers
 
                 if (!string.IsNullOrEmpty(ipAddress))
                 {
-                    var response = _catalogRegionUseCase.Get(pageNumber, pageSize, ipAddress);
+                    var response = _catalogRegionUseCase.Get(pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, ipAddress);
                     return StatusCode((int)HttpStatusCode.OK, response);
                 }
 
