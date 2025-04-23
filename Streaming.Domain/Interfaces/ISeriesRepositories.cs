@@ -7,5 +7,6 @@ namespace Streaming.Domain.Interfaces
         void AddCategories(List<CatalogCategory> request);
         int Insert(Series request);
         void RemoveCategories(List<CatalogCategory> request);
+        void Update(Series request);
     }
 }

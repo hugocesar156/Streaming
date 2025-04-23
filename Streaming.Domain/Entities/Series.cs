@@ -2,6 +2,20 @@
 {
     public class Series
     {
+        public Series(int idSeries, string name, string thumbnail, short year, bool kidsContent, Language language)
+        {
+            IdSeries = idSeries;
+            Name = name;
+            Thumbnail = thumbnail;
+            Year = year;
+            KidsContent = kidsContent;
+            Language = language;
+            Categories = [];
+            Contents = [];
+            Casting = [];
+            Regions = [];
+        }
+
         public Series(string name, string thumbnail, short year, bool kidsContent, Language language)
         {
             Name = name;

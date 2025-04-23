@@ -56,5 +56,24 @@ namespace Streaming.Application.UseCases
                 throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
             }
         }
+
+        public void Update(SeriesUpdateRequest request)
+        {
+            try
+            {
+                var series = new Series(request.IdSeries, request.Name, request.Thumbnail, request.Year, 
+                    request.KidsContent, new Language(request.IdLanguage));
+
+                _seriesRepositories.Update(series);
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
     }
 }

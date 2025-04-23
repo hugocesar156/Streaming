@@ -2,6 +2,8 @@
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
+using Streaming.Shared;
+using System.Net;
 
 namespace Streaming.DAL.Repositories
 {
@@ -54,6 +56,25 @@ namespace Streaming.DAL.Repositories
                 .Where(x => x.ID_SERIES == request.First().IdSeries && request.Select(x => x.IdCategory).Contains(x.ID_CATEGORY)).ToList();
 
             _dataContext.RemoveRange(entities);
+            _dataContext.SaveChanges();
+        }
+
+        public void Update(Series request)
+        {
+            var entity = _dataContext.SERIES.FirstOrDefault(x => x.ID_SERIES == request.IdSeries);
+
+            if (entity is null)
+            {
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Series.NotFound, request.IdSeries));
+            }
+
+            entity.NAME = request.Name;
+            entity.THUMBNAIL = request.Thumbnail;
+            entity.YEAR = request.Year;
+            entity.KIDS_CONTENT = request.KidsContent;
+            entity.ID_LANGUAGE = request.Language.IdLanguage;
+
+            _dataContext.Update(entity);
             _dataContext.SaveChanges();
         }
     }

@@ -34,5 +34,10 @@
             public const string RegionCatalog = "This film already existis in the catalog for this region.";
             public const string Subtitles = "Subtitles in this language already existis for this film.";
         }
+
+        public static class Series
+        {
+            public const string NotFound = "Series '{0}' not found.";
+        }
     }
 }

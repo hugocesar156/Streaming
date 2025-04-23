@@ -31,5 +31,20 @@ namespace Streaming.Controllers
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult Put(SeriesUpdateRequest request)
+        {
+            try
+            {
+                _seriesUseCase.Update(request);
+                return StatusCode((int)HttpStatusCode.NoContent);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
     }
 }
