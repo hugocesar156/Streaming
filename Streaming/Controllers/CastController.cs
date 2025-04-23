@@ -5,6 +5,8 @@ using System.Net;
 
 namespace Streaming.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class CastController : ControllerBase
     {
         private readonly ICastRepositories _castRepositories;
