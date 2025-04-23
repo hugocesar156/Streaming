@@ -19,7 +19,7 @@ namespace Streaming.Application.UseCases
             _languageRepositories = languageRepositories;
         }
 
-        public CatalogRegionPageResponse? Get(int pageNumber, int pageSize, string ipAddress)
+        public CatalogRegionPageResponse Get(int pageNumber, int pageSize, string ipAddress)
         {
             try
             {
@@ -31,19 +31,19 @@ namespace Streaming.Application.UseCases
                 if (catalog is not null)
                 {
                     var catalogPage = catalog.Response.Select(x => new CatalogRegionPage(
-                    x.Name,
-                    x.Synopsis,
-                    x.IdFim,
-                    x.IdSeries,
-                    x.Thumbnail,
-                    x.Categories.Select(x => new CategoryResponse(
-                        x.IdCategory,
-                        x.Name)).ToList())).ToList();
+                        x.Name,
+                        x.Synopsis,
+                        x.IdFim,
+                        x.IdSeries,
+                        x.Thumbnail,
+                        x.Categories.Select(x => new CategoryResponse(
+                            x.IdCategory,
+                            x.Name)).ToList())).ToList();
 
                     return new CatalogRegionPageResponse(catalogPage, catalog.CurrentPage, catalog.PageSize, catalog.LastPage, catalog.Total);
                 }
 
-                return null;
+                return new CatalogRegionPageResponse();
             }
             catch (StreamingException)
             {

@@ -6,6 +6,8 @@ using System.Net;
 
 namespace Streaming.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class CatalogRegionController : ControllerBase
     {
         private readonly ICatalogRegionUseCase _catalogRegionUseCase;
@@ -15,7 +17,7 @@ namespace Streaming.Controllers
             _catalogRegionUseCase = catalogRegionUseCase;
         }
 
-        [HttpGet("{pageNumber?}/{pageSize?}")]
+        [HttpGet]
         [ProducesResponseType(typeof(CatalogRegionPageResponse), StatusCodes.Status200OK)]
         public IActionResult Get(int pageNumber = 1, int pageSize = 50)
         {

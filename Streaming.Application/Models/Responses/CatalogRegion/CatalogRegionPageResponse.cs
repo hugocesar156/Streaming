@@ -4,6 +4,15 @@ namespace Streaming.Application.Models.Responses.CatalogRegion
 {
     public class CatalogRegionPageResponse
     {
+        public CatalogRegionPageResponse()
+        {
+            Response = [];
+            CurrentPage = 0;
+            PageSize = 0;
+            LastPage = 0;
+            Total = 0;
+        }
+
         public CatalogRegionPageResponse(List<CatalogRegionPage> catalogRegion, int currentPage, int pageSize, int lastPage, int total)
         {
             Response = catalogRegion;

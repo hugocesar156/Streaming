@@ -1,5 +1,5 @@
 ﻿using Streaming.Domain.Entities;
-using Streaming.Domain.Entities.SoredProcedures;
+using Streaming.Domain.StoredProcedures;
 
 namespace Streaming.Domain.Interfaces
 {

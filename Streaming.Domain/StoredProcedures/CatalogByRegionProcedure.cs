@@ -1,4 +1,4 @@
-﻿namespace Streaming.Domain.Entities.SoredProcedures
+﻿namespace Streaming.Domain.StoredProcedures
 {
     public class CatalogByRegionProcedure
     {

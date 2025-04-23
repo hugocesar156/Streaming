@@ -2,8 +2,8 @@
 using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
-using Streaming.Domain.Entities.SoredProcedures;
 using Streaming.Domain.Interfaces;
+using Streaming.Domain.StoredProcedures;
 
 namespace Streaming.DAL.Repositories
 {
