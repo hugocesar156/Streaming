@@ -24,7 +24,7 @@ namespace Streaming.DAL.Repositories
                 return new Language(entity.ID_LANGUAGE, entity.DESCRIPTION, entity.CODE, entity.COUNTRY_CODE);
             }
 
-            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.CountryCodeNotFound);
+            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.Language.CountryCodeNotFound);
         }
     }
 }
