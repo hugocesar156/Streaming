@@ -28,8 +28,10 @@ namespace Streaming.Application.Models.Requests.SeriesEpisode
         [Required]
         public short Year { get; init; }
 
+        [TimeLimit(nameof(Duration))]
         public short? OpeningStart { get; init; }
 
+        [TimeLimit(nameof(Duration))]
         public short? CreditsStart { get; init; }
 
         [Required]

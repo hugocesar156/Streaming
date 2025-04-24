@@ -20,6 +20,7 @@ namespace Streaming.Application.Models.Requests.Film
         [Required]
         public short Year { get; init; }
 
+        [TimeLimit(nameof(Duration))]
         public short? CreditsStart { get; init; }
 
         [Required]
