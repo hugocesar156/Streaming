@@ -5,7 +5,6 @@
         public const string ActionNotAllowed = "Action not allowed.";
         public const string AddressIPClient = "Failed to get IP address data.";
         public const string ClientIPNotFound = "Client IP not found.";
-        public const string CountryCodeNotFound = "Country code not found.";
         public const string FieldRequired = "The field '{0}' is required.";
         public const string InternalServerError = "Internal server error.";
         public const string RegisterNotFound = "Register not found.";
@@ -28,17 +27,28 @@
 
         public static class Film
         {
-            public const string Audio = "Audio in this language already existis for this film.";
+            public const string Audio = "Audio in this language already exists for this film.";
             public const string Media = "Already has a media in this resolution for this film.";
             public const string NotFound = "Film '{0}' not found.";
-            public const string RegionCatalog = "This film already existis in the catalog for this region.";
-            public const string Subtitles = "Subtitles in this language already existis for this film.";
+            public const string RegionCatalog = "This film already exists in the catalog for this region.";
+            public const string Subtitles = "Subtitles in this language already exists for this film.";
+        }
+
+        public static class Language
+        {
+            public const string CountryCodeNotFound = "Country code not found.";
         }
 
         public static class Series
         {
             public const string NotFound = "Series '{0}' not found.";
-            public const string RegionCatalog = "This series already existis in the catalog for this region.";
+            public const string RegionCatalog = "This series already exists in the catalog for this region.";
+        }
+
+        public static class SeriesEpisode
+        {
+            public const string NotFound = "Series episode '{0}' not found.";
+            public const string EpisodeSeries = "Episode already exists for this series.";
         }
     }
 }
