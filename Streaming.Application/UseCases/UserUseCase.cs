@@ -63,8 +63,8 @@ namespace Streaming.Application.UseCases
 
                 var (password, salt) = EncryptServices.EncryptPassword(request.Password);
 
-                var usuario = new User(request.Email, password, salt);
-                _userRepositories.SignUp(usuario);
+                var user = new User(request.Email, password, salt);
+                _userRepositories.SignUp(user);
             }
             catch (StreamingException)
             {
