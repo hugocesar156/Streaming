@@ -20,8 +20,6 @@ public partial class SERIES_EPISODE
 
     public short EPISODE { get; set; }
 
-    public short DURATION { get; set; }
-
     [StringLength(200)]
     [Unicode(false)]
     public string SYNOPSIS { get; set; } = null!;
@@ -34,9 +32,17 @@ public partial class SERIES_EPISODE
 
     public int ID_SERIES { get; set; }
 
-    public short? OPENING_START { get; set; }
+    [StringLength(8)]
+    [Unicode(false)]
+    public string DURATION { get; set; } = null!;
 
-    public short? CREDITS_START { get; set; }
+    [StringLength(8)]
+    [Unicode(false)]
+    public string? OPENING_START { get; set; }
+
+    [StringLength(8)]
+    [Unicode(false)]
+    public string? CREDITS_START { get; set; }
 
     [InverseProperty("ID_SERIES_EPISODENavigation")]
     public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();

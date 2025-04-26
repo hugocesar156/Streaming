@@ -10,7 +10,8 @@ namespace Streaming.Application.Models.Requests.Film
         public string Name { get; init; } = string.Empty;
 
         [Required]
-        public short Duration { get; init; }
+        [Time]
+        public string Duration { get; init; } = string.Empty;
 
         [Required]
         [StringLength(200)]
@@ -19,8 +20,9 @@ namespace Streaming.Application.Models.Requests.Film
         [Required]
         public short Year { get; init; }
 
+        [Time]
         [TimeLimit(nameof(Duration))]
-        public short? CreditsStart { get; init; }
+        public string? CreditsStart { get; init; }
 
         [Required]
         public bool KidsContent { get; init; }

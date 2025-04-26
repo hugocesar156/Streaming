@@ -23,16 +23,19 @@ namespace Streaming.Application.Models.Requests.SeriesEpisode
         public short Episode { get; init; }
 
         [Required]
-        public short Duration { get; init; }
+        [Time]
+        public string Duration { get; init; } = string.Empty;
 
         [Required]
         public short Year { get; init; }
 
+        [Time]
         [TimeLimit(nameof(Duration))]
-        public short? OpeningStart { get; init; }
+        public string? OpeningStart { get; init; }
 
+        [Time]
         [TimeLimit(nameof(Duration))]
-        public short? CreditsStart { get; init; }
+        public string? CreditsStart { get; init; }
 
         [Required]
         public int IdSeries { get; init; }

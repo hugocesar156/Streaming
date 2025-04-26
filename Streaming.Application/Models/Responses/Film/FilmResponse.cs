@@ -11,7 +11,7 @@ namespace Streaming.Application.Models.Responses.Film
 {
     public class FilmResponse
     {
-        public FilmResponse(int idFilm, string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent, 
+        public FilmResponse(int idFilm, string name, string duration, string thumbnail, short year, string? creditsStart, bool kidsContent, 
             LanguageResponse language, List<CategoryResponse> categories, List<ContentResponse> contents, List<CastResponse> casting, 
             List<CatalogRegionResponse> regions, List<MediaResponse> medias, List<AudioResponse> audios, List<SubtitlesResponse> subtitles)
         {
@@ -34,10 +34,10 @@ namespace Streaming.Application.Models.Responses.Film
 
         public int IdFilm { get; private set; }
         public string Name { get; private set; }
-        public short Duration { get; private set; }
+        public string Duration { get; private set; }
         public string Thumbnail { get; private set; }
         public short Year { get; private set; }
-        public short? CreditsStart { get; private set; }
+        public string? CreditsStart { get; private set; }
         public bool KidsContent { get; private set; }
         public LanguageResponse Language { get; private set; }
         public List<CategoryResponse> Categories { get; private set; }

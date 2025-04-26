@@ -2,7 +2,7 @@
 {
     public class Film
     {
-        public Film(int idFilm, string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent, Language language)
+        public Film(int idFilm, string name, string duration, string thumbnail, short year, string? creditsStart, bool kidsContent, Language language)
         {
             IdFilm = idFilm;
             Name = name;
@@ -21,7 +21,7 @@
             Subtitles = [];
         }
 
-        public Film(string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent, Language language)
+        public Film(string name, string duration, string thumbnail, short year, string? creditsStart, bool kidsContent, Language language)
         {
             Name = name;
             Duration = duration;
@@ -39,7 +39,7 @@
             Subtitles = [];
         }
 
-        public Film(int idFilm, string name, short duration, string thumbnail, short year, short? creditsStart, bool kidsContent,
+        public Film(int idFilm, string name, string duration, string thumbnail, short year, string? creditsStart, bool kidsContent,
             Language language, List<Category> categories, List<Content> contents, List<Cast> casting, List<CatalogRegion> regions,
             List<Media> medias, List<Audio> audios, List<Subtitles> subtitles)
         {
@@ -62,10 +62,10 @@
 
         public int IdFilm { get; private set; }
         public string Name { get; private set; }
-        public short Duration { get; private set; }
+        public string Duration { get; private set; }
         public string Thumbnail { get; private set; }
         public short Year { get; private set; }
-        public short? CreditsStart { get; set; }
+        public string? CreditsStart { get; set; }
         public bool KidsContent { get; set; }
         public Language Language { get; private set; }
         public List<Category> Categories { get; private set; }

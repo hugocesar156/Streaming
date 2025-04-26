@@ -16,7 +16,9 @@ public partial class KEEP_WHATCHING
 
     public int? ID_SERIES_EPISODE { get; set; }
 
-    public short TIME { get; set; }
+    [StringLength(8)]
+    [Unicode(false)]
+    public string MOMENT { get; set; } = null!;
 
     public int ID_PROFILE { get; set; }
 

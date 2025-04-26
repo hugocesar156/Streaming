@@ -1,5 +1,6 @@
 ﻿using Streaming.Shared;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Streaming.Application.Validations
 {
@@ -14,14 +15,23 @@ namespace Streaming.Application.Validations
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var timeLimit = short.Parse(validationContext.ObjectInstance.GetType().GetProperty(_timeLimitField)?.GetValue(validationContext.ObjectInstance)?.ToString() ?? "0");
-            var timeField = short.Parse(value?.ToString() ?? "0");
+            Regex regex = new Regex("^\\d{1,2}:[0-5]\\d:[0-5]\\d$");
 
-            if (timeLimit > 0 && timeField > 0 && timeLimit <= timeField)
+            var propertyLimit = validationContext.ObjectInstance.GetType().GetProperty(_timeLimitField)?.GetValue(validationContext.ObjectInstance)?.ToString();
+            var propertyField = value?.ToString();
+
+            if (propertyLimit is not null && regex.IsMatch(propertyLimit) && propertyField is not null && regex.IsMatch(propertyField))
             {
-                return new ValidationResult(string.Format(ErrorMessages.InvalidTime, validationContext.DisplayName, _timeLimitField));
+                int[] t1 = propertyLimit.Split(":").Select(int.Parse).ToArray();
+                TimeSpan limitValue = new TimeSpan(t1[0], t1[1], t1[2]);
+
+                int[] t2 = propertyField.Split(":").Select(int.Parse).ToArray();
+                TimeSpan fieldValue = new TimeSpan(t2[0], t2[1], t2[2]);
+
+                if (fieldValue >= limitValue)
+                    return new ValidationResult(string.Format(ErrorMessages.InvalidTime, validationContext.DisplayName, _timeLimitField));
             }
-                
+ 
             return ValidationResult.Success;
         }
     }

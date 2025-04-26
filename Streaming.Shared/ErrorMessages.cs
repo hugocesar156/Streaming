@@ -8,6 +8,7 @@
         public const string FieldRequired = "The field '{0}' is required.";
         public const string InternalServerError = "Internal server error.";
         public const string InvalidTime = "The time value of '{0}' must be less then '{1}' time value.";
+        public const string InvalidTimeFormat = "Invalid time format for '{0}'.";
         public const string RegisterNotFound = "Register not found.";
         public const string StringLength = "The field '{0}' requires a maximum {1} string length.";
 

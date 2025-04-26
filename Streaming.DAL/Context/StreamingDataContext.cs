@@ -149,6 +149,8 @@ public partial class StreamingDataContext : DbContext
         {
             entity.HasKey(e => e.ID_FILM).HasName("PK__FILM__62C9DB1C2779642A");
 
+            entity.Property(e => e.DURATION).HasDefaultValue("00:00:00");
+
             entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.FILMs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__FILM__ID_LANGUAG__0C85DE4D");
@@ -156,11 +158,11 @@ public partial class StreamingDataContext : DbContext
 
         modelBuilder.Entity<KEEP_WHATCHING>(entity =>
         {
-            entity.HasKey(e => e.ID_KEEP_WHATCHING).HasName("PK__KEEP_WHA__07C65FDD31B6987E");
+            entity.HasKey(e => e.ID_KEEP_WHATCHING).HasName("PK__KEEP_WHA__07C65FDDFC04D752");
 
             entity.HasOne(d => d.ID_PROFILENavigation).WithMany(p => p.KEEP_WHATCHINGs)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__KEEP_WHAT__ID_PR__18EBB532");
+                .HasConstraintName("FK__KEEP_WHAT__ID_PR__5BAD9CC8");
         });
 
         modelBuilder.Entity<LANGUAGE>(entity =>
@@ -218,6 +220,8 @@ public partial class StreamingDataContext : DbContext
         modelBuilder.Entity<SERIES_EPISODE>(entity =>
         {
             entity.HasKey(e => e.ID_SERIES_EPISODE).HasName("PK__SERIES_E__E7BD1614258B9CA2");
+
+            entity.Property(e => e.DURATION).HasDefaultValue("00:00:00");
 
             entity.HasOne(d => d.ID_SERIESNavigation).WithMany(p => p.SERIES_EPISODEs)
                 .OnDelete(DeleteBehavior.ClientSetNull)

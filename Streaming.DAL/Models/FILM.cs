@@ -16,8 +16,6 @@ public partial class FILM
     [Unicode(false)]
     public string NAME { get; set; } = null!;
 
-    public short DURATION { get; set; }
-
     [StringLength(200)]
     [Unicode(false)]
     public string THUMBNAIL { get; set; } = null!;
@@ -26,9 +24,15 @@ public partial class FILM
 
     public int ID_LANGUAGE { get; set; }
 
-    public short? CREDITS_START { get; set; }
-
     public bool KIDS_CONTENT { get; set; }
+
+    [StringLength(8)]
+    [Unicode(false)]
+    public string DURATION { get; set; } = null!;
+
+    [StringLength(8)]
+    [Unicode(false)]
+    public string? CREDITS_START { get; set; }
 
     [InverseProperty("ID_FILMNavigation")]
     public virtual ICollection<AUDIO> AUDIOs { get; set; } = new List<AUDIO>();
