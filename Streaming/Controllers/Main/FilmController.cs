@@ -5,10 +5,11 @@ using Streaming.Application.Models.Responses.Film;
 using Streaming.Shared;
 using System.Net;
 
-namespace Streaming.Controllers
+namespace Streaming.Controllers.Main
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("main/film")]
+    [ApiExplorerSettings(GroupName = "main")]
     public class FilmController : ControllerBase
     {
         private readonly IFilmUseCase _filmUseCase;

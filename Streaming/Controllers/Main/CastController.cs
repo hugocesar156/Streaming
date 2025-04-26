@@ -3,10 +3,11 @@ using Streaming.Domain.Interfaces;
 using Streaming.Shared;
 using System.Net;
 
-namespace Streaming.Controllers
+namespace Streaming.Controllers.Main
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("main/cast")]
+    [ApiExplorerSettings(GroupName = "main")]
     public class CastController : ControllerBase
     {
         private readonly ICastRepositories _castRepositories;

@@ -5,10 +5,11 @@ using Streaming.Application.Models.Responses.Category;
 using Streaming.Shared;
 using System.Net;
 
-namespace Streaming.Controllers
+namespace Streaming.Controllers.Main
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("main/category")]
+    [ApiExplorerSettings(GroupName = "main")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryUseCase _categoryUseCase;

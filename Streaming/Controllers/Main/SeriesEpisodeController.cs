@@ -4,10 +4,11 @@ using Streaming.Application.Models.Requests.SeriesEpisode;
 using Streaming.Shared;
 using System.Net;
 
-namespace Streaming.Controllers
+namespace Streaming.Controllers.Main
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("main/seriesepisode")]
+    [ApiExplorerSettings(GroupName = "main")]
     public class SeriesEpisodeController : ControllerBase
     {
         private readonly ISeriesEpisodeUseCase _seriesEpisodeUseCase; 

@@ -5,10 +5,11 @@ using Streaming.Application.Models.Responses.Contents;
 using Streaming.Shared;
 using System.Net;
 
-namespace Streaming.Controllers
+namespace Streaming.Controllers.Main
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("main/content")]
+    [ApiExplorerSettings(GroupName = "main")]
     public class ContentController : ControllerBase
     {
         private readonly IContentUseCase _contentUseCase;

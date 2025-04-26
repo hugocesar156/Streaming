@@ -4,10 +4,11 @@ using Streaming.Application.Models.Responses.CatalogRegion;
 using Streaming.Shared;
 using System.Net;
 
-namespace Streaming.Controllers
+namespace Streaming.Controllers.Main
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("main/catalogregion")]
+    [ApiExplorerSettings(GroupName = "main")]
     public class CatalogRegionController : ControllerBase
     {
         private readonly ICatalogRegionUseCase _catalogRegionUseCase;
