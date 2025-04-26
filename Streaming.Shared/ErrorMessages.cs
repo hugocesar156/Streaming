@@ -7,6 +7,7 @@
         public const string ClientIPNotFound = "Client IP not found.";
         public const string FieldRequired = "The field '{0}' is required.";
         public const string InternalServerError = "Internal server error.";
+        public const string InvalidEmailAddres = "Invalid e-mail address.";
         public const string InvalidTime = "The time value of '{0}' must be less then '{1}' time value.";
         public const string InvalidTimeFormat = "Invalid time format for '{0}'.";
         public const string RegisterNotFound = "Register not found.";
@@ -51,6 +52,14 @@
         {
             public const string NotFound = "Series episode '{0}' not found.";
             public const string EpisodeSeries = "Episode already exists for this series.";
+        }
+
+        public static class User
+        {
+            public const string EmailNotFound = "E-mail not found.";
+            public const string InvalidEmail = "E-mail already registred.";
+            public const string NotFound = "User '{0}' not found.";
+            public const string WrongPassword = "Wrong passowrd.";
         }
     }
 }

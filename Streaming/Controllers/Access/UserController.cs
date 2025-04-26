@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Streaming.Application.Interfaces;
+using Streaming.Application.Models.Requests.User;
+using Streaming.Application.Models.Responses.User;
 using Streaming.Shared;
+using System.Net;
 
 namespace Streaming.Controllers.Access
 {
@@ -8,17 +12,36 @@ namespace Streaming.Controllers.Access
     [ApiExplorerSettings(GroupName = "access")]
     public class UserController : ControllerBase
     {
-        public UserController()
+        private readonly IUserUseCase _userUseCase;
+
+        public UserController(IUserUseCase userUseCase)
         {
-            
+            _userUseCase = userUseCase;
         }
 
         [HttpPost("login")]
-        public IActionResult Login()
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+        public IActionResult Login(UserRequest request)
         {
             try
             {
-                return Ok();
+                var response = _userUseCase.Login(request);
+                return StatusCode((int)HttpStatusCode.OK, response);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
+        [HttpPost("signup")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public IActionResult SignUp(UserRequest request)
+        {
+            try
+            {
+                _userUseCase.SignUp(request);
+                return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
             {

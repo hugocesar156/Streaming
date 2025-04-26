@@ -20,6 +20,16 @@ public partial class USER
     [Unicode(false)]
     public string PASSWORD { get; set; } = null!;
 
+    [StringLength(24)]
+    [Unicode(false)]
+    public string SALT { get; set; } = null!;
+
+    [Column(TypeName = "datetime")]
+    public DateTime? SIGN_IN_DATE { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime SIGN_UP_DATE { get; set; }
+
     [InverseProperty("ID_USERNavigation")]
     public virtual ICollection<PROFILE> PROFILEs { get; set; } = new List<PROFILE>();
 }

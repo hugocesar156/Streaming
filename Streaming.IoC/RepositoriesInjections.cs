@@ -20,6 +20,7 @@ namespace Streaming.IoC
             services.AddScoped<ISeriesEpisodeRepositories, SeriesEpisodeRepositories>();
             services.AddScoped<ISeriesRepositories, SeriesRepositories>();
             services.AddScoped<ISubtitlesRepositories, SubtitlesRepositories>();
+            services.AddScoped<IUserRepositories, UserRepositories>();
 
             return services;
         }
