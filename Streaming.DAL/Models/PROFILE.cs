@@ -18,7 +18,7 @@ public partial class PROFILE
 
     [StringLength(200)]
     [Unicode(false)]
-    public string? AVATAR { get; set; }
+    public string AVATAR { get; set; } = null!;
 
     public int ID_USER { get; set; }
 

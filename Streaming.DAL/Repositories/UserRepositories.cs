@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -18,11 +19,25 @@ namespace Streaming.DAL.Repositories
 
         public User? FindByEmail(string email)
         {
-            var entity = _dataContext.USERs.FirstOrDefault(x => x.EMAIL.Equals(email));
+            var entity = _dataContext.USERs
+                .Include(x => x.PROFILEs)
+                .FirstOrDefault(x => x.EMAIL.Equals(email));
 
             if (entity is not null)
             {
-                return new User(entity.ID_USER, entity.EMAIL, entity.PASSWORD, entity.SALT, entity.SIGN_UP_DATE, entity.SIGN_IN_DATE);
+                return new User(
+                    entity.ID_USER, 
+                    entity.EMAIL,
+                    entity.PASSWORD,
+                    entity.SALT, 
+                    entity.SIGN_UP_DATE,
+                    entity.SIGN_IN_DATE,
+                    
+                    entity.PROFILEs.Select(x => new Profile(
+                        x.ID_PROFILE,
+                        x.NAME,
+                        x.AVATAR,
+                        x.ID_USER)).ToList());
             }
 
             return null;
@@ -43,7 +58,7 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
-        public void SignUp(User request)
+        public int SignUp(User request)
         {
             var entity = new USER
             {
@@ -55,6 +70,8 @@ namespace Streaming.DAL.Repositories
 
             _dataContext.Add(entity);
             _dataContext.SaveChanges();
+
+            return entity.ID_USER;
         }
     }
 }

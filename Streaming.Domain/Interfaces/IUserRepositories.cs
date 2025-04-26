@@ -6,6 +6,6 @@ namespace Streaming.Domain.Interfaces
     {
         User? FindByEmail(string email);
         void SignIn(int idUser);
-        void SignUp(User request);
+        int SignUp(User request);
     }
 }

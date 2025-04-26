@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.User;
+using Streaming.Application.Models.Responses.Profile;
 using Streaming.Application.Models.Responses.User;
 using Streaming.Application.Services;
 using Streaming.Domain.Entities;
@@ -13,11 +14,13 @@ namespace Streaming.Application.UseCases
     public class UserUseCase : IUserUseCase
     {
         private readonly IConfiguration _configuration;
+        private readonly IProfileRepositories _profileRepositories;
         private readonly IUserRepositories _userRepositories;
 
-        public UserUseCase(IConfiguration configuration, IUserRepositories userRepositories)
+        public UserUseCase(IConfiguration configuration, IProfileRepositories profileRepositories, IUserRepositories userRepositories)
         {
             _configuration = configuration;
+            _profileRepositories = profileRepositories;
             _userRepositories = userRepositories;
         }
 
@@ -34,7 +37,7 @@ namespace Streaming.Application.UseCases
                         _userRepositories.SignIn(user.IdUser);
 
                         var token = TokenServices.GenerateToken(user.IdUser, _configuration["JWTSigningKey"]?.ToString() ?? string.Empty);
-                        return new UserResponse(token);
+                        return new UserResponse(token, user.Profiles.Select(x => new ProfileResponse(x.IdProfile, x.Name, x.Avatar)).ToList());
                     }
 
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.User.WrongPassword);
@@ -64,7 +67,9 @@ namespace Streaming.Application.UseCases
                 var (password, salt) = EncryptServices.EncryptPassword(request.Password);
 
                 var user = new User(request.Email, password, salt);
-                _userRepositories.SignUp(user);
+                var iUser = _userRepositories.SignUp(user);
+
+                _profileRepositories.Insert(new Profile(iUser));
             }
             catch (StreamingException)
             {
