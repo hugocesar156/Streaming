@@ -9,7 +9,14 @@
             IdUser = idUser;
         }
 
-        public Profile(int idProfile, string name, string avatar, int idUser)
+        public Profile(string name, string avatar, int idUser)
+        {
+            Name = name;
+            Avatar = avatar;
+            IdUser = idUser;
+        }
+
+        public Profile(int idProfile, string name, string avatar, int idUser = 0)
         {
             IdProfile = idProfile;
             Name = name;

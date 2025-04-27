@@ -43,13 +43,25 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public void SignIn(int idUser)
+        public User Get(int id)
         {
-            var entity = _dataContext.USERs.FirstOrDefault(x => x.ID_USER == idUser);
+            var entity = _dataContext.USERs.FirstOrDefault(x => x.ID_USER == id);
+
+            if (entity is null) 
+            {
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.User.NotFound, id));
+            }
+
+            return new User(entity.ID_USER, entity.EMAIL, entity.PASSWORD, entity.SALT, entity.SIGN_UP_DATE, entity.SIGN_IN_DATE, []);
+        }
+
+        public void SignIn(int id)
+        {
+            var entity = _dataContext.USERs.FirstOrDefault(x => x.ID_USER == id);
 
             if (entity is null)
             {
-                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, ErrorMessages.User.NotFound);
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.User.NotFound, id));
             }
 
             entity.SIGN_IN_DATE = DateTime.Now;

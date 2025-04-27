@@ -42,6 +42,11 @@
             public const string CountryCodeNotFound = "Country code not found.";
         }
 
+        public static class Profile
+        {
+            public const string NotFound = "Profile '{0}' not found.";
+        }
+
         public static class Series
         {
             public const string NotFound = "Series '{0}' not found.";

@@ -14,6 +14,7 @@ namespace Streaming.IoC
             services.AddScoped<ICategoryUseCase, CategoryUseCase>();
             services.AddScoped<IContentUseCase, ContentUseCase>();
             services.AddScoped<IFilmUseCase, FilmUseCase>();
+            services.AddScoped<IProfileUseCase, ProfileUseCase>();
             services.AddScoped<ISeriesEpisodeUseCase, SeriesEpisodeUseCase>();
             services.AddScoped<ISeriesUseCase, SeriesUseCase>();
             services.AddScoped<IUserUseCase, UserUseCase>();

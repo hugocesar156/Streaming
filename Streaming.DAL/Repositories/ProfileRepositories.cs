@@ -2,6 +2,8 @@
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
+using Streaming.Shared;
+using System.Net;
 
 namespace Streaming.DAL.Repositories
 {
@@ -14,6 +16,19 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
+        public void Delete(int id)
+        {
+            var entity = _dataContext.PROFILEs.FirstOrDefault(x => x.ID_PROFILE == id);
+
+            if (entity is null)
+            {
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Profile.NotFound, id));
+            }
+
+            _dataContext.Remove(entity);
+            _dataContext.SaveChanges();
+        }
+
         public void Insert(Profile request)
         {
             var entity = new PROFILE
@@ -24,6 +39,22 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
+            _dataContext.SaveChanges();
+        }
+
+        public void Update(Profile request)
+        {
+            var entity = _dataContext.PROFILEs.FirstOrDefault(x => x.ID_PROFILE == request.IdProfile);
+
+            if (entity is null)
+            {
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Profile.NotFound, request.IdProfile));
+            }
+
+            entity.NAME = request.Name;
+            entity.AVATAR = request.Avatar;
+
+            _dataContext.Update(entity);
             _dataContext.SaveChanges();
         }
     }
