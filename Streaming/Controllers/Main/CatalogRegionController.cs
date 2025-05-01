@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Responses.CatalogRegion;
 using Streaming.Shared;
@@ -6,6 +7,7 @@ using System.Net;
 
 namespace Streaming.Controllers.Main
 {
+    [Authorize]
     [ApiController]
     [Route("main/catalogregion")]
     [ApiExplorerSettings(GroupName = "main")]
@@ -18,9 +20,9 @@ namespace Streaming.Controllers.Main
             _catalogRegionUseCase = catalogRegionUseCase;
         }
 
-        [HttpGet]
+        [HttpGet("{idProfile}")]
         [ProducesResponseType(typeof(CatalogRegionPageResponse), StatusCodes.Status200OK)]
-        public IActionResult Get(int pageNumber = 1, int pageSize = 50, string search = "")
+        public IActionResult Get(int idProfile, int pageNumber = 1, int pageSize = 50, int idCategory = 0, string search = "")
         {
             try
             {
@@ -35,7 +37,7 @@ namespace Streaming.Controllers.Main
 
                 if (!string.IsNullOrEmpty(ipAddress))
                 {
-                    var response = _catalogRegionUseCase.Get(pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, search, ipAddress);
+                    var response = _catalogRegionUseCase.Get(idProfile, pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, idCategory, search, ipAddress);
                     return StatusCode((int)HttpStatusCode.OK, response);
                 }
 

@@ -29,6 +29,18 @@ namespace Streaming.DAL.Repositories
             _dataContext.SaveChanges();
         }
 
+        public Profile Get(int id)
+        {
+            var entity = _dataContext.PROFILEs.FirstOrDefault(x => x.ID_PROFILE == id);
+
+            if (entity is null)
+            {
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Profile.NotFound, id));
+            }
+
+            return new Profile(entity.ID_PROFILE, entity.NAME, entity.AVATAR, entity.KIDS_CONTENT, entity.ID_USER);
+        }
+
         public void Insert(Profile request)
         {
             var entity = new PROFILE

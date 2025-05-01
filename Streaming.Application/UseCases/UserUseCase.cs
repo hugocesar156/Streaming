@@ -37,7 +37,7 @@ namespace Streaming.Application.UseCases
                         _userRepositories.SignIn(user.IdUser);
 
                         var token = TokenServices.GenerateToken(user.IdUser, _configuration["JWTSigningKey"]?.ToString() ?? string.Empty);
-                        return new UserResponse(token, user.Profiles.Select(x => new ProfileResponse(x.IdProfile, x.Name, x.Avatar)).ToList());
+                        return new UserResponse(token, user.Profiles.Select(x => new ProfileResponse(x.IdProfile, x.Name, x.Avatar, x.KidsContent)).ToList());
                     }
 
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.User.WrongPassword);

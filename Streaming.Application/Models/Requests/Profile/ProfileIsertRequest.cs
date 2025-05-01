@@ -11,5 +11,8 @@ namespace Streaming.Application.Models.Requests.Profile
         [Required]
         [StringLength(200)]
         public string Avatar { get; init; } = string.Empty;
+
+        [Required]
+        public bool KidsContent { get; init; }
     }
 }

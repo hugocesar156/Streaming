@@ -40,7 +40,7 @@ namespace Streaming.Application.UseCases
             {
                 _userRepositories.Get(idUser);
 
-                var profile = new Profile(request.Name, request.Avatar, idUser);
+                var profile = new Profile(request.Name, request.Avatar, request.KidsContent, idUser);
                 _profileRepositories.Insert(profile);
             }
             catch (StreamingException)
@@ -57,7 +57,7 @@ namespace Streaming.Application.UseCases
         {
             try
             {
-                var profile = new Profile(request.IdProfile, request.Name, request.Avatar);
+                var profile = new Profile(request.IdProfile, request.Name, request.Avatar, request.KidsContent);
                 _profileRepositories.Update(profile);
             }
             catch (StreamingException)

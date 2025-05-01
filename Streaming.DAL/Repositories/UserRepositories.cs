@@ -37,6 +37,7 @@ namespace Streaming.DAL.Repositories
                         x.ID_PROFILE,
                         x.NAME,
                         x.AVATAR,
+                        x.KIDS_CONTENT,
                         x.ID_USER)).ToList());
             }
 

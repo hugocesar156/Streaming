@@ -22,6 +22,8 @@ public partial class PROFILE
 
     public int ID_USER { get; set; }
 
+    public bool KIDS_CONTENT { get; set; }
+
     [ForeignKey("ID_USER")]
     [InverseProperty("PROFILEs")]
     public virtual USER ID_USERNavigation { get; set; } = null!;

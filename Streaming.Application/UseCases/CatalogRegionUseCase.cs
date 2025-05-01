@@ -12,21 +12,24 @@ namespace Streaming.Application.UseCases
     {
         private readonly ICatalogRegionRepositories _catalogRegionRepositories;
         private readonly ILanguageRepositories _languageRepositories;
+        private readonly IProfileRepositories _profileRepositories;
 
-        public CatalogRegionUseCase(ICatalogRegionRepositories catalogRegionRepositories, ILanguageRepositories languageRepositories)
+        public CatalogRegionUseCase(ICatalogRegionRepositories catalogRegionRepositories, ILanguageRepositories languageRepositories, IProfileRepositories profileRepositories)
         {
             _catalogRegionRepositories = catalogRegionRepositories;
             _languageRepositories = languageRepositories;
+            _profileRepositories = profileRepositories;
         }
 
-        public CatalogRegionPageResponse Get(int pageNumber, int pageSize, string search, string ipAddress)
+        public CatalogRegionPageResponse Get(int idProfile, int pageNumber, int pageSize, int idCategory, string search, string ipAddress)
         {
             try
             {
                 var addressByIP = IPServices.GetAddressByIPAsync(ipAddress).Result;
                 var language = _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
+                var profile = _profileRepositories.Get(idProfile);
 
-                var catalog = _catalogRegionRepositories.Get(pageNumber, pageSize, search, language.IdLanguage);
+                var catalog = _catalogRegionRepositories.Get(pageNumber, pageSize, language.IdLanguage, idCategory, profile.KidsContent, search);
 
                 if (catalog is not null)
                 {
