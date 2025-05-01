@@ -9,6 +9,7 @@ namespace Streaming.IoC
     {
         public static IServiceCollection AddUseCases(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IAudioUseCase, AudioUseCase>();
             services.AddScoped<ICastUseCase, CastUseCase>();
             services.AddScoped<ICatalogRegionUseCase, CatalogRegionUseCase>();
             services.AddScoped<ICategoryUseCase, CategoryUseCase>();

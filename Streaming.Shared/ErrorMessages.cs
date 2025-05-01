@@ -13,6 +13,11 @@
         public const string RegisterNotFound = "Register not found.";
         public const string StringLength = "The field '{0}' requires a maximum {1} string length.";
 
+        public static class Audio
+        {
+            public const string NotFound = "Audio '{0}' not found.";
+        }
+
         public static class Cast
         {
             public const string NotFound = "Cast '{0}' not found.";
