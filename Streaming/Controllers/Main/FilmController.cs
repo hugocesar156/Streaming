@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.Film;
 using Streaming.Application.Models.Responses.Film;
@@ -7,6 +8,7 @@ using System.Net;
 
 namespace Streaming.Controllers.Main
 {
+    [Authorize]
     [ApiController]
     [Route("main/film")]
     [ApiExplorerSettings(GroupName = "main")]

@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
 using System.Net;
 
 namespace Streaming.Controllers.Main
 {
+    [Authorize]
     [ApiController]
     [Route("main/cast")]
     [ApiExplorerSettings(GroupName = "main")]

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.Category;
@@ -7,6 +8,7 @@ using System.Net;
 
 namespace Streaming.Controllers.Main
 {
+    [Authorize]
     [ApiController]
     [Route("main/category")]
     [ApiExplorerSettings(GroupName = "main")]
