@@ -143,7 +143,7 @@ namespace Streaming.Controllers.Main
         }
 
         [HttpGet("getincatalog/{id}")]
-        [ProducesResponseType(typeof(FilmResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FilmCatalogResponse), StatusCodes.Status200OK)]
         public IActionResult GetInCatalog(int id)
         {
             try
