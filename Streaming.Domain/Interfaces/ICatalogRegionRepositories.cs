@@ -5,7 +5,7 @@ namespace Streaming.Domain.Interfaces
 {
     public interface ICatalogRegionRepositories
     {
-        public CatalogByRegionProcedure? Get(int pageNumber, int pageSize, int idLanguage);
+        public CatalogByRegionProcedure? Get(int pageNumber, int pageSize, string search, int idLanguage);
         public void Insert(CatalogRegion request);
     }
 }

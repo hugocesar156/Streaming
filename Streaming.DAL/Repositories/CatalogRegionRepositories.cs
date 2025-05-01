@@ -16,9 +16,9 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public CatalogByRegionProcedure? Get(int pageNumber, int pageSize, int idLanguage)
+        public CatalogByRegionProcedure? Get(int pageNumber, int pageSize, string search, int idLanguage)
         {
-            var entities = _dataContext.SP_CATALOG_BY_REGION.FromSql($"EXEC sp_GetCatalogByRegion {pageNumber},{pageSize},{idLanguage}").ToList();
+            var entities = _dataContext.SP_CATALOG_BY_REGION.FromSql($"EXEC sp_GetCatalogByRegion {pageNumber},{pageSize},{search},{idLanguage}").ToList();
 
             if (entities.Any())
             {

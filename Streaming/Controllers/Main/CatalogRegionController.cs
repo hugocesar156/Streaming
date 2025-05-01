@@ -20,7 +20,7 @@ namespace Streaming.Controllers.Main
 
         [HttpGet]
         [ProducesResponseType(typeof(CatalogRegionPageResponse), StatusCodes.Status200OK)]
-        public IActionResult Get(int pageNumber = 1, int pageSize = 50)
+        public IActionResult Get(int pageNumber = 1, int pageSize = 50, string search = "")
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Streaming.Controllers.Main
 
                 if (!string.IsNullOrEmpty(ipAddress))
                 {
-                    var response = _catalogRegionUseCase.Get(pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, ipAddress);
+                    var response = _catalogRegionUseCase.Get(pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, search, ipAddress);
                     return StatusCode((int)HttpStatusCode.OK, response);
                 }
 

@@ -19,14 +19,14 @@ namespace Streaming.Application.UseCases
             _languageRepositories = languageRepositories;
         }
 
-        public CatalogRegionPageResponse Get(int pageNumber, int pageSize, string ipAddress)
+        public CatalogRegionPageResponse Get(int pageNumber, int pageSize, string search, string ipAddress)
         {
             try
             {
                 var addressByIP = IPServices.GetAddressByIPAsync(ipAddress).Result;
                 var language = _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
 
-                var catalog = _catalogRegionRepositories.Get(pageNumber, pageSize, language.IdLanguage);
+                var catalog = _catalogRegionRepositories.Get(pageNumber, pageSize, search, language.IdLanguage);
 
                 if (catalog is not null)
                 {
