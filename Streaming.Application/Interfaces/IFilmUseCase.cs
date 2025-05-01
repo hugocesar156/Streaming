@@ -13,6 +13,7 @@ namespace Streaming.Application.Interfaces
         void AddMedia(FilmMediaInsertRequest request);
         void AddSubtitles(FilmSubtitlesInsertRequest request);
         FilmResponse Get(int id);
+        FilmCatalogResponse GetInCatalog(int id, string ipAddress);
         void Insert(FilmInsertRequest request);
         void RemoveCategories(FilmCategoryRequest request);
         void RemoveContents(FilmContentRequest request);

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.Film;
 using Streaming.Application.Models.Responses.Film;
+using Streaming.Application.UseCases;
 using Streaming.Shared;
 using System.Net;
 
@@ -134,6 +135,35 @@ namespace Streaming.Controllers.Main
             {
                 var response = _filmUseCase.Get(id);
                 return StatusCode((int)HttpStatusCode.OK, response);
+            }
+            catch (StreamingException ex)
+            {
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
+        [HttpGet("getincatalog/{id}")]
+        [ProducesResponseType(typeof(FilmResponse), StatusCodes.Status200OK)]
+        public IActionResult GetInCatalog(int id)
+        {
+            try
+            {
+                var forwardedIp = Request.Headers["X-Forwarded-For"].FirstOrDefault();
+
+                var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+
+                if (remoteIpAddress is not null && remoteIpAddress.IsIPv4MappedToIPv6)
+                    remoteIpAddress = remoteIpAddress.MapToIPv4();
+
+                string? ipAddress = !string.IsNullOrEmpty(forwardedIp) ? forwardedIp : remoteIpAddress?.ToString();
+
+                if (!string.IsNullOrEmpty(ipAddress))
+                {
+                    var response = _filmUseCase.GetInCatalog(id, ipAddress);
+                    return StatusCode((int)HttpStatusCode.OK, response);
+                }
+
+                throw new StreamingException(HttpStatusCode.InternalServerError, ErrorMessages.InternalServerError, ErrorMessages.ClientIPNotFound);
             }
             catch (StreamingException ex)
             {

@@ -9,6 +9,7 @@ using Streaming.Application.Models.Responses.Film;
 using Streaming.Application.Models.Responses.Language;
 using Streaming.Application.Models.Responses.Media;
 using Streaming.Application.Models.Responses.Subtitles;
+using Streaming.Application.Services;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
@@ -24,13 +25,14 @@ namespace Streaming.Application.UseCases
         private readonly ICategoryRepositories _categoryRepositories;
         private readonly IContentRepositories _contentRepositories;
         private readonly IFilmRepositories _filmRepositories;
+        private readonly ILanguageRepositories _languageRepositories;
         private readonly IMediaRepositories _mediaRepositories;
         private readonly ISubtitlesRepositories _subtitlesRepositories;
 
         public FilmUseCase(IAudioRepositories audioRepositories, ICastRepositories castRepositories, 
             ICatalogRegionRepositories catalogRegionRepositories, ICategoryRepositories categoryRepositories, 
-            IContentRepositories contentRepositories, IFilmRepositories filmRepositories, 
-            ISubtitlesRepositories subtitlesRepositories, IMediaRepositories mediaRepositories)
+            IContentRepositories contentRepositories, IFilmRepositories filmRepositories,
+            ILanguageRepositories languageRepositories, IMediaRepositories mediaRepositories, ISubtitlesRepositories subtitlesRepositories)
         {
             _audioRepositories = audioRepositories;
             _castRepositories = castRepositories;
@@ -38,6 +40,7 @@ namespace Streaming.Application.UseCases
             _categoryRepositories = categoryRepositories;
             _contentRepositories = contentRepositories;
             _filmRepositories = filmRepositories;
+            _languageRepositories = languageRepositories;
             _mediaRepositories = mediaRepositories;
             _subtitlesRepositories = subtitlesRepositories;
         }
@@ -285,6 +288,80 @@ namespace Streaming.Application.UseCases
                              x.Language.Description,
                              x.Language.Code, 
                              x.Language.CountryCode))).ToList());
+            }
+            catch (StreamingException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new StreamingException(HttpStatusCode.InternalServerError, ex.Message, ex.InnerException?.Message);
+            }
+        }
+
+        public FilmCatalogResponse GetInCatalog(int id, string ipAddress)
+        {
+            try
+            {
+                var film = _filmRepositories.Get(id);
+
+                var addressByIP = IPServices.GetAddressByIPAsync(ipAddress).Result;
+                var language = _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
+
+                if (film.Regions.Any(x => x.Language.IdLanguage == language.IdLanguage))
+                {
+                    return new FilmCatalogResponse(
+                        film.IdFilm,
+                        film.Regions.First(x => x.Language.IdLanguage == language.IdLanguage).Name,
+                        film.Regions.First(x => x.Language.IdLanguage == language.IdLanguage).Classification ?? string.Empty,
+                        film.Regions.First(x => x.Language.IdLanguage == language.IdLanguage).Synopsis,
+                        film.Duration,
+                        film.Thumbnail,
+                        film.Year,
+                        film.CreditsStart,
+                        film.KidsContent,
+
+                        film.Categories.Select(x => new CategoryResponse(
+                            x.IdCategory,
+                            x.Name)).ToList(),
+
+                        film.Contents.Select(x => new ContentResponse(
+                            x.IdContent,
+                            x.Description)).ToList(),
+
+                        film.Casting.Select(x => new CastResponse(
+                            x.IdCast,
+                            x.Name,
+                            x.Character)).ToList(),
+
+                        film.Medias.Select(x => new MediaResponse(
+                            x.IdMedia,
+                            x.Path,
+                            new Models.Responses.Resolution.ResolutionResponse(
+                                x.Resolution.IdResolution,
+                                x.Resolution.Description,
+                                x.Resolution.Pixels))).ToList(),
+
+                        film.Audios.Select(x => new AudioResponse(
+                            x.IdAudio,
+                            x.Path,
+                            new LanguageResponse(
+                                x.Language.IdLanguage,
+                                x.Language.Description,
+                                x.Language.Code,
+                                x.Language.CountryCode))).ToList(),
+                        
+                        film.Subtitles.Select(x => new SubtitlesResponse(
+                            x.IdSubtitles,
+                            x.Path,
+                            new LanguageResponse(
+                                x.Language.IdLanguage,
+                                x.Language.Description,
+                                x.Language.Code,
+                                x.Language.CountryCode))).ToList());
+                }
+
+                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFoundInCatalog, id));
             }
             catch (StreamingException)
             {
