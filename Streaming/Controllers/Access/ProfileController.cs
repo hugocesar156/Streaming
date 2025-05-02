@@ -23,11 +23,11 @@ namespace Streaming.Controllers.Access
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Put(int id)
+        public async Task<IActionResult> Put(int id)
         {
             try
             {
-                _profileUseCase.Delete(id);
+                await _profileUseCase.Delete(id);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)
@@ -39,13 +39,13 @@ namespace Streaming.Controllers.Access
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
 
-        public IActionResult Post(ProfileIsertRequest request)
+        public async Task<IActionResult> Post(ProfileIsertRequest request)
         {
             try
             {
                 int idUser = int.Parse(HttpContext.User.FindFirstValue(ClaimTypes.PrimarySid) ?? "0");
 
-                _profileUseCase.Insert(request, idUser);
+                await _profileUseCase.Insert(request, idUser);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -56,11 +56,11 @@ namespace Streaming.Controllers.Access
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Put(ProfileUpdateRequest request)
+        public async Task<IActionResult> Put(ProfileUpdateRequest request)
         {
             try
             {
-                _profileUseCase.Update(request);
+                await _profileUseCase.Update(request);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)

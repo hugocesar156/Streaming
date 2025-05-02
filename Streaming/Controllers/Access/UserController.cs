@@ -21,11 +21,11 @@ namespace Streaming.Controllers.Access
 
         [HttpPost("login")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-        public IActionResult Login(UserRequest request)
+        public async Task<IActionResult> Login(UserRequest request)
         {
             try
             {
-                var response = _userUseCase.Login(request);
+                var response = await _userUseCase.Login(request);
                 return StatusCode((int)HttpStatusCode.OK, response);
             }
             catch (StreamingException ex)
@@ -36,11 +36,11 @@ namespace Streaming.Controllers.Access
 
         [HttpPost("signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult SignUp(UserRequest request)
+        public async Task<IActionResult> SignUp(UserRequest request)
         {
             try
             {
-                _userUseCase.SignUp(request);
+                await _userUseCase.SignUp(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)

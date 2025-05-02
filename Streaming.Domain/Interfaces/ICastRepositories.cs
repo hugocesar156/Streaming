@@ -4,9 +4,9 @@ namespace Streaming.Domain.Interfaces
 {
     public interface ICastRepositories
     {
-        void Delete(int id);
-        void Insert(Cast request);
-        void InsertRange(List<Cast> request);
-        void Update(Cast request);
+        Task Delete(int id);
+        Task Insert(Cast request);
+        Task InsertRange(List<Cast> request);
+        Task Update(Cast request);
     }
 }

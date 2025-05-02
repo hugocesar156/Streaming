@@ -14,7 +14,7 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Insert(Media request)
+        public async Task Insert(Media request)
         {
             var entity = new MEDIum
             {
@@ -25,7 +25,7 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

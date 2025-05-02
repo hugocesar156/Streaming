@@ -4,7 +4,7 @@ namespace Streaming.Domain.Interfaces
 {
     public interface ISeriesEpisodeRepositories
     {
-        SeriesEpisode? FindSeriesEpisode(int idSeries, short season, short episode);
-        void Insert(SeriesEpisode request);
+        Task<SeriesEpisode?> FindSeriesEpisode(int idSeries, short season, short episode);
+        Task Insert(SeriesEpisode request);
     }
 }

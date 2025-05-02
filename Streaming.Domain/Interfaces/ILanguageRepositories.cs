@@ -4,6 +4,6 @@ namespace Streaming.Domain.Interfaces
 {
     public interface ILanguageRepositories
     {
-        Language GetByCountryCode(string countryCode);
+        Task<Language> GetByCountryCode(string countryCode);
     }
 }

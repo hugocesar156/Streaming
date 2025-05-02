@@ -4,6 +4,6 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IMediaRepositories
     {
-        void Insert(Media request);
+        Task Insert(Media request);
     }
 }

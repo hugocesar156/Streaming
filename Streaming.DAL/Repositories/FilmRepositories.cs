@@ -17,7 +17,7 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void AddCategories(List<CatalogCategory> request)
+        public async Task AddCategories(List<CatalogCategory> request)
         {
             var entities = new List<CATALOG_CATEGORY>();
 
@@ -31,10 +31,10 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.AddRange(entities);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void AddContents(List<CatalogContent> request)
+        public async Task AddContents(List<CatalogContent> request)
         {
             var entities = new List<CATALOG_CONTENT>();
 
@@ -48,13 +48,13 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.AddRange(entities);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public Audio? FindAudio(int idFilm, int idLanguage)
+        public async Task<Audio?> FindAudio(int idFilm, int idLanguage)
         {
-            var entity = _dataContext.AUDIOs.Include(x => x.ID_LANGUAGENavigation)
-                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
+            var entity = await _dataContext.AUDIOs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefaultAsync(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
 
             if (entity is not null)
             {
@@ -73,10 +73,10 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public CatalogRegion? FindFilmCatalog(int idFilm, int idLanguage)
+        public async Task<CatalogRegion?> FindFilmCatalog(int idFilm, int idLanguage)
         {
-            var entity = _dataContext.CATALOG_REGIONs.Include(x => x.ID_LANGUAGENavigation)
-                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
+            var entity = await _dataContext.CATALOG_REGIONs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefaultAsync(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
 
             if (entity is not null)
             {
@@ -97,10 +97,10 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public Media? FindMedia(int idFilm, int idResolution)
+        public async Task<Media?> FindMedia(int idFilm, int idResolution)
         {
-            var entity = _dataContext.MEDIAs.Include(x => x.ID_RESOLUTIONNavigation)
-                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_RESOLUTION == idResolution);
+            var entity = await _dataContext.MEDIAs.Include(x => x.ID_RESOLUTIONNavigation)
+                .FirstOrDefaultAsync(x => x.ID_FILM == idFilm && x.ID_RESOLUTION == idResolution);
 
             if (entity is not null)
             {
@@ -118,10 +118,10 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public Subtitles? FindSubtitles(int idFilm, int idLanguage)
+        public async Task<Subtitles?> FindSubtitles(int idFilm, int idLanguage)
         {
-            var entity = _dataContext.SUBTITLEs.Include(x => x.ID_LANGUAGENavigation)
-                .FirstOrDefault(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
+            var entity = await _dataContext.SUBTITLEs.Include(x => x.ID_LANGUAGENavigation)
+                .FirstOrDefaultAsync(x => x.ID_FILM == idFilm && x.ID_LANGUAGE == idLanguage);
 
             if (entity is not null) 
             {
@@ -140,9 +140,9 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public Film Get(int id)
+        public async Task<Film> Get(int id)
         {
-            var entity = _dataContext.FILMs
+            var entity = await _dataContext.FILMs
                 .Include(x => x.CATALOG_CATEGORies).ThenInclude(x => x.ID_CATEGORYNavigation)
                 .Include(x => x.CATALOG_CONTENTs).ThenInclude(x => x.ID_CONTENTNavigation)
                 .Include(x => x.CASTs)
@@ -151,7 +151,7 @@ namespace Streaming.DAL.Repositories
                 .Include(x => x.MEDIa).ThenInclude(x => x.ID_RESOLUTIONNavigation)
                 .Include(x => x.AUDIOs).ThenInclude(x => x.ID_LANGUAGENavigation)
                 .Include(x => x.SUBTITLEs).ThenInclude(x => x.ID_LANGUAGENavigation)
-                .FirstOrDefault(x => x.ID_FILM == id);
+                .FirstOrDefaultAsync(x => x.ID_FILM == id);
 
             if (entity is not null)
             {
@@ -231,7 +231,7 @@ namespace Streaming.DAL.Repositories
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Film.NotFound, id));
         }
 
-        public int Insert(Film request)
+        public async Task<int> Insert(Film request)
         {
             var entity = new FILM
             {
@@ -245,32 +245,32 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return entity.ID_FILM;
         }
 
-        public void RemoveCategories(List<CatalogCategory> request)
+        public async Task RemoveCategories(List<CatalogCategory> request)
         {
-            var entities = _dataContext.CATALOG_CATEGORies
-                .Where(x => x.ID_FILM == request.First().IdFilm && request.Select(x => x.IdCategory).Contains(x.ID_CATEGORY)).ToList();
+            var entities = await _dataContext.CATALOG_CATEGORies
+                .Where(x => x.ID_FILM == request.First().IdFilm && request.Select(x => x.IdCategory).Contains(x.ID_CATEGORY)).ToListAsync();
 
             _dataContext.RemoveRange(entities);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void RemoveContents(List<CatalogContent> request)
+        public async Task RemoveContents(List<CatalogContent> request)
         {
-            var entities = _dataContext.CATALOG_CONTENTs
-                .Where(x => x.ID_FILM == request.First().IdFilm && request.Select(x => x.IdContent).Contains(x.ID_CONTENT)).ToList();
+            var entities = await _dataContext.CATALOG_CONTENTs
+                .Where(x => x.ID_FILM == request.First().IdFilm && request.Select(x => x.IdContent).Contains(x.ID_CONTENT)).ToListAsync();
 
             _dataContext.RemoveRange(entities);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Update(Film request)
+        public async Task Update(Film request)
         {
-            var entity = _dataContext.FILMs.FirstOrDefault(x => x.ID_FILM == request.IdFilm);
+            var entity = await _dataContext.FILMs.FirstOrDefaultAsync(x => x.ID_FILM == request.IdFilm);
 
             if (entity is null)
             {
@@ -286,7 +286,7 @@ namespace Streaming.DAL.Repositories
             entity.ID_LANGUAGE = request.Language.IdLanguage;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

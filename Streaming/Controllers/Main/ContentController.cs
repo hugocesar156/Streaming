@@ -23,11 +23,11 @@ namespace Streaming.Controllers.Main
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                _contentUseCase.Delete(id);
+                await _contentUseCase.Delete(id);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)
@@ -38,11 +38,11 @@ namespace Streaming.Controllers.Main
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ContentResponse), StatusCodes.Status200OK)]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var response = _contentUseCase.Get(id);
+                var response = await _contentUseCase.Get(id);
                 return StatusCode((int)HttpStatusCode.OK, response);
             }
             catch (StreamingException ex)
@@ -53,11 +53,11 @@ namespace Streaming.Controllers.Main
 
         [HttpGet]
         [ProducesResponseType(typeof(List<ContentResponse>), StatusCodes.Status200OK)]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                var response = _contentUseCase.GetAll();
+                var response = await _contentUseCase.GetAll();
                 return StatusCode((int)HttpStatusCode.OK, response);
             }
             catch (StreamingException ex)
@@ -68,11 +68,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Post(ContentInsertRequest request)
+        public async Task<IActionResult> Post(ContentInsertRequest request)
         {
             try
             {
-                _contentUseCase.Insert(request);
+                await _contentUseCase.Insert(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -83,11 +83,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Put(ContentUpdateRequest request)
+        public async Task<IActionResult> Put(ContentUpdateRequest request)
         {
             try
             {
-                _contentUseCase.Update(request);
+                await _contentUseCase.Update(request);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)

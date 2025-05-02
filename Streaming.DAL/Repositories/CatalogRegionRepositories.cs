@@ -16,9 +16,10 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public CatalogByRegionProcedure? Get(int pageNumber, int pageSize, int idLanguage, int idCategory, bool kidsContent, string search)
+        public async Task<CatalogByRegionProcedure?> Get(int pageNumber, int pageSize, int idLanguage, int idCategory, bool kidsContent, string search)
         {
-            var entities = _dataContext.SP_CATALOG_BY_REGION.FromSql($"EXEC sp_GetCatalogByRegion {pageNumber},{pageSize},{idLanguage},{idCategory},{kidsContent},{search}").ToList();
+            var entities = await _dataContext.SP_CATALOG_BY_REGION
+                .FromSql($"EXEC sp_GetCatalogByRegion {pageNumber},{pageSize},{idLanguage},{idCategory},{kidsContent},{search}").ToListAsync();
 
             if (entities.Any())
             {
@@ -38,7 +39,7 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public void Insert(CatalogRegion request)
+        public async Task Insert(CatalogRegion request)
         {
             var entity = new CATALOG_REGION
             {
@@ -51,7 +52,7 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

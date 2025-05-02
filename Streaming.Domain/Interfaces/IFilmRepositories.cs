@@ -4,16 +4,16 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IFilmRepositories
     {
-        void AddCategories(List<CatalogCategory> request);
-        void AddContents(List<CatalogContent> request);
-        Audio? FindAudio(int idFilm, int idLanguage);
-        CatalogRegion? FindFilmCatalog(int idFilm, int idLanguage);
-        Media? FindMedia(int idFilm, int idResolutiion);
-        Subtitles? FindSubtitles(int idFilm, int idLanguage);
-        Film Get(int id);
-        int Insert(Film request);
-        void RemoveCategories(List<CatalogCategory> request);
-        void RemoveContents(List<CatalogContent> request);
-        void Update(Film request);
+        Task AddCategories(List<CatalogCategory> request);
+        Task AddContents(List<CatalogContent> request);
+        Task<Audio?> FindAudio(int idFilm, int idLanguage);
+        Task<CatalogRegion?> FindFilmCatalog(int idFilm, int idLanguage);
+        Task<Media?> FindMedia(int idFilm, int idResolutiion);
+        Task<Subtitles?> FindSubtitles(int idFilm, int idLanguage);
+        Task<Film> Get(int id);
+        Task<int> Insert(Film request);
+        Task RemoveCategories(List<CatalogCategory> request);
+        Task RemoveContents(List<CatalogContent> request);
+        Task Update(Film request);
     }
 }

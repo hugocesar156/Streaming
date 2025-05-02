@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -16,9 +17,9 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var entity = _dataContext.CASTs.FirstOrDefault(x => x.ID_CAST == id);
+            var entity = await _dataContext.CASTs.FirstOrDefaultAsync(x => x.ID_CAST == id);
 
             if (entity is null)
             {
@@ -26,10 +27,10 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.Remove(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Insert(Cast request)
+        public async Task Insert(Cast request)
         {
             var entities = new CAST
             {
@@ -41,10 +42,10 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.AddRange(entities);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void InsertRange(List<Cast> request)
+        public async Task InsertRange(List<Cast> request)
         {
             var entities = new List<CAST>();
 
@@ -61,12 +62,12 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.AddRange(entities);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Update(Cast request)
+        public async Task Update(Cast request)
         {
-            var entity = _dataContext.CASTs.FirstOrDefault(x => x.ID_CAST == request.IdCast);
+            var entity = await _dataContext.CASTs.FirstOrDefaultAsync(x => x.ID_CAST == request.IdCast);
 
             if (entity is null)
             {
@@ -78,7 +79,7 @@ namespace Streaming.DAL.Repositories
             entity.SEASON = request.Season;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

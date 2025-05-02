@@ -4,9 +4,9 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IUserRepositories
     {
-        User? FindByEmail(string email);
-        User Get(int id);
-        void SignIn(int id);
-        int SignUp(User request);
+        Task<User?> FindByEmail(string email);
+        Task<User> Get(int id);
+        Task SignIn(int id);
+        Task<int> SignUp(User request);
     }
 }

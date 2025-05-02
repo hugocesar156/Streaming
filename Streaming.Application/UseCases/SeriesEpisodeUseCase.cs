@@ -18,21 +18,21 @@ namespace Streaming.Application.UseCases
             _seriesRepositories = seriesRepositories;
         }
 
-        public void Insert(SeriesEpisodeInsertRequest request)
+        public async Task Insert(SeriesEpisodeInsertRequest request)
         {
             try
             {
-                _seriesRepositories.Get(request.IdSeries);
+                await _seriesRepositories.Get(request.IdSeries);
 
                 var seriesEpisode = new SeriesEpisode(request.Name, request.Thumbnail, request.Synopsis, request.Season,
                     request.Episode, request.Duration, request.Year, request.OpeningStart, request.CreditsStart, request.IdSeries);
 
-                if (_seriesEpisodeRepositories.FindSeriesEpisode(request.IdSeries, request.Season, request.Episode) is not null)
+                if (await _seriesEpisodeRepositories.FindSeriesEpisode(request.IdSeries, request.Season, request.Episode) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.SeriesEpisode.EpisodeSeries);
                 }
 
-                _seriesEpisodeRepositories.Insert(seriesEpisode);
+                await _seriesEpisodeRepositories.Insert(seriesEpisode);
             }
             catch (StreamingException)
             {

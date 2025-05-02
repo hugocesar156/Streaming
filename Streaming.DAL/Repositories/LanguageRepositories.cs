@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
@@ -15,9 +16,9 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public Language GetByCountryCode(string countryCode)
+        public async Task<Language> GetByCountryCode(string countryCode)
         {
-            var entity = _dataContext.LANGUAGEs.FirstOrDefault(x => x.COUNTRY_CODE.ToUpper().Equals(countryCode.ToUpper()));
+            var entity = await _dataContext.LANGUAGEs.FirstOrDefaultAsync(x => x.COUNTRY_CODE.ToUpper().Equals(countryCode.ToUpper()));
 
             if (entity is not null)
             {

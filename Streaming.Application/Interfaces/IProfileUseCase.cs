@@ -4,8 +4,8 @@ namespace Streaming.Application.Interfaces
 {
     public interface IProfileUseCase
     {
-        void Delete(int id);
-        void Insert(ProfileIsertRequest request, int idUser);
-        void Update(ProfileUpdateRequest request);
+        Task Delete(int id);
+        Task Insert(ProfileIsertRequest request, int idUser);
+        Task Update(ProfileUpdateRequest request);
     }
 }

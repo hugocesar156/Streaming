@@ -5,19 +5,19 @@ namespace Streaming.Application.Interfaces
 {
     public interface IFilmUseCase
     {
-        void AddAudio(FilmAudioInsertRequest request);
-        void AddCast(FilmCastInsertRequest request);
-        void AddCategories(FilmCategoryRequest request);
-        void AddContents(FilmContentRequest request);
-        void AddInCatalog(FilmCatalogInsertRequest request);
-        void AddMedia(FilmMediaInsertRequest request);
-        void AddSubtitles(FilmSubtitlesInsertRequest request);
-        FilmResponse Get(int id);
-        FilmCatalogResponse GetInCatalog(int id, string ipAddress);
-        void Insert(FilmInsertRequest request);
-        void RemoveCategories(FilmCategoryRequest request);
-        void RemoveContents(FilmContentRequest request);
-        void Update(FilmUpdateRequest request);
-        void UpdateCast(FilmCastUpdateRequest request);
+        Task AddAudio(FilmAudioInsertRequest request);
+        Task AddCast(FilmCastInsertRequest request);
+        Task AddCategories(FilmCategoryRequest request);
+        Task AddContents(FilmContentRequest request);
+        Task AddInCatalog(FilmCatalogInsertRequest request);
+        Task AddMedia(FilmMediaInsertRequest request);
+        Task AddSubtitles(FilmSubtitlesInsertRequest request);
+        Task<FilmResponse> Get(int id);
+        Task<FilmCatalogResponse> GetInCatalog(int id, string ipAddress);
+        Task Insert(FilmInsertRequest request);
+        Task RemoveCategories(FilmCategoryRequest request);
+        Task RemoveContents(FilmContentRequest request);
+        Task Update(FilmUpdateRequest request);
+        Task UpdateCast(FilmCastUpdateRequest request);
     }
 }

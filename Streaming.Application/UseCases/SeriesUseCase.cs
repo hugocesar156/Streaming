@@ -23,13 +23,13 @@ namespace Streaming.Application.UseCases
             _seriesRepositories = seriesRepositories;
         }
 
-        public void AddInCatalog(SeriesCatalogInsertRequest request)
+        public async Task AddInCatalog(SeriesCatalogInsertRequest request)
         {
             try
             {
-                _seriesRepositories.Get(request.IdSeries);
+                await _seriesRepositories.Get(request.IdSeries);
 
-                if (_seriesRepositories.FindSeriesCatalog(request.IdSeries, request.SeriesRegion.IdLanguage) is not null)
+                if (await _seriesRepositories.FindSeriesCatalog(request.IdSeries, request.SeriesRegion.IdLanguage) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Series.RegionCatalog);
                 }
@@ -37,7 +37,7 @@ namespace Streaming.Application.UseCases
                 var seriesCatalog = new CatalogRegion(request.SeriesRegion.Name, request.SeriesRegion.Classification, request.SeriesRegion.Synospsis,
                     new Language(request.SeriesRegion.IdLanguage), null, request.IdSeries);
 
-                _catalogRegionRepositories.Insert(seriesCatalog);
+                await _catalogRegionRepositories.Insert(seriesCatalog);
             }
             catch (StreamingException)
             {
@@ -49,13 +49,13 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Insert(SeriesInsertRequest request)
+        public async Task Insert(SeriesInsertRequest request)
         {
             try
             {
                 if (request.Categories.Any())
                 {
-                    var categories = _categoryRepositories.GetAll();
+                    var categories = await _categoryRepositories.GetAll();
 
                     foreach (var item in request.Categories)
                     {
@@ -69,11 +69,11 @@ namespace Streaming.Application.UseCases
                 var series = new Series(request.Name, request.Thumbnail, request.Year,
                     request.KidsContent, new Language(request.IdLanguage));
 
-                int idSeries = _seriesRepositories.Insert(series);
+                int idSeries = await _seriesRepositories.Insert(series);
 
-                _seriesRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, null, idSeries)).ToList());
+                await _seriesRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, null, idSeries)).ToList());
 
-                _castRepositories.InsertRange(request.Casting.Select(x => new Cast(x.Name, x.Character, null, idSeries, 1)).ToList());
+                await _castRepositories.InsertRange(request.Casting.Select(x => new Cast(x.Name, x.Character, null, idSeries, 1)).ToList());
             }
             catch (StreamingException)
             {
@@ -85,14 +85,14 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Update(SeriesUpdateRequest request)
+        public async Task Update(SeriesUpdateRequest request)
         {
             try
             {
                 var series = new Series(request.IdSeries, request.Name, request.Thumbnail, request.Year, 
                     request.KidsContent, new Language(request.IdLanguage));
 
-                _seriesRepositories.Update(series);
+                await _seriesRepositories.Update(series);
             }
             catch (StreamingException)
             {

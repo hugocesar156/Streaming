@@ -21,11 +21,11 @@ namespace Streaming.Controllers.Main
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                _castRepositories.Delete(id);
+                await _castRepositories.Delete(id);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)

@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -16,7 +17,7 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             var entity = _dataContext.PROFILEs.FirstOrDefault(x => x.ID_PROFILE == id);
 
@@ -26,12 +27,12 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.Remove(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public Profile Get(int id)
+        public async Task<Profile> Get(int id)
         {
-            var entity = _dataContext.PROFILEs.FirstOrDefault(x => x.ID_PROFILE == id);
+            var entity = await _dataContext.PROFILEs.FirstOrDefaultAsync(x => x.ID_PROFILE == id);
 
             if (entity is null)
             {
@@ -41,7 +42,7 @@ namespace Streaming.DAL.Repositories
             return new Profile(entity.ID_PROFILE, entity.NAME, entity.AVATAR, entity.KIDS_CONTENT, entity.ID_USER);
         }
 
-        public void Insert(Profile request)
+        public async Task Insert(Profile request)
         {
             var entity = new PROFILE
             {
@@ -51,12 +52,12 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Update(Profile request)
+        public async Task Update(Profile request)
         {
-            var entity = _dataContext.PROFILEs.FirstOrDefault(x => x.ID_PROFILE == request.IdProfile);
+            var entity = await _dataContext.PROFILEs.FirstOrDefaultAsync(x => x.ID_PROFILE == request.IdProfile);
 
             if (entity is null)
             {
@@ -67,7 +68,7 @@ namespace Streaming.DAL.Repositories
             entity.AVATAR = request.Avatar;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

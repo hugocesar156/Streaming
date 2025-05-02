@@ -4,6 +4,6 @@ namespace Streaming.Application.Interfaces
 {
     public interface ISeriesEpisodeUseCase
     {
-        void Insert(SeriesEpisodeInsertRequest request);
+        Task Insert(SeriesEpisodeInsertRequest request);
     }
 }

@@ -4,9 +4,9 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IProfileRepositories
     {
-        void Delete(int id);
-        Profile Get(int id);
-        void Insert(Profile request);
-        void Update(Profile request);
+        Task Delete(int id);
+        Task<Profile> Get(int id);
+        Task Insert(Profile request);
+        Task Update(Profile request);
     }
 }

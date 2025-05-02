@@ -14,7 +14,7 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Insert(Subtitles request)
+        public async Task Insert(Subtitles request)
         {
             var entity = new SUBTITLE
             {
@@ -25,7 +25,7 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

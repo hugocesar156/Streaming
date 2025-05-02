@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -16,9 +17,9 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var entity = _dataContext.CATEGORies.FirstOrDefault(x => x.ID_CATEGORY == id);
+            var entity = _dataContext.CATEGORies.FirstOrDefaultAsync(x => x.ID_CATEGORY == id);
 
             if (entity is null)
             {
@@ -26,12 +27,12 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.Remove(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public Category Get(int id)
+        public async Task<Category> Get(int id)
         {
-            var entity = _dataContext.CATEGORies.FirstOrDefault(x => x.ID_CATEGORY == id);
+            var entity = await _dataContext.CATEGORies.FirstOrDefaultAsync(x => x.ID_CATEGORY == id);
 
             if (entity is not null)
             {
@@ -41,14 +42,14 @@ namespace Streaming.DAL.Repositories
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Category.NotFound, id));
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAll()
         {
-            var entities = _dataContext.CATEGORies.OrderBy(x => x.NAME).ToList();
+            var entities = await _dataContext.CATEGORies.OrderBy(x => x.NAME).ToListAsync();
 
             return entities.Select(x => new Category(x.ID_CATEGORY, x.NAME)).ToList();
         }
 
-        public void Insert(Category request)
+        public async Task Insert(Category request)
         {
             var entity = new CATEGORY
             {
@@ -56,12 +57,12 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Update(Category request)
+        public async Task Update(Category request)
         {
-            var entity = _dataContext.CATEGORies.FirstOrDefault(x => x.ID_CATEGORY == request.IdCategory);
+            var entity = await _dataContext.CATEGORies.FirstOrDefaultAsync(x => x.ID_CATEGORY == request.IdCategory);
 
             if (entity is null)
             {
@@ -71,7 +72,7 @@ namespace Streaming.DAL.Repositories
             entity.NAME = request.Name;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

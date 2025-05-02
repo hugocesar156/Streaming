@@ -22,7 +22,7 @@ namespace Streaming.Controllers.Main
 
         [HttpGet("{idProfile}")]
         [ProducesResponseType(typeof(CatalogRegionPageResponse), StatusCodes.Status200OK)]
-        public IActionResult Get(int idProfile, int pageNumber = 1, int pageSize = 50, int idCategory = 0, string search = "")
+        public async Task<IActionResult> Get(int idProfile, int pageNumber = 1, int pageSize = 50, int idCategory = 0, string search = "")
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Streaming.Controllers.Main
 
                 if (!string.IsNullOrEmpty(ipAddress))
                 {
-                    var response = _catalogRegionUseCase.Get(idProfile, pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, idCategory, search, ipAddress);
+                    var response = await _catalogRegionUseCase.Get(idProfile, pageNumber > 0 ? pageNumber : 1, pageSize > 0 ? pageSize : 50, idCategory, search, ipAddress);
                     return StatusCode((int)HttpStatusCode.OK, response);
                 }
 

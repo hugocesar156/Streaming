@@ -4,10 +4,10 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IContentRepositories
     {
-        void Delete(int id);
-        Content Get(int id);
-        List<Content> GetAll();
-        void Insert(Content request);
-        void Update(Content request);
+        Task Delete(int id);
+        Task<Content> Get(int id);
+        Task<List<Content>> GetAll();
+        Task Insert(Content request);
+        Task Update(Content request);
     }
 }

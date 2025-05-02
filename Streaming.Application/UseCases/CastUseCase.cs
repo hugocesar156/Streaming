@@ -14,11 +14,11 @@ namespace Streaming.Application.UseCases
             _castRepositories = castRepositories;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
-                _castRepositories.Delete(id);
+                await _castRepositories.Delete(id);
             }
             catch (StreamingException)
             {

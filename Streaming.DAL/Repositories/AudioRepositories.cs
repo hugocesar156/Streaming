@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -16,9 +17,9 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var entity = _dataContext.AUDIOs.FirstOrDefault(x => x.ID_AUDIO == id);
+            var entity = await _dataContext.AUDIOs.FirstOrDefaultAsync(x => x.ID_AUDIO == id);
 
             if (entity is null)
             {
@@ -26,10 +27,10 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.Remove(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Insert(Audio request)
+        public async Task Insert(Audio request)
         {
             var entity = new AUDIO 
             {
@@ -40,12 +41,12 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Update(Audio request)
+        public async Task Update(Audio request)
         {
-            var entity = _dataContext.AUDIOs.FirstOrDefault(x => x.ID_AUDIO == request.IdAudio);
+            var entity = await _dataContext.AUDIOs.FirstOrDefaultAsync(x => x.ID_AUDIO == request.IdAudio);
 
             if (entity is null)
             {
@@ -56,7 +57,7 @@ namespace Streaming.DAL.Repositories
             entity.ID_LANGUAGE = request.Language.IdLanguage;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

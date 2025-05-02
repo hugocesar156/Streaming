@@ -4,8 +4,8 @@ namespace Streaming.Domain.Interfaces
 {
     public interface IAudioRepositories
     {
-        void Delete(int id);
-        void Insert(Audio request);
-        void Update(Audio request);
+        Task Delete(int id);
+        Task Insert(Audio request);
+        Task Update(Audio request);
     }
 }

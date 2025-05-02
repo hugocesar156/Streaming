@@ -17,11 +17,11 @@ namespace Streaming.Application.UseCases
             _contentRepositories = contentRepositories;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
-                _contentRepositories.Delete(id);
+                await _contentRepositories.Delete(id);
             }
             catch (StreamingException)
             {
@@ -33,11 +33,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public ContentResponse Get(int id)
+        public async Task<ContentResponse> Get(int id)
         {
             try
             {
-                var content = _contentRepositories.Get(id);
+                var content = await _contentRepositories.Get(id);
                 return new ContentResponse(content.IdContent, content.Description);
             }
             catch (StreamingException)
@@ -50,11 +50,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public List<ContentResponse> GetAll()
+        public async Task<List<ContentResponse>> GetAll()
         {
             try
             {
-                var contents = _contentRepositories.GetAll();
+                var contents = await _contentRepositories.GetAll();
                 return contents.Select(x => new ContentResponse(x.IdContent, x.Description)).ToList();
             }
             catch (Exception ex)
@@ -63,12 +63,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Insert(ContentInsertRequest request)
+        public async Task Insert(ContentInsertRequest request)
         {
             try
             {
                 var content = new Content(request.Description);
-                _contentRepositories.Insert(content);
+                await _contentRepositories.Insert(content);
             }
             catch (Exception ex) 
             {
@@ -76,12 +76,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Update(ContentUpdateRequest request)
+        public async Task Update(ContentUpdateRequest request)
         {
             try
             {
                 var content = new Content(request.IdContent, request.Description);
-                _contentRepositories.Update(content);
+                await _contentRepositories.Update(content);
             }
             catch (StreamingException)
             {

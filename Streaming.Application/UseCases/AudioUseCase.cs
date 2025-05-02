@@ -16,11 +16,11 @@ namespace Streaming.Application.UseCases
             _audioRepositories = audioRepositories;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
-                _audioRepositories.Delete(id);
+                await _audioRepositories.Delete(id);
             }
             catch (StreamingException)
             {
@@ -32,12 +32,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Update(AudioUpdateRequest request)
+        public async Task Update(AudioUpdateRequest request)
         {
             try
             {
                 var audio = new Audio(request.IdAudio, request.Path, new Language(request.IdLanguage), null, null);
-                _audioRepositories.Update(audio);
+                await _audioRepositories.Update(audio);
             }
             catch (StreamingException)
             {

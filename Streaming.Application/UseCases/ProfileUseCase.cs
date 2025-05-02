@@ -18,11 +18,11 @@ namespace Streaming.Application.UseCases
             _userRepositories = userRepositories;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
-                _profileRepositories.Delete(id);
+                await _profileRepositories.Delete(id);
             }
             catch (StreamingException)
             {
@@ -34,14 +34,14 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Insert(ProfileIsertRequest request, int idUser)
+        public async Task Insert(ProfileIsertRequest request, int idUser)
         {
             try
             {
-                _userRepositories.Get(idUser);
+                await _userRepositories.Get(idUser);
 
                 var profile = new Profile(request.Name, request.Avatar, request.KidsContent, idUser);
-                _profileRepositories.Insert(profile);
+                await _profileRepositories.Insert(profile);
             }
             catch (StreamingException)
             {
@@ -53,12 +53,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Update(ProfileUpdateRequest request)
+        public async Task Update(ProfileUpdateRequest request)
         {
             try
             {
                 var profile = new Profile(request.IdProfile, request.Name, request.Avatar, request.KidsContent);
-                _profileRepositories.Update(profile);
+                await _profileRepositories.Update(profile);
             }
             catch (StreamingException)
             {

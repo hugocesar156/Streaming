@@ -17,11 +17,11 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public User? FindByEmail(string email)
+        public async Task<User?> FindByEmail(string email)
         {
-            var entity = _dataContext.USERs
+            var entity = await _dataContext.USERs
                 .Include(x => x.PROFILEs)
-                .FirstOrDefault(x => x.EMAIL.Equals(email));
+                .FirstOrDefaultAsync(x => x.EMAIL.Equals(email));
 
             if (entity is not null)
             {
@@ -44,21 +44,21 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public User Get(int id)
+        public async Task<User> Get(int id)
         {
-            var entity = _dataContext.USERs.FirstOrDefault(x => x.ID_USER == id);
+            var entity = await _dataContext.USERs.FirstOrDefaultAsync(x => x.ID_USER == id);
 
-            if (entity is null) 
+            if (entity is not null) 
             {
-                throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.User.NotFound, id));
+                return new User(entity.ID_USER, entity.EMAIL, entity.PASSWORD, entity.SALT, entity.SIGN_UP_DATE, entity.SIGN_IN_DATE, []);
             }
 
-            return new User(entity.ID_USER, entity.EMAIL, entity.PASSWORD, entity.SALT, entity.SIGN_UP_DATE, entity.SIGN_IN_DATE, []);
+            throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.User.NotFound, id));
         }
 
-        public void SignIn(int id)
+        public async Task SignIn(int id)
         {
-            var entity = _dataContext.USERs.FirstOrDefault(x => x.ID_USER == id);
+            var entity = await _dataContext.USERs.FirstOrDefaultAsync(x => x.ID_USER == id);
 
             if (entity is null)
             {
@@ -68,10 +68,10 @@ namespace Streaming.DAL.Repositories
             entity.SIGN_IN_DATE = DateTime.Now;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public int SignUp(User request)
+        public async Task<int> SignUp(User request)
         {
             var entity = new USER
             {
@@ -82,7 +82,7 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
 
             return entity.ID_USER;
         }

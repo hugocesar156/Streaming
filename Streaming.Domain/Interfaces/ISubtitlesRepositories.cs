@@ -4,6 +4,6 @@ namespace Streaming.Domain.Interfaces
 {
     public interface ISubtitlesRepositories
     {
-        void Insert(Subtitles request);
+        Task Insert(Subtitles request);
     }
 }

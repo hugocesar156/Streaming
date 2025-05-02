@@ -5,7 +5,7 @@ namespace Streaming.Application.Interfaces
 {
     public interface IUserUseCase
     {
-        UserResponse Login(UserRequest request);
-        void SignUp(UserRequest request);
+        Task<UserResponse> Login(UserRequest request);
+        Task SignUp(UserRequest request);
     }
 }

@@ -17,11 +17,11 @@ namespace Streaming.Application.UseCases
             _categoryRepositories = categoryRepositories;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
-                _categoryRepositories.Delete(id);
+                await _categoryRepositories.Delete(id);
             }
             catch (StreamingException)
             {
@@ -33,11 +33,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public CategoryResponse Get(int id)
+        public async Task<CategoryResponse> Get(int id)
         {
             try
             {
-                var category = _categoryRepositories.Get(id);
+                var category = await _categoryRepositories.Get(id);
                 return new CategoryResponse(category.IdCategory, category.Name);
             }
             catch (StreamingException)
@@ -50,11 +50,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public List<CategoryResponse> GetAll()
+        public async Task<List<CategoryResponse>> GetAll()
         {
             try
             {
-                var categories = _categoryRepositories.GetAll();
+                var categories = await _categoryRepositories.GetAll();
                 return categories.Select(x => new CategoryResponse(x.IdCategory, x.Name)).ToList();
             }
             catch (Exception ex)
@@ -63,12 +63,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Insert(CategoryInsertRequest request)
+        public async Task Insert(CategoryInsertRequest request)
         {
             try
             {
                 var category = new Category(request.Name);
-                _categoryRepositories.Insert(category);
+                await _categoryRepositories.Insert(category);
             }
             catch (Exception ex)
             {
@@ -76,12 +76,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Update(CategoryUpdateRequest request)
+        public async Task Update(CategoryUpdateRequest request)
         {
             try
             {
                 var category = new Category(request.Id, request.Name);
-                _categoryRepositories.Update(category);
+                await _categoryRepositories.Update(category);
             }
             catch (StreamingException)
             {

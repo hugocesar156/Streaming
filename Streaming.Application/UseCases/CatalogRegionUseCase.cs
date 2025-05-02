@@ -21,15 +21,15 @@ namespace Streaming.Application.UseCases
             _profileRepositories = profileRepositories;
         }
 
-        public CatalogRegionPageResponse Get(int idProfile, int pageNumber, int pageSize, int idCategory, string search, string ipAddress)
+        public async Task<CatalogRegionPageResponse> Get(int idProfile, int pageNumber, int pageSize, int idCategory, string search, string ipAddress)
         {
             try
             {
-                var addressByIP = IPServices.GetAddressByIPAsync(ipAddress).Result;
-                var language = _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
-                var profile = _profileRepositories.Get(idProfile);
+                var addressByIP = await IPServices.GetAddressByIPAsync(ipAddress);
+                var language = await _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
+                var profile = await _profileRepositories.Get(idProfile);
 
-                var catalog = _catalogRegionRepositories.Get(pageNumber, pageSize, language.IdLanguage, idCategory, profile.KidsContent, search);
+                var catalog = await _catalogRegionRepositories.Get(pageNumber, pageSize, language.IdLanguage, idCategory, profile.KidsContent, search);
 
                 if (catalog is not null)
                 {

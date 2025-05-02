@@ -45,19 +45,19 @@ namespace Streaming.Application.UseCases
             _subtitlesRepositories = subtitlesRepositories;
         }
 
-        public void AddAudio(FilmAudioInsertRequest request)
+        public async Task AddAudio(FilmAudioInsertRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                if (_filmRepositories.FindAudio(request.IdFilm, request.Audio.IdLanguage) is not null)
+                if (await _filmRepositories.FindAudio(request.IdFilm, request.Audio.IdLanguage) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.Audio);
                 }
 
                 var audio = new Audio(request.Audio.Path, new Language(request.Audio.IdLanguage), request.IdFilm, null);
-                _audioRepositories.Insert(audio);
+                await _audioRepositories.Insert(audio);
             }
             catch (StreamingException)
             {
@@ -69,14 +69,14 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddCast(FilmCastInsertRequest request)
+        public async Task AddCast(FilmCastInsertRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
                 var cast = new Cast(request.Cast.Name, request.Cast.Character, request.IdFilm, null, null);
-                _castRepositories.Insert(cast);
+                await _castRepositories.Insert(cast);
             }
             catch (StreamingException)
             {
@@ -88,13 +88,13 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddCategories(FilmCategoryRequest request)
+        public async Task AddCategories(FilmCategoryRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                var categories = _categoryRepositories.GetAll();
+                var categories = await _categoryRepositories.GetAll();
 
                 foreach (var item in request.Categories)
                 {
@@ -104,7 +104,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                _filmRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, request.IdFilm, null)).ToList());
+                await _filmRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, request.IdFilm, null)).ToList());
             }
             catch (StreamingException)
             {
@@ -116,13 +116,13 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddContents(FilmContentRequest request)
+        public async Task AddContents(FilmContentRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                var contents = _contentRepositories.GetAll();
+                var contents = await _contentRepositories.GetAll();
 
                 foreach (var item in request.Contents)
                 {
@@ -132,7 +132,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                _filmRepositories.AddContents(request.Contents.Distinct().Select(x => new CatalogContent(x, request.IdFilm, null)).ToList());
+                await _filmRepositories.AddContents(request.Contents.Distinct().Select(x => new CatalogContent(x, request.IdFilm, null)).ToList());
             }
             catch (StreamingException)
             {
@@ -144,13 +144,13 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddInCatalog(FilmCatalogInsertRequest request)
+        public async Task AddInCatalog(FilmCatalogInsertRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                if (_filmRepositories.FindFilmCatalog(request.IdFilm, request.FilmRegion.IdLanguage) is not null)
+                if (await _filmRepositories.FindFilmCatalog(request.IdFilm, request.FilmRegion.IdLanguage) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.RegionCatalog);
                 }
@@ -158,7 +158,7 @@ namespace Streaming.Application.UseCases
                 var filmCatalog = new CatalogRegion(request.FilmRegion.Name, request.FilmRegion.Classification, request.FilmRegion.Synospsis,
                     new Language(request.FilmRegion.IdLanguage), request.IdFilm, null);
 
-                _catalogRegionRepositories.Insert(filmCatalog);
+                await _catalogRegionRepositories.Insert(filmCatalog);
             }
             catch (StreamingException)
             {
@@ -170,19 +170,19 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddMedia(FilmMediaInsertRequest request)
+        public async Task AddMedia(FilmMediaInsertRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                if (_filmRepositories.FindMedia(request.IdFilm, request.Media.IdResolution) is not null)
+                if (await _filmRepositories.FindMedia(request.IdFilm, request.Media.IdResolution) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.Media);
                 }
 
                 var media = new Media(request.Media.Path, new Resolution(request.Media.IdResolution), request.IdFilm, null);
-                _mediaRepositories.Insert(media);
+                await _mediaRepositories.Insert(media);
             }
             catch (StreamingException)
             {
@@ -194,19 +194,19 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void AddSubtitles(FilmSubtitlesInsertRequest request)
+        public async Task AddSubtitles(FilmSubtitlesInsertRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                if (_filmRepositories.FindSubtitles(request.IdFilm, request.Subtitles.IdLanguage) is not null)
+                if (await _filmRepositories.FindSubtitles(request.IdFilm, request.Subtitles.IdLanguage) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.Film.Subtitles);
                 }
 
                 var subtitles = new Subtitles(request.Subtitles.Path, new Language(request.Subtitles.IdLanguage), request.IdFilm, null);
-                _subtitlesRepositories.Insert(subtitles);
+                await _subtitlesRepositories.Insert(subtitles);
             }
             catch (StreamingException)
             {
@@ -218,11 +218,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public FilmResponse Get(int id)
+        public async Task<FilmResponse> Get(int id)
         {
             try
             {
-                var film = _filmRepositories.Get(id);
+                var film = await _filmRepositories.Get(id);
 
                 return new FilmResponse(
                     film.IdFilm,
@@ -299,14 +299,14 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public FilmCatalogResponse GetInCatalog(int id, string ipAddress)
+        public async Task<FilmCatalogResponse> GetInCatalog(int id, string ipAddress)
         {
             try
             {
-                var film = _filmRepositories.Get(id);
+                var film = await _filmRepositories.Get(id);
 
-                var addressByIP = IPServices.GetAddressByIPAsync(ipAddress).Result;
-                var language = _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
+                var addressByIP = await IPServices.GetAddressByIPAsync(ipAddress);
+                var language = await _languageRepositories.GetByCountryCode(addressByIP.CountryCode);
 
                 if (film.Regions.Any(x => x.Language.IdLanguage == language.IdLanguage))
                 {
@@ -373,13 +373,13 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void Insert(FilmInsertRequest request)
+        public async Task Insert(FilmInsertRequest request)
         {
             try
             {
                 if (request.Categories.Any())
                 {
-                    var categories = _categoryRepositories.GetAll();
+                    var categories = await _categoryRepositories.GetAll();
 
                     foreach (var item in request.Categories)
                     {
@@ -392,7 +392,7 @@ namespace Streaming.Application.UseCases
 
                 if (request.Contents.Any())
                 {
-                    var contents = _contentRepositories.GetAll();
+                    var contents = await _contentRepositories.GetAll();
 
                     foreach (var item in request.Contents)
                     {
@@ -406,12 +406,12 @@ namespace Streaming.Application.UseCases
                 var film = new Film(request.Name, request.Duration, request.Thumbnail, request.Year,
                     request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
 
-                int idFilm = _filmRepositories.Insert(film);
+                int idFilm = await _filmRepositories.Insert(film);
 
-                _filmRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, idFilm, null)).ToList());
-                _filmRepositories.AddContents(request.Contents.Distinct().Select(x => new CatalogContent(x, idFilm, null)).ToList());
+                await _filmRepositories.AddCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, idFilm, null)).ToList());
+                await _filmRepositories.AddContents(request.Contents.Distinct().Select(x => new CatalogContent(x, idFilm, null)).ToList());
 
-                _castRepositories.InsertRange(request.Casting.Select(x => new Cast(x.Name, x.Character, idFilm, null, null)).ToList());
+                await _castRepositories.InsertRange(request.Casting.Select(x => new Cast(x.Name, x.Character, idFilm, null, null)).ToList());
             }
             catch (Exception ex) 
             {
@@ -419,13 +419,13 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void RemoveCategories(FilmCategoryRequest request)
+        public async Task RemoveCategories(FilmCategoryRequest request)
         {
             try
             {
-                _filmRepositories.Get(request.IdFilm);
+                await _filmRepositories.Get(request.IdFilm);
 
-                var categories = _contentRepositories.GetAll();
+                var categories = await _contentRepositories.GetAll();
 
                 foreach (var item in request.Categories)
                 {
@@ -435,7 +435,7 @@ namespace Streaming.Application.UseCases
                     }
                 }
 
-                _filmRepositories.RemoveCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, request.IdFilm, null)).ToList());
+                await _filmRepositories.RemoveCategories(request.Categories.Distinct().Select(x => new CatalogCategory(x, request.IdFilm, null)).ToList());
             }
             catch (StreamingException)
             {
@@ -447,11 +447,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void RemoveContents(FilmContentRequest request)
+        public async Task RemoveContents(FilmContentRequest request)
         {
-            _filmRepositories.Get(request.IdFilm);
+            await _filmRepositories.Get(request.IdFilm);
 
-            var contents = _contentRepositories.GetAll();
+            var contents = await _contentRepositories.GetAll();
 
             foreach (var item in request.Contents)
             {
@@ -461,17 +461,17 @@ namespace Streaming.Application.UseCases
                 }
             }
 
-            _filmRepositories.RemoveContents(request.Contents.Distinct().Select(x => new CatalogContent(x, request.IdFilm, null)).ToList());
+            await _filmRepositories.RemoveContents(request.Contents.Distinct().Select(x => new CatalogContent(x, request.IdFilm, null)).ToList());
         }
 
-        public void Update(FilmUpdateRequest request)
+        public async Task Update(FilmUpdateRequest request)
         {
             try
             {
                 var film = new Film(request.IdFilm, request.Name, request.Duration, request.Thumbnail, request.Year, 
                     request.CreditsStart, request.KidsContent, new Language(request.IdLanguage));
 
-                _filmRepositories.Update(film);
+                await _filmRepositories.Update(film);
             }
             catch (StreamingException)
             {
@@ -483,12 +483,12 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void UpdateCast(FilmCastUpdateRequest request)
+        public async Task UpdateCast(FilmCastUpdateRequest request)
         {
             try
             {
                 var cast = new Cast(request.IdCast, request.Cast.Name, request.Cast.Character, null, null, null);
-                _castRepositories.Update(cast);
+                await _castRepositories.Update(cast);
             }
             catch (StreamingException)
             {

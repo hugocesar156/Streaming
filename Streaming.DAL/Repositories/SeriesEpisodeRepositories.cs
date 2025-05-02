@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -14,10 +15,10 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public SeriesEpisode? FindSeriesEpisode(int idSeries, short season, short episode)
+        public async Task<SeriesEpisode?> FindSeriesEpisode(int idSeries, short season, short episode)
         {
-            var entity = _dataContext.SERIES_EPISODEs
-                .FirstOrDefault(x => x.ID_SERIES == idSeries && x.SEASON == season && x.EPISODE == episode);
+            var entity = await _dataContext.SERIES_EPISODEs
+                .FirstOrDefaultAsync(x => x.ID_SERIES == idSeries && x.SEASON == season && x.EPISODE == episode);
 
             if (entity is not null)
             {
@@ -38,7 +39,7 @@ namespace Streaming.DAL.Repositories
             return null;
         }
 
-        public void Insert(SeriesEpisode request)
+        public async Task Insert(SeriesEpisode request)
         {
             var entity = new SERIES_EPISODE
             {
@@ -55,7 +56,7 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

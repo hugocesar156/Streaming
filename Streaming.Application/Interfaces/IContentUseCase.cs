@@ -5,10 +5,10 @@ namespace Streaming.Application.Interfaces
 {
     public interface IContentUseCase
     {
-        void Delete(int id);
-        ContentResponse Get(int id);
-        List<ContentResponse> GetAll();
-        void Insert(ContentInsertRequest request);
-        void Update(ContentUpdateRequest request);
+        Task Delete(int id);
+        Task<ContentResponse> Get(int id);
+        Task<List<ContentResponse>> GetAll();
+        Task Insert(ContentInsertRequest request);
+        Task Update(ContentUpdateRequest request);
     }
 }

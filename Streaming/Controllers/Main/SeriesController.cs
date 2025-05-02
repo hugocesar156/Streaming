@@ -22,11 +22,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addincatalog")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddInCatalog(SeriesCatalogInsertRequest request)
+        public async Task<IActionResult> AddInCatalog(SeriesCatalogInsertRequest request)
         {
             try
             {
-                _seriesUseCase.AddInCatalog(request);
+                await _seriesUseCase.AddInCatalog(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -37,11 +37,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Post(SeriesInsertRequest request)
+        public async Task<IActionResult> Post(SeriesInsertRequest request)
         {
             try
             {
-                _seriesUseCase.Insert(request);
+                await _seriesUseCase.Insert(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -52,11 +52,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Put(SeriesUpdateRequest request)
+        public async Task<IActionResult> Put(SeriesUpdateRequest request)
         {
             try
             {
-                _seriesUseCase.Update(request);
+                await _seriesUseCase.Update(request);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)

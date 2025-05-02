@@ -1,4 +1,5 @@
-﻿using Streaming.DAL.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Streaming.DAL.Context;
 using Streaming.DAL.Models;
 using Streaming.Domain.Entities;
 using Streaming.Domain.Interfaces;
@@ -16,9 +17,9 @@ namespace Streaming.DAL.Repositories
             _dataContext = dataContext;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var entity = _dataContext.CONTENTs.FirstOrDefault(x => x.ID_CONTENT == id);
+            var entity = await _dataContext.CONTENTs.FirstOrDefaultAsync(x => x.ID_CONTENT == id);
 
             if (entity is null)
             {
@@ -26,12 +27,12 @@ namespace Streaming.DAL.Repositories
             }
 
             _dataContext.Remove(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public Content Get(int id)
+        public async Task<Content> Get(int id)
         {
-            var entity = _dataContext.CONTENTs.FirstOrDefault(x => x.ID_CONTENT == id);
+            var entity = await _dataContext.CONTENTs.FirstOrDefaultAsync(x => x.ID_CONTENT == id);
 
             if (entity is not null)
             {
@@ -41,14 +42,14 @@ namespace Streaming.DAL.Repositories
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.Content.NotFound, id));
         }
 
-        public List<Content> GetAll()
+        public async Task<List<Content>> GetAll()
         {
-            var entities = _dataContext.CONTENTs.ToList();
+            var entities = await _dataContext.CONTENTs.ToListAsync();
 
             return entities.Select(x => new Content(x.ID_CONTENT, x.DESCRIPTION)).ToList();
         }
 
-        public void Insert(Content request)
+        public async Task Insert(Content request)
         {
             var entity = new CONTENT
             {
@@ -56,12 +57,12 @@ namespace Streaming.DAL.Repositories
             };
 
             _dataContext.Add(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
 
-        public void Update(Content request)
+        public async Task Update(Content request)
         {
-            var entity = _dataContext.CONTENTs.FirstOrDefault(x => x.ID_CONTENT == request.IdContent);
+            var entity = await _dataContext.CONTENTs.FirstOrDefaultAsync(x => x.ID_CONTENT == request.IdContent);
 
             if (entity is null)
             {
@@ -71,7 +72,7 @@ namespace Streaming.DAL.Repositories
             entity.DESCRIPTION = request.Description;
 
             _dataContext.Update(entity);
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
         }
     }
 }

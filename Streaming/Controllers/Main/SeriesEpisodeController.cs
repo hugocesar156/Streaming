@@ -22,11 +22,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Post(SeriesEpisodeInsertRequest request)
+        public async Task<IActionResult> Post(SeriesEpisodeInsertRequest request)
         {
             try
             {
-                _seriesEpisodeUseCase.Insert(request);
+                await _seriesEpisodeUseCase.Insert(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)

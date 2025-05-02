@@ -24,17 +24,17 @@ namespace Streaming.Application.UseCases
             _userRepositories = userRepositories;
         }
 
-        public UserResponse Login(UserRequest request)
+        public async Task<UserResponse> Login(UserRequest request)
         {
             try
             {
-                var user = _userRepositories.FindByEmail(request.Email);
+                var user = await _userRepositories.FindByEmail(request.Email);
 
                 if (user is not null)
                 {
                     if (EncryptServices.VerifyPassword(request.Password, user.Salt, user.Password))
                     {
-                        _userRepositories.SignIn(user.IdUser);
+                        await _userRepositories.SignIn(user.IdUser);
 
                         var token = TokenServices.GenerateToken(user.IdUser, _configuration["JWTSigningKey"]?.ToString() ?? string.Empty);
                         return new UserResponse(token, user.Profiles.Select(x => new ProfileResponse(x.IdProfile, x.Name, x.Avatar, x.KidsContent)).ToList());
@@ -55,11 +55,11 @@ namespace Streaming.Application.UseCases
             }
         }
 
-        public void SignUp(UserRequest request)
+        public async Task SignUp(UserRequest request)
         {
             try
             {
-                if (_userRepositories.FindByEmail(request.Email) is not null)
+                if (await _userRepositories.FindByEmail(request.Email) is not null)
                 {
                     throw new StreamingException(HttpStatusCode.MethodNotAllowed, ErrorMessages.ActionNotAllowed, ErrorMessages.User.InvalidEmail);
                 } 
@@ -67,9 +67,9 @@ namespace Streaming.Application.UseCases
                 var (password, salt) = EncryptServices.EncryptPassword(request.Password);
 
                 var user = new User(request.Email, password, salt);
-                var iUser = _userRepositories.SignUp(user);
+                int iUser = await _userRepositories.SignUp(user);
 
-                _profileRepositories.Insert(new Profile(iUser));
+                await _profileRepositories.Insert(new Profile(iUser));
             }
             catch (StreamingException)
             {

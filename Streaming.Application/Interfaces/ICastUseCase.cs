@@ -2,6 +2,6 @@
 {
     public interface ICastUseCase
     {
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

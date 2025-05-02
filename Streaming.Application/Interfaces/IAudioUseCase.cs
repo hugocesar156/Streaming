@@ -4,7 +4,7 @@ namespace Streaming.Application.Interfaces
 {
     public interface IAudioUseCase
     {
-        void Delete(int id);
-        void Update(AudioUpdateRequest request);
+        Task Delete(int id);
+        Task Update(AudioUpdateRequest request);
     }
 }

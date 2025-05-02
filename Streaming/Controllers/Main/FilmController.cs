@@ -24,11 +24,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addaudio")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddAudio(FilmAudioInsertRequest request)
+        public async Task<IActionResult> AddAudio(FilmAudioInsertRequest request)
         {
             try
             {
-                _filmUseCase.AddAudio(request);
+                await _filmUseCase.AddAudio(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -39,11 +39,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addcast")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddCast(FilmCastInsertRequest request)
+        public async Task<IActionResult> AddCast(FilmCastInsertRequest request)
         {
             try
             {
-                _filmUseCase.AddCast(request);
+                await _filmUseCase.AddCast(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -54,11 +54,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addcategories")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddCategories(FilmCategoryRequest request)
+        public async Task<IActionResult> AddCategories(FilmCategoryRequest request)
         {
             try
             {
-                _filmUseCase.AddCategories(request);
+                await _filmUseCase.AddCategories(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -69,11 +69,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addcontents")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddContents(FilmContentRequest request)
+        public async Task<IActionResult> AddContents(FilmContentRequest request)
         {
             try
             {
-                _filmUseCase.AddContents(request);
+                await _filmUseCase.AddContents(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -84,11 +84,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addincatalog")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddInCatalog(FilmCatalogInsertRequest request)
+        public async Task<IActionResult> AddInCatalog(FilmCatalogInsertRequest request)
         {
             try
             {
-                _filmUseCase.AddInCatalog(request);
+                await _filmUseCase.AddInCatalog(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -99,11 +99,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addmedia")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddMedia(FilmMediaInsertRequest request)
+        public async Task<IActionResult> AddMedia(FilmMediaInsertRequest request)
         {
             try
             {
-                _filmUseCase.AddMedia(request);
+                await _filmUseCase.AddMedia(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -114,11 +114,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("addsubtitles")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult AddSubtitles(FilmSubtitlesInsertRequest request)
+        public async Task<IActionResult> AddSubtitles(FilmSubtitlesInsertRequest request)
         {
             try
             {
-                _filmUseCase.AddSubtitles(request);
+                await _filmUseCase.AddSubtitles(request);
                 return StatusCode((int)HttpStatusCode.Created);
             }
             catch (StreamingException ex)
@@ -129,11 +129,11 @@ namespace Streaming.Controllers.Main
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(FilmResponse), StatusCodes.Status200OK)]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             try
             {
-                var response = _filmUseCase.Get(id);
+                var response = await _filmUseCase.Get(id);
                 return StatusCode((int)HttpStatusCode.OK, response);
             }
             catch (StreamingException ex)
@@ -144,7 +144,7 @@ namespace Streaming.Controllers.Main
 
         [HttpGet("getincatalog/{id}")]
         [ProducesResponseType(typeof(FilmCatalogResponse), StatusCodes.Status200OK)]
-        public IActionResult GetInCatalog(int id)
+        public async Task<IActionResult> GetInCatalog(int id)
         {
             try
             {
@@ -159,7 +159,7 @@ namespace Streaming.Controllers.Main
 
                 if (!string.IsNullOrEmpty(ipAddress))
                 {
-                    var response = _filmUseCase.GetInCatalog(id, ipAddress);
+                    var response = await _filmUseCase.GetInCatalog(id, ipAddress);
                     return StatusCode((int)HttpStatusCode.OK, response);
                 }
 
@@ -173,7 +173,7 @@ namespace Streaming.Controllers.Main
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Post(FilmInsertRequest request)
+        public async Task<IActionResult> Post(FilmInsertRequest request)
         {
             try
             {
@@ -188,7 +188,7 @@ namespace Streaming.Controllers.Main
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Put(FilmUpdateRequest request)
+        public async Task<IActionResult> Put(FilmUpdateRequest request)
         {
             try
             {
@@ -203,11 +203,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("removecategories")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult RemoveCategories(FilmCategoryRequest request)
+        public async Task<IActionResult> RemoveCategories(FilmCategoryRequest request)
         {
             try
             {
-                _filmUseCase.RemoveCategories(request);
+                await _filmUseCase.RemoveCategories(request);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)
@@ -218,11 +218,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPost("removecontents")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult RemoveContents(FilmContentRequest request)
+        public async Task<IActionResult> RemoveContents(FilmContentRequest request)
         {
             try
             {
-                _filmUseCase.RemoveContents(request);
+                await _filmUseCase.RemoveContents(request);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)
@@ -233,11 +233,11 @@ namespace Streaming.Controllers.Main
 
         [HttpPut("updatecast")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult UpdateCast(FilmCastUpdateRequest request)
+        public async Task<IActionResult> UpdateCast(FilmCastUpdateRequest request)
         {
             try
             {
-                _filmUseCase.UpdateCast(request);
+                await _filmUseCase.UpdateCast(request);
                 return StatusCode((int)HttpStatusCode.NoContent);
             }
             catch (StreamingException ex)
