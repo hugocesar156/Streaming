@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Responses.CatalogRegion;
+using Streaming.Application.Services;
 using Streaming.Shared;
 using System.Net;
 
@@ -13,10 +14,12 @@ namespace Streaming.Controllers.Main
     [ApiExplorerSettings(GroupName = "main")]
     public class CatalogRegionController : ControllerBase
     {
+        private readonly ILogger<CatalogRegionController> _logger;
         private readonly ICatalogRegionUseCase _catalogRegionUseCase;
 
-        public CatalogRegionController(ICatalogRegionUseCase catalogRegionUseCase)
+        public CatalogRegionController(ILogger<CatalogRegionController> logger, ICatalogRegionUseCase catalogRegionUseCase)
         {
+            _logger = logger;
             _catalogRegionUseCase = catalogRegionUseCase;
         }
 
@@ -45,6 +48,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                   ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }

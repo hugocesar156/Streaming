@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Streaming.Application.Services;
 using Streaming.Domain.Interfaces;
 using Streaming.Shared;
 using System.Net;
@@ -12,10 +13,12 @@ namespace Streaming.Controllers.Main
     [ApiExplorerSettings(GroupName = "main")]
     public class CastController : ControllerBase
     {
+        private readonly ILogger<CastController> _logger;
         private readonly ICastRepositories _castRepositories;
 
-        public CastController(ICastRepositories castRepositories)
+        public CastController(ILogger<CastController> logger, ICastRepositories castRepositories)
         {
+            _logger = logger;
             _castRepositories = castRepositories;
         }
 
@@ -30,6 +33,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }

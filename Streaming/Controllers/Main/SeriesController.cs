@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.Series;
+using Streaming.Application.Services;
 using Streaming.Shared;
 using System.Net;
 
@@ -13,10 +15,12 @@ namespace Streaming.Controllers.Main
     [ApiExplorerSettings(GroupName = "main")]
     public class SeriesController : ControllerBase
     {
+        private readonly ILogger<SeriesController> _logger;
         private readonly ISeriesUseCase _seriesUseCase;
 
-        public SeriesController(ISeriesUseCase seriesUseCase)
+        public SeriesController(ILogger<SeriesController> logger, ISeriesUseCase seriesUseCase)
         {
+            _logger = logger;
             _seriesUseCase = seriesUseCase;
         }
 
@@ -31,6 +35,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -46,6 +53,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -61,6 +71,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }

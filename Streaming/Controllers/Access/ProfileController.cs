@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.Profile;
+using Streaming.Application.Services;
 using Streaming.Shared;
 using System.Net;
 using System.Security.Claims;
@@ -14,10 +16,12 @@ namespace Streaming.Controllers.Access
     [ApiExplorerSettings(GroupName = "access")]
     public class ProfileController : ControllerBase
     {
+        private readonly ILogger<ProfileController> _logger;
         private readonly IProfileUseCase _profileUseCase;
 
-        public ProfileController(IProfileUseCase profileUseCase)
+        public ProfileController(ILogger<ProfileController> logger, IProfileUseCase profileUseCase)
         {
+            _logger = logger;
             _profileUseCase = profileUseCase;
         }
 
@@ -32,13 +36,15 @@ namespace Streaming.Controllers.Access
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-
         public async Task<IActionResult> Post(ProfileIsertRequest request)
         {
             try
@@ -50,6 +56,9 @@ namespace Streaming.Controllers.Access
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -65,6 +74,9 @@ namespace Streaming.Controllers.Access
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }

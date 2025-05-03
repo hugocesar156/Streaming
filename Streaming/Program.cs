@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using Streaming.IoC;
 using System.Reflection;
 using System.Text;
@@ -70,6 +71,10 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSigningKey"] ?? string.Empty))
     };
 });
+
+Log.Logger = new LoggerConfiguration().MinimumLevel.Warning().WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 

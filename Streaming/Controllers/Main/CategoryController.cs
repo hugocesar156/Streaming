@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.Category;
 using Streaming.Application.Models.Responses.Category;
+using Streaming.Application.Services;
 using Streaming.Shared;
 using System.Net;
 
@@ -14,10 +16,12 @@ namespace Streaming.Controllers.Main
     [ApiExplorerSettings(GroupName = "main")]
     public class CategoryController : ControllerBase
     {
+        private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryUseCase _categoryUseCase;
 
-        public CategoryController(ICategoryUseCase categoryUseCase)
+        public CategoryController(ILogger<CategoryController> logger, ICategoryUseCase categoryUseCase)
         {
+            _logger = logger;
             _categoryUseCase = categoryUseCase;
         }
 
@@ -32,6 +36,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                   ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -47,6 +54,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex) 
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -62,6 +72,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -77,6 +90,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -92,6 +108,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }

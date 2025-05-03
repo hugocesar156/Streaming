@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Streaming.Application.Interfaces;
+using Streaming.Application.Services;
 using Streaming.Shared;
 using System.Net;
 
@@ -12,10 +13,12 @@ namespace Streaming.Controllers.Main
     [ApiExplorerSettings(GroupName = "main")]
     public class AudioController : ControllerBase
     {
+        private readonly ILogger<AudioController> _logger;
         private readonly IAudioUseCase _audioUseCase;
 
-        public AudioController(IAudioUseCase audioUseCase)
+        public AudioController(ILogger<AudioController> logger, IAudioUseCase audioUseCase)
         {
+            _logger = logger;
             _audioUseCase = audioUseCase;
         }
 
@@ -30,6 +33,9 @@ namespace Streaming.Controllers.Main
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode);
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }

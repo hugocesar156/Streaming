@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Streaming.Application.Interfaces;
 using Streaming.Application.Models.Requests.User;
 using Streaming.Application.Models.Responses.User;
+using Streaming.Application.Services;
 using Streaming.Shared;
 using System.Net;
 
@@ -12,10 +14,12 @@ namespace Streaming.Controllers.Access
     [ApiExplorerSettings(GroupName = "access")]
     public class UserController : ControllerBase
     {
+        private readonly ILogger<UserController> _logger;
         private readonly IUserUseCase _userUseCase;
 
-        public UserController(IUserUseCase userUseCase)
+        public UserController(ILogger<UserController> logger, IUserUseCase userUseCase)
         {
+            _logger = logger;
             _userUseCase = userUseCase;
         }
 
@@ -30,6 +34,9 @@ namespace Streaming.Controllers.Access
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path, 
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
@@ -45,6 +52,9 @@ namespace Streaming.Controllers.Access
             }
             catch (StreamingException ex)
             {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                   ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }
         }
