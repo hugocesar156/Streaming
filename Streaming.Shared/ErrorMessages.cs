@@ -33,6 +33,11 @@
             public const string NotFound = "Content '{0}' not found.";
         }
 
+        public static class EmailSender
+        {
+            public const string NotFound = "Failed to get email sender configuration.";
+        }
+
         public static class Film
         {
             public const string Audio = "Audio in this language already exists for this film.";
@@ -63,6 +68,11 @@
         {
             public const string NotFound = "Series episode '{0}' not found.";
             public const string EpisodeSeries = "Episode already exists for this series.";
+        }
+
+        public static class Template
+        {
+            public const string NotFound = "Template '{0}' not found in this region.";
         }
 
         public static class User

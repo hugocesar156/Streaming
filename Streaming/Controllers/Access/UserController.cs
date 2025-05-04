@@ -41,6 +41,38 @@ namespace Streaming.Controllers.Access
             }
         }
 
+        [HttpPost("sendpasswordcode")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> SendPasswordCode(string email)
+        {
+            try
+            {
+                var forwardedIp = Request.Headers["X-Forwarded-For"].FirstOrDefault();
+
+                var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+
+                if (remoteIpAddress is not null && remoteIpAddress.IsIPv4MappedToIPv6)
+                    remoteIpAddress = remoteIpAddress.MapToIPv4();
+
+                string? ipAddress = !string.IsNullOrEmpty(forwardedIp) ? forwardedIp : remoteIpAddress?.ToString();
+
+                if (!string.IsNullOrEmpty(ipAddress))
+                {
+                    await _userUseCase.SendPasswordCode(email, ipAddress);
+                    return StatusCode((int)HttpStatusCode.Created);
+                }
+
+                throw new StreamingException(HttpStatusCode.InternalServerError, ErrorMessages.InternalServerError, ErrorMessages.ClientIPNotFound);
+            }
+            catch (StreamingException ex)
+            {
+                LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(email));
+
+                return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
+            }
+        }
+
         [HttpPost("signup")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> SignUp(UserRequest request)
@@ -53,7 +85,7 @@ namespace Streaming.Controllers.Access
             catch (StreamingException ex)
             {
                 LogServices.WriteFile(_logger, ControllerContext.HttpContext.Request.Path,
-                   ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
+                    ex.Error, ex.Description, (int)ex.StatusCode, JsonConvert.SerializeObject(request));
 
                 return StatusCode((int)ex.StatusCode, new { ex.Error, ex.Description });
             }

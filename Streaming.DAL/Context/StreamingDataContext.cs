@@ -33,6 +33,8 @@ public partial class StreamingDataContext : DbContext
 
     public virtual DbSet<CONTENT> CONTENTs { get; set; }
 
+    public virtual DbSet<EMAIL_SENDER> EMAIL_SENDERs { get; set; }
+
     public virtual DbSet<FILM> FILMs { get; set; }
 
     public virtual DbSet<KEEP_WHATCHING> KEEP_WHATCHINGs { get; set; }
@@ -43,6 +45,8 @@ public partial class StreamingDataContext : DbContext
 
     public virtual DbSet<MY_LIST> MY_LISTs { get; set; }
 
+    public virtual DbSet<PASSWORD_CODE> PASSWORD_CODEs { get; set; }
+
     public virtual DbSet<PROFILE> PROFILEs { get; set; }
 
     public virtual DbSet<RESOLUTION> RESOLUTIONs { get; set; }
@@ -52,6 +56,12 @@ public partial class StreamingDataContext : DbContext
     public virtual DbSet<SERIES_EPISODE> SERIES_EPISODEs { get; set; }
 
     public virtual DbSet<SUBTITLE> SUBTITLEs { get; set; }
+
+    public virtual DbSet<TEMPLATE> TEMPLATEs { get; set; }
+
+    public virtual DbSet<TEMPLATE_CONTENT> TEMPLATE_CONTENTs { get; set; }
+
+    public virtual DbSet<TEMPLATE_VARIABLE> TEMPLATE_VARIABLEs { get; set; }
 
     public virtual DbSet<USER> USERs { get; set; }
 
@@ -145,6 +155,11 @@ public partial class StreamingDataContext : DbContext
             entity.HasKey(e => e.ID_CONTENT).HasName("PK__CONTENT__D9FD679E02CE61F8");
         });
 
+        modelBuilder.Entity<EMAIL_SENDER>(entity =>
+        {
+            entity.HasKey(e => e.ID_EMAIL_SENDER).HasName("PK__EMAIL_SE__B61CAF400834783E");
+        });
+
         modelBuilder.Entity<FILM>(entity =>
         {
             entity.HasKey(e => e.ID_FILM).HasName("PK__FILM__62C9DB1C2779642A");
@@ -194,6 +209,15 @@ public partial class StreamingDataContext : DbContext
                 .HasConstraintName("FK__MY_LIST__ID_PROF__4E88ABD4");
         });
 
+        modelBuilder.Entity<PASSWORD_CODE>(entity =>
+        {
+            entity.HasKey(e => e.ID_PASSWORD_CODE).HasName("PK__PASSWORD__E4202B244944FEF6");
+
+            entity.HasOne(d => d.ID_USERNavigation).WithMany(p => p.PASSWORD_CODEs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__PASSWORD___ID_US__7D0E9093");
+        });
+
         modelBuilder.Entity<PROFILE>(entity =>
         {
             entity.HasKey(e => e.ID_PROFILE).HasName("PK__PROFILE__0DB303E0F5A9DDD4");
@@ -239,6 +263,33 @@ public partial class StreamingDataContext : DbContext
                 .HasConstraintName("FK__SUBTITLES__ID_LA__3B40CD36");
 
             entity.HasOne(d => d.ID_SERIES_EPISODENavigation).WithMany(p => p.SUBTITLEs).HasConstraintName("FK__SUBTITLES__ID_SE__3D2915A8");
+        });
+
+        modelBuilder.Entity<TEMPLATE>(entity =>
+        {
+            entity.HasKey(e => e.ID_TEMPLATE).HasName("PK__TEMPLATE__E38AC0F13250B92E");
+        });
+
+        modelBuilder.Entity<TEMPLATE_CONTENT>(entity =>
+        {
+            entity.HasKey(e => e.ID_TEMPLATE_CONTENT).HasName("PK__TEMPLATE__AC5E392F99052A40");
+
+            entity.HasOne(d => d.ID_LANGUAGENavigation).WithMany(p => p.TEMPLATE_CONTENTs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__TEMPLATE___ID_LA__078C1F06");
+
+            entity.HasOne(d => d.ID_TEMPLATENavigation).WithMany(p => p.TEMPLATE_CONTENTs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__TEMPLATE___ID_TE__0697FACD");
+        });
+
+        modelBuilder.Entity<TEMPLATE_VARIABLE>(entity =>
+        {
+            entity.HasKey(e => e.ID_TEMPLATE_VARIABLES).HasName("PK__TEMPLATE__1CDA38D40CC7D1D5");
+
+            entity.HasOne(d => d.ID_TEMPLATENavigation).WithMany(p => p.TEMPLATE_VARIABLEs)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__TEMPLATE___ID_TE__03BB8E22");
         });
 
         modelBuilder.Entity<USER>(entity =>

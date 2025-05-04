@@ -38,4 +38,7 @@ public partial class LANGUAGE
 
     [InverseProperty("ID_LANGUAGENavigation")]
     public virtual ICollection<SUBTITLE> SUBTITLEs { get; set; } = new List<SUBTITLE>();
+
+    [InverseProperty("ID_LANGUAGENavigation")]
+    public virtual ICollection<TEMPLATE_CONTENT> TEMPLATE_CONTENTs { get; set; } = new List<TEMPLATE_CONTENT>();
 }

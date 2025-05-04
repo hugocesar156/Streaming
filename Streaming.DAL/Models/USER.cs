@@ -31,5 +31,8 @@ public partial class USER
     public DateTime SIGN_UP_DATE { get; set; }
 
     [InverseProperty("ID_USERNavigation")]
+    public virtual ICollection<PASSWORD_CODE> PASSWORD_CODEs { get; set; } = new List<PASSWORD_CODE>();
+
+    [InverseProperty("ID_USERNavigation")]
     public virtual ICollection<PROFILE> PROFILEs { get; set; } = new List<PROFILE>();
 }

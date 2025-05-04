@@ -6,6 +6,7 @@ namespace Streaming.Domain.Interfaces
     {
         Task<User?> FindByEmail(string email);
         Task<User> Get(int id);
+        Task InsertPasswordCode(PasswordCode request);
         Task SignIn(int id);
         Task<int> SignUp(User request);
     }

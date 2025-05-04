@@ -2,7 +2,7 @@
 
 namespace Streaming.Application.Models.Services
 {
-    public class AddressByIPService
+    public class AddressByIPResponse
     {
         [JsonProperty("status")]
         public string Status { get; init; } = string.Empty;

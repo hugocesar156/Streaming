@@ -6,6 +6,7 @@ namespace Streaming.Application.Interfaces
     public interface IUserUseCase
     {
         Task<UserResponse> Login(UserRequest request);
+        Task SendPasswordCode(string email, string ipAddress);
         Task SignUp(UserRequest request);
     }
 }

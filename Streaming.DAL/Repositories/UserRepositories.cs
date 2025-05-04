@@ -56,6 +56,20 @@ namespace Streaming.DAL.Repositories
             throw new StreamingException(HttpStatusCode.UnprocessableEntity, ErrorMessages.RegisterNotFound, string.Format(ErrorMessages.User.NotFound, id));
         }
 
+        public async Task InsertPasswordCode(PasswordCode request)
+        {
+            var entity = new PASSWORD_CODE
+            {
+                ID_USER = request.IdUser,
+                CODE = request.Code,
+                VERIFIED = false,
+                CREATION_DATE = DateTime.Now
+            };
+
+            _dataContext.Add(entity);
+            await _dataContext.SaveChangesAsync();
+        }
+
         public async Task SignIn(int id)
         {
             var entity = await _dataContext.USERs.FirstOrDefaultAsync(x => x.ID_USER == id);
