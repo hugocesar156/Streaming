@@ -20,6 +20,12 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Access",
         Description = "Access routes."
     });
+    options.SwaggerDoc("audit", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Audit",
+        Description = "Audit routes."
+    });
     options.SwaggerDoc("main", new OpenApiInfo
     {
         Version = "v1",
@@ -72,7 +78,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-Log.Logger = new LoggerConfiguration().MinimumLevel.Warning().WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+Log.Logger = new LoggerConfiguration().MinimumLevel.Error().WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 
 builder.Host.UseSerilog();
 
@@ -93,6 +99,7 @@ if (app.Environment.IsDevelopment())
     {
         options.DefaultModelsExpandDepth(-1);
         options.SwaggerEndpoint("/swagger/access/swagger.json", "Access");
+        options.SwaggerEndpoint("/swagger/audit/swagger.json", "Audit");
         options.SwaggerEndpoint("/swagger/main/swagger.json", "Main");
     });
 }
